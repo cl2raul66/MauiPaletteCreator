@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiPaletteCreator.Views.PgColors"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
+    x:DataType="vm:PgColorsViewModel"
+    Title="Colors"
+    Shell.NavBarIsVisible="False">
+
+    <Grid Padding="8" RowDefinitions="auto,*,auto">
+        <!--#region HEADER-->
+        <Grid>
+            <HorizontalStackLayout
+          x:Name="HslOpbects"
+          Padding="8"
+          HorizontalOptions="Center"
+          Spacing="16"
+          ZIndex="10">
+                <VerticalStackLayout>
+                    <Border Style="{StaticResource BrPositionVisited}" />
+                    <Label Style="{StaticResource LbPosition}" Text="Inicio" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Border Style="{StaticResource BrPositionVisited}" />
+                    <Label Style="{StaticResource LbPosition}" Text="Proyecto" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Border Style="{StaticResource BrPositionVisited}" />
+                    <Label Style="{StaticResource LbPosition}" Text="Colores" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Border Style="{StaticResource BrPosition}" />
+                    <Label Style="{StaticResource LbPosition}" Text="Ver" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Border Style="{StaticResource BrPosition}" />
+                    <Label Style="{StaticResource LbPosition}" Text="Fin" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+            <Border
+          Margin="0,-16,0,0"
+          BackgroundColor="{StaticResource Primary}"
+          HeightRequest="4"
+          StrokeThickness="0"
+          WidthRequest="320"
+          ZIndex="1" />
+        </Grid>
+        <!--#endregion-->
+        <!--#region CONTENT-->
+        <Frame
+            Grid.Row="1"
+            Margin="8,0,8,8">
+            <Grid RowDefinitions="*,auto">
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="*,auto"
+                    ColumnSpacing="8">
+                    <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                        <Button Command="{Binding GoToNextCommand}" Text="Siguiente" />
+                        <Button  Text="Finalizar" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Grid>
+        </Frame>
+        <!--#endregion-->
+        <!--#region FOOT-->
+        <Grid Grid.Row="2">
+            <Label
+                FontSize="12"
+                HorizontalOptions="Center"
+                Text="by R and A Media Lab, Group"
+                VerticalOptions="Center" />
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+
+</ContentPage>

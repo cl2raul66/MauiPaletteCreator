@@ -1,25 +1,34 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using MauiPaletteCreator.ViewModels;
+using MauiPaletteCreator.Views;
+using Microsoft.Extensions.Logging;
 
-namespace MauiPaletteCreator
+namespace MauiPaletteCreator;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("Iosevka-Regular.ttf", "iosevkaRegular");
+                fonts.AddFont("NFCode-Regular.ttf", "nfcodeRegular");
+            });
+
+        builder.Services.AddTransient<PgMain, PgMainViewModel>();
+        builder.Services.AddTransient<PgProyect, PgProyectViewModel>();
+        builder.Services.AddTransient<PgColors, PgColorsViewModel>();
+        builder.Services.AddTransient<PgView, PgViewViewModel>();
+        builder.Services.AddTransient<PgEnd, PgEndViewModel>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
-        }
+        return builder.Build();
     }
 }

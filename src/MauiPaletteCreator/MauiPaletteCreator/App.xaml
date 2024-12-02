@@ -1,14 +1,41 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MauiPaletteCreator"
-             x:Class="MauiPaletteCreator.App">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="MauiPaletteCreator.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiPaletteCreator">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="BrPosition" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="64" />
+                <Setter Property="WidthRequest" Value="64" />
+                <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
+                <Setter Property="StrokeThickness" Value="4" />
+            </Style>
+            <Style x:Key="BrPositionVisited" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="64" />
+                <Setter Property="WidthRequest" Value="64" />
+                <Setter Property="Stroke" Value="{StaticResource Secondary}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
+                <Setter Property="StrokeThickness" Value="4" />
+            </Style>
+            <Style x:Key="LbPosition" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="TextTransform" Value="Uppercase" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="MaximumWidthRequest" Value="80" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
