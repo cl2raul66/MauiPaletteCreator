@@ -55,7 +55,7 @@
                     ColumnDefinitions="*,auto"
                     ColumnSpacing="8">
                     <HorizontalStackLayout Grid.Column="1" Spacing="8">
-                        <Button Text="Paleta de colores" />
+                        <Button Command="{Binding GoToPgColorsCommand}" Text="Paleta de colores" />
                         <Button Text="Aplicar" />
                     </HorizontalStackLayout>
                 </Grid>

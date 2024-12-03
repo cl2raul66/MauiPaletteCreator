@@ -55,7 +55,7 @@
                     ColumnDefinitions="*,auto"
                     ColumnSpacing="8">
                     <HorizontalStackLayout Grid.Column="1" Spacing="8">
-                        <Button Text="Regresar" />
+                        <Button Command="{Binding GoToBackCommand}" Text="Regresar" />
                         <Button Command="{Binding GoToNextCommand}" Text="Siguiente" />
                     </HorizontalStackLayout>
                 </Grid>

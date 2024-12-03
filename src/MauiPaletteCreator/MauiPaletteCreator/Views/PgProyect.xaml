@@ -50,6 +50,23 @@
         <!--#region CONTENT-->
         <Frame Grid.Row="1" Margin="8,0,8,8">
             <Grid RowDefinitions="*,auto">
+                <VerticalStackLayout Spacing="16" VerticalOptions="Center">
+                    <Label
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="Seleccione un proyecto local .NET MAUI" />
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding GoToNextCommand}"
+                        HorizontalOptions="Center"
+                        Text="Cargar proyecto" />
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="MiddleTruncation"
+                        Text="Url: "
+                        WidthRequest="350" />
+                </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
                     ColumnDefinitions="*,auto"
