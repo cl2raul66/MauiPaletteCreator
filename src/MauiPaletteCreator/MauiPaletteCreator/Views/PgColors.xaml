@@ -3,6 +3,7 @@
     x:Class="MauiPaletteCreator.Views.PgColors"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:MauiPaletteCreator.Models"
     xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
     Title="Colors"
     x:DataType="vm:PgColorsViewModel"
@@ -307,13 +308,17 @@
                                         <CollectionView ItemsSource="{Binding DefaultPalette}" SelectionMode="Single">
                                             <CollectionView.ItemsLayout>
                                                 <GridItemsLayout
-                                                    HorizontalItemSpacing="4"
+                                                    HorizontalItemSpacing="2"
                                                     Orientation="Horizontal"
-                                                    Span="1" />
+                                                    Span="1"
+                                                    VerticalItemSpacing="4" />
                                             </CollectionView.ItemsLayout>
                                             <CollectionView.ItemTemplate>
-                                                <DataTemplate x:DataType="Color">
-                                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                                <DataTemplate x:DataType="model:ColorPaletteDefault">
+                                                    <Border
+                                                        BackgroundColor="{Binding Value}"
+                                                        Style="{StaticResource colorItemPaletteBorder}"
+                                                        ToolTipProperties.Text="{Binding Name}" />
                                                 </DataTemplate>
                                             </CollectionView.ItemTemplate>
                                         </CollectionView>
