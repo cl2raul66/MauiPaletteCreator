@@ -66,9 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
 	  <Folder Include="Resources\Localization\" />
-	  <Folder Include="Services\" />
 	</ItemGroup>
 
 	<ItemGroup>
