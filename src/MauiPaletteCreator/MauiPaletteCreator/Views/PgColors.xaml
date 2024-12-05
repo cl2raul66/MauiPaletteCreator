@@ -7,6 +7,30 @@
     Title="Colors"
     x:DataType="vm:PgColorsViewModel"
     Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <Style x:Key="colorItemPaletteBorder" TargetType="Border">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HeightRequest" Value="42" />
+            <Setter Property="WidthRequest" Value="42" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 6" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stroke" Value="{StaticResource Gray500CL}" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource PrimaryCL}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Disabled" />
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
 
     <Grid Padding="8" RowDefinitions="auto,*,auto">
         <!--#region HEADER-->
@@ -50,17 +74,24 @@
         <!--#region CONTENT-->
         <Frame Grid.Row="1" Margin="8,0,8,8">
             <Grid RowDefinitions="*,auto" RowSpacing="16">
-
                 <Grid ColumnDefinitions="*,auto" ColumnSpacing="16">
                     <!--#region LEFT SIDE-->
                     <ScrollView>
                         <VerticalStackLayout Spacing="16">
                             <Frame>
                                 <VerticalStackLayout Spacing="8">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="PRINCIPAL" />
+                                    <HorizontalStackLayout>
+                                        <CheckBox
+                                            Margin="0"
+                                            IsEnabled="False"
+                                            MinimumHeightRequest="32"
+                                            MinimumWidthRequest="32" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="PRINCIPAL"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
                                     <FlexLayout AlignContent="Start" AlignItems="Start">
                                         <Frame Margin="0,0,8,8" BackgroundColor="#512BD4">
                                             <VerticalStackLayout Spacing="8">
@@ -112,10 +143,18 @@
                             </Frame>
                             <Frame>
                                 <VerticalStackLayout Spacing="8">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="SEMANTIC" />
+                                    <HorizontalStackLayout>
+                                        <CheckBox
+                                            Margin="0"
+                                            IsEnabled="False"
+                                            MinimumHeightRequest="32"
+                                            MinimumWidthRequest="32" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="SEMANTIC"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
                                     <FlexLayout AlignContent="Start" AlignItems="Start">
                                         <Frame Margin="0,0,8,8" BackgroundColor="#FF0000">
                                             <VerticalStackLayout Spacing="8">
@@ -167,10 +206,18 @@
                             </Frame>
                             <Frame>
                                 <VerticalStackLayout Spacing="8">
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        Text="NEUTRAL" />
+                                    <HorizontalStackLayout>
+                                        <CheckBox
+                                            Margin="0"
+                                            IsEnabled="False"
+                                            MinimumHeightRequest="32"
+                                            MinimumWidthRequest="32" />
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="NEUTRAL"
+                                            VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
                                     <FlexLayout AlignContent="Start" AlignItems="Start">
                                         <Frame Margin="0,0,8,8" BackgroundColor="#F7F5FF">
                                             <VerticalStackLayout Spacing="8">
@@ -232,7 +279,7 @@
                                                 </HorizontalStackLayout>
                                             </VerticalStackLayout>
                                         </Frame>
-                                        <Frame Margin="0,0,8,8" BackgroundColor="#6E6E6E">
+                                        <Frame Margin="0,0,0,8" BackgroundColor="#6E6E6E">
                                             <VerticalStackLayout Spacing="8">
                                                 <HorizontalStackLayout BackgroundColor="White">
                                                     <CheckBox
@@ -257,13 +304,18 @@
                                         FontSize="18"
                                         Text="Paleta de colores de .NET MAUI:" />
                                     <ScrollView>
-                                        <CollectionView>
+                                        <CollectionView ItemsSource="{Binding DefaultPalette}" SelectionMode="Single">
                                             <CollectionView.ItemsLayout>
                                                 <GridItemsLayout
                                                     HorizontalItemSpacing="4"
                                                     Orientation="Horizontal"
                                                     Span="1" />
                                             </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="Color">
+                                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
                                         </CollectionView>
                                     </ScrollView>
                                 </VerticalStackLayout>
@@ -284,6 +336,23 @@
                                     MinimumHeightRequest="32"
                                     MinimumWidthRequest="44" />
                             </Grid>
+                            <RadioButton
+                                Content="Todos"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="PRINCIPAL"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="SEMANTIC"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="NEUTRAL"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <Button Margin="0,0,0,8" Text="Deseleccionar" />
                             <Button Text="Aleatorio" ToolTipProperties.Text="Genera una paleta de colores completamente aleatoria, no toma en cuenta colores seleccionados." />
                             <Button Text="Autogenerar" ToolTipProperties.Text="Genera una paleta de colores generando los colores no seleccionados." />
                         </VerticalStackLayout>
