@@ -15,16 +15,52 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    bool isSelectDarkTheme;
+
+    [ObservableProperty]
     bool isSelectAll;
 
     [ObservableProperty]
     bool isSelectPRINCIPAL;
 
     [ObservableProperty]
+    bool isSelectPrimary;
+
+    [ObservableProperty]
+    bool isSelectSecondary;
+
+    [ObservableProperty]
+    bool isSelectAccent;
+
+    [ObservableProperty]
     bool isSelectSEMANTIC;
 
     [ObservableProperty]
+    bool isSelectError;
+
+    [ObservableProperty]
+    bool isSelectSuccess;
+
+    [ObservableProperty]
+    bool isSelectWarning;
+
+    [ObservableProperty]
     bool isSelectNEUTRAL;
+
+    [ObservableProperty]
+    bool isSelectForeground;
+
+    [ObservableProperty]
+    bool isSelectBackground;
+
+    [ObservableProperty]
+    bool isSelectGray250;
+
+    [ObservableProperty]
+    bool isSelectGray500;
+
+    [ObservableProperty]
+    bool isSelectGray750;
 
     [ObservableProperty]
     ObservableCollection<ColorPaletteDefault>? defaultPalette;
@@ -53,7 +89,7 @@ public partial class PgColorsViewModel : ObservableObject
     #region EXTRA
     partial void OnDefaultPaletteChanged(ObservableCollection<ColorPaletteDefault>? value)
     {
-        //según los check seleccionados se pondrán de ese color;
+
     }
 
     private void LoadCustomPalette()
