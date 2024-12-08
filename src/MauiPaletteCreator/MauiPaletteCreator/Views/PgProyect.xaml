@@ -40,7 +40,7 @@
             </HorizontalStackLayout>
             <Border
                 Margin="0,-16,0,0"
-                BackgroundColor="{StaticResource Primary}"
+                BackgroundColor="{StaticResource PrimaryCL}"
                 HeightRequest="4"
                 StrokeThickness="0"
                 WidthRequest="320"

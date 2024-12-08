@@ -11,20 +11,20 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="BrPosition" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource SecondaryCL}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HeightRequest" Value="64" />
                 <Setter Property="WidthRequest" Value="64" />
-                <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                <Setter Property="Stroke" Value="{StaticResource PrimaryCL}" />
                 <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
                 <Setter Property="StrokeThickness" Value="4" />
             </Style>
             <Style x:Key="BrPositionVisited" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryCL}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="HeightRequest" Value="64" />
                 <Setter Property="WidthRequest" Value="64" />
-                <Setter Property="Stroke" Value="{StaticResource Secondary}" />
+                <Setter Property="Stroke" Value="{StaticResource SecondaryCL}" />
                 <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
                 <Setter Property="StrokeThickness" Value="4" />
             </Style>
@@ -34,7 +34,7 @@
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="TextTransform" Value="Uppercase" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
-                <Setter Property="MaximumWidthRequest" Value="80" />
+                <Setter Property="MaximumWidthRequest" Value="85" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

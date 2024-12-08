@@ -6,13 +6,13 @@ namespace MauiPaletteCreator.Services;
 /// <summary>
 /// Service for interacting with the Colormind API
 /// </summary>
-public class ColorMindApiService
+public class ColormindApiService
 {
     readonly HttpClient _httpClient;
     const string BaseUrl = "http://colormind.io/api/";
     const string ListUrl = "http://colormind.io/list/";
 
-    public ColorMindApiService()
+    public ColormindApiService()
     {
         _httpClient = new HttpClient();
     }
