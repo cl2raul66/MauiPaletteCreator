@@ -15,49 +15,17 @@
                 BackgroundColor="{Binding Value}"
                 Style="{StaticResource colorItemBorder}"
                 ToolTipProperties.Text="{Binding Value, Converter={ctk:ColorToHexRgbaStringConverter}}">
-                <Grid ColumnDefinitions="*,auto" ColumnSpacing="4">
-                    <Label
-                        Padding="4,2"
-                        BackgroundColor="Black"
-                        FontFamily="iosevkaRegular"
-                        FontSize="16"
-                        HorizontalOptions="Start"
-                        Text="{Binding Name}"
-                        TextColor="White"
-                        TextTransform="Uppercase"
-                        VerticalOptions="Center" />
-                    <Border
-                        Grid.Column="1"
-                        BackgroundColor="Black"
-                        HeightRequest="20"
-                        Stroke="{StaticResource Gray500CL}"
-                        StrokeShape="RoundRectangle 2"
-                        StrokeThickness="1"
-                        WidthRequest="20">
-                        <Label
-                            x:Name="selectedCheckBox"
-                            FontFamily="icofont"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            Text="{StaticResource ico:Check}"
-                            TextColor="White"
-                            VerticalOptions="Center" />
-                    </Border>
-                </Grid>
+                <Label
+                    Padding="4,2"
+                    BackgroundColor="Black"
+                    FontFamily="iosevkaRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="{Binding Name}"
+                    TextColor="White"
+                    TextTransform="Uppercase"
+                    VerticalOptions="Center" />
             </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="DarkColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
-            <Label
-                FontSize="16"
-                Text="{Binding Key}"
-                TextColor="White"
-                TextTransform="Uppercase" />
-        </DataTemplate>
-        <DataTemplate x:Key="DefaultColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
-            <Label
-                FontSize="16"
-                Text="{Binding Key}"
-                TextTransform="Uppercase" />
         </DataTemplate>
         <Style x:Key="colorItemBorder" TargetType="Border">
             <Setter Property="Padding" Value="8" />
@@ -164,11 +132,10 @@
                                     <CollectionView
                                         x:Name="CvDefaultColorStyle"
                                         Grid.Row="1"
-                                        GroupHeaderTemplate="{StaticResource DefaultColorStyleGroupHeaderTemplate}"
                                         IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
-                                        ItemsSource="{Binding LightColorStyle}"
+                                        ItemsSource="{Binding PrincipalLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
                                         SelectionMode="None" />
                                 </VerticalStackLayout>
@@ -186,11 +153,10 @@
                                     <CollectionView
                                         x:Name="CvDarkColorStyle"
                                         Grid.Row="1"
-                                        GroupHeaderTemplate="{StaticResource DarkColorStyleGroupHeaderTemplate}"
                                         IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
-                                        ItemsSource="{Binding DarkColorStyle}"
+                                        ItemsSource="{Binding PrincipalDarkColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
                                         SelectionMode="None" />
                                 </VerticalStackLayout>

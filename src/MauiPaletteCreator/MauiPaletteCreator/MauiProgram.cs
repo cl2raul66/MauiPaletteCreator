@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using MauiPaletteCreator.Services;
 using MauiPaletteCreator.ViewModels;
 using MauiPaletteCreator.Views;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,8 @@ public static class MauiProgram
                 fonts.AddFont("Iosevka-Regular.ttf", "iosevkaRegular");
                 fonts.AddFont("NFCode-Regular.ttf", "nfcodeRegular");
             });
+
+        builder.Services.AddSingleton<IStyleTemplateService, StyleTemplateService>();
 
         builder.Services.AddTransient<PgMain, PgMainViewModel>();
         builder.Services.AddTransient<PgProyect, PgProyectViewModel>();

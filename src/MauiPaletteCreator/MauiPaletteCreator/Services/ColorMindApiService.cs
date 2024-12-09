@@ -21,14 +21,16 @@ public class ColormindApiService
     /// Get a random color palette using the default model
     /// </summary>
     /// <returns>A list of color palettes</returns>
-    public async Task<ColorPalette> GetRandomPaletteAsync()
+    public async Task<ColorPalette?> GetRandomPaletteAsync()
     {
         var request = new
         {
             model = "default"
         };
 
-        return await SendPaletteRequestAsync(request);
+        var result = await SendPaletteRequestAsync(request);
+
+        return result;
     }
 
     /// <summary>
@@ -37,7 +39,7 @@ public class ColormindApiService
     /// <param name="inputColors">List of input colors (use "N" for unknown slots)</param>
     /// <param name="selectedModel">Optional model name (defaults to "default")</param>
     /// <returns>A color palette</returns>
-    public async Task<ColorPalette> GetPaletteWithInputAsync(
+    public async Task<ColorPalette?> GetPaletteWithInputAsync(
         List<object> inputColors,
         string selectedModel = "default")
     {
@@ -47,7 +49,9 @@ public class ColormindApiService
             input = inputColors
         };
 
-        return await SendPaletteRequestAsync(request);
+        var result = await SendPaletteRequestAsync(request);
+
+        return result;
     }
 
     /// <summary>
@@ -62,13 +66,13 @@ public class ColormindApiService
         var content = await response.Content.ReadAsStringAsync();
         var models = JsonSerializer.Deserialize<Dictionary<string, string[]>>(content);
 
-        return models["result"];
+        return models?["result"] ?? [];
     }
 
     /// <summary>
     /// Internal method to send palette requests to the API
     /// </summary>
-    private async Task<ColorPalette> SendPaletteRequestAsync(object requestBody)
+    private async Task<ColorPalette?> SendPaletteRequestAsync(object requestBody)
     {
         var jsonRequest = JsonSerializer.Serialize(requestBody);
         var content = new StringContent(
@@ -83,9 +87,10 @@ public class ColormindApiService
         var responseContent = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<Dictionary<string, List<int[]>>>(responseContent);
 
+
         return new ColorPalette
         {
-            Colors = result["result"]
+            Colors = result?["result"] ?? null
         };
     }
 
