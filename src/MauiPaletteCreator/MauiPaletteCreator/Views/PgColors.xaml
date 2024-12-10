@@ -39,7 +39,7 @@
                         <VisualState Name="Normal" />
                         <VisualState Name="Selected">
                             <VisualState.Setters>
-                                <Setter TargetName="selectedCheckBox" Property="Label.IsVisible" Value="True" />
+                                <Setter Property="Stroke" Value="{StaticResource Gray250CL}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="Disabled" />
@@ -132,12 +132,12 @@
                                     <CollectionView
                                         x:Name="CvDefaultColorStyle"
                                         Grid.Row="1"
-                                        IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding PrincipalLightColorStyle}"
+                                        SelectedItem="{Binding SelectedPrincipalLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="None" />
+                                        SelectionMode="Single" />
                                 </VerticalStackLayout>
                             </Frame>
                             <!--#endregion-->
@@ -153,7 +153,6 @@
                                     <CollectionView
                                         x:Name="CvDarkColorStyle"
                                         Grid.Row="1"
-                                        IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding PrincipalDarkColorStyle}"

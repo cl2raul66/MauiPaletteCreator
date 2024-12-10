@@ -12,10 +12,10 @@ public partial class PgColorsViewModel : ObservableObject
 {
     public PgColorsViewModel(IStyleTemplateService styleTemplateService)
     {
-        LoadCustomPalette();
-        PrincipalLightColorStyle = [..styleTemplateService.GetDefaultPrincipalLightColorStyle()];
+        PrincipalLightColorStyle = new(styleTemplateService.GetDefaultPrincipalLightColorStyle());
 
-        PrincipalDarkColorStyle = [..styleTemplateService.GetDefaultPrincipalDarkColorStyle()];
+        PrincipalDarkColorStyle = new(styleTemplateService.GetDefaultPrincipalDarkColorStyle());
+        LoadCustomPalette();
     }
 
     [ObservableProperty]
