@@ -10,12 +10,16 @@ namespace MauiPaletteCreator.ViewModels;
 
 public partial class PgColorsViewModel : ObservableObject
 {
-    public PgColorsViewModel(IStyleTemplateService styleTemplateService)
+    readonly IColormindApiService colormindApiServ;
+
+    public PgColorsViewModel(IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService)
     {
         PrincipalLightColorStyle = new(styleTemplateService.GetDefaultPrincipalLightColorStyle());
+        NeutralLightColorStyle = new(styleTemplateService.GetDefaultNeutralLightColorStyle());
 
         PrincipalDarkColorStyle = new(styleTemplateService.GetDefaultPrincipalDarkColorStyle());
         LoadCustomPalette();
+        colormindApiServ = colormindApiService;
     }
 
     [ObservableProperty]
@@ -76,7 +80,55 @@ public partial class PgColorsViewModel : ObservableObject
     Color? selectredDefaultColor;
 
     [RelayCommand]
-    async Task Deselect()
+    void Deselect()
+    {
+        IsSelectAll = false;
+        IsSelectPRINCIPAL = false;
+        IsSelectSEMANTIC = false;
+        IsSelectNEUTRAL = false;
+    }
+
+    [RelayCommand]
+    async Task Random()
+    {
+        var randomColors = await colormindApiServ.GetRandomPaletteAsync("ui");
+        if (randomColors is null || randomColors.Length == 0)
+        {
+            await Random();
+        }
+        else
+        {
+            var randomColors1 = await colormindApiServ.GetPaletteWithInputAsync([randomColors.First(), null, null, null, randomColors.Last()]);
+            List<ColorStyle> principalLightColor = [];
+            int j = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                if (i == 0)
+                {
+                    var NeutralLightColorStyle0 = NeutralLightColorStyle![i];
+                    NeutralLightColorStyle0.Value = randomColors[i];
+                    NeutralLightColorStyle![i] = NeutralLightColorStyle0;
+                    continue;
+                }
+
+                if (i == 4)
+                {
+                    var NeutralLightColorStyle1 = NeutralLightColorStyle![1];
+                    NeutralLightColorStyle1.Value = randomColors[i];
+                    NeutralLightColorStyle![1] = NeutralLightColorStyle1;
+                    continue;
+                }
+
+                principalLightColor.Add(PrincipalLightColorStyle![j]);
+                principalLightColor[j].Value = randomColors[i];
+                j++;
+            }
+            PrincipalLightColorStyle = [.. principalLightColor];
+        }
+    }
+
+    [RelayCommand]
+    async Task Autogenerate()
     {
         await Shell.Current.GoToAsync(nameof(PgView), true);
     }
@@ -98,10 +150,29 @@ public partial class PgColorsViewModel : ObservableObject
     {
         if (!IsSelectAll)
         {
-
-            if (IsSelectDarkTheme)
+            if (IsSelectPRINCIPAL)
             {
 
+                if (IsSelectDarkTheme)
+                {
+
+                }
+            }
+            if (IsSelectSEMANTIC)
+            {
+
+                if (IsSelectDarkTheme)
+                {
+
+                }
+            }
+            if (IsSelectNEUTRAL)
+            {
+
+                if (IsSelectDarkTheme)
+                {
+
+                }
             }
         }
     }

@@ -30,8 +30,8 @@
         <Style x:Key="colorItemBorder" TargetType="Border">
             <Setter Property="Padding" Value="8" />
             <Setter Property="StrokeShape" Value="RoundRectangle 6" />
-            <Setter Property="StrokeThickness" Value="1" />
-            <Setter Property="Stroke" Value="{StaticResource Gray500CL}" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
             <Setter TargetName="selectedCheckBox" Property="Label.IsVisible" Value="False" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -129,13 +129,28 @@
                                         HorizontalOptions="CenterAndExpand"
                                         Text="Claro"
                                         TextTransform="Uppercase" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="PRINCIPAL"
+                                        TextTransform="Uppercase" />
                                     <CollectionView
-                                        x:Name="CvDefaultColorStyle"
                                         Grid.Row="1"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding PrincipalLightColorStyle}"
                                         SelectedItem="{Binding SelectedPrincipalLightColorStyle}"
+                                        SelectionChanged="CollectionView_SelectionChanged"
+                                        SelectionMode="Single" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="NEUTRAL"
+                                        TextTransform="Uppercase" />
+                                    <CollectionView
+                                        Grid.Row="1"
+                                        ItemTemplate="{StaticResource ItemColorTemplate}"
+                                        ItemsLayout="{StaticResource ItemColorLayout}"
+                                        ItemsSource="{Binding NeutralLightColorStyle}"
+                                        SelectedItem="{Binding SelectedNeutralLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
                                         SelectionMode="Single" />
                                 </VerticalStackLayout>
@@ -156,8 +171,9 @@
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding PrincipalDarkColorStyle}"
+                                        SelectedItem="{Binding SelectedPrincipalDarkColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="None" />
+                                        SelectionMode="Single" />
                                 </VerticalStackLayout>
                             </Frame>
                             <!--#endregion-->
@@ -200,8 +216,14 @@
                             IsChecked="{Binding IsSelectNEUTRAL}"
                             MinimumHeightRequest="32"
                             MinimumWidthRequest="32" />
-                        <Button Margin="0,0,0,8" Text="Deseleccionar" />
-                        <Button Text="Aleatorio" ToolTipProperties.Text="Genera una paleta de colores completamente aleatoria, no toma en cuenta colores seleccionados." />
+                        <Button
+                            Margin="0,0,0,8"
+                            Command="{Binding DeselectCommand}"
+                            Text="Deseleccionar" />
+                        <Button
+                            Command="{Binding RandomCommand}"
+                            Text="Aleatorio"
+                            ToolTipProperties.Text="Genera una paleta de colores completamente aleatoria, no toma en cuenta colores seleccionados." />
                         <Button Text="Autogenerar" ToolTipProperties.Text="Genera una paleta de colores generando los colores no seleccionados." />
                     </VerticalStackLayout>
                     <!--#region-->

@@ -21,6 +21,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<IStyleTemplateService, StyleTemplateService>();
+        builder.Services.AddSingleton<IColormindApiService, ColormindApiService>();
 
         builder.Services.AddTransient<PgMain, PgMainViewModel>();
         builder.Services.AddTransient<PgProyect, PgProyectViewModel>();
