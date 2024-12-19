@@ -14,11 +14,13 @@ public partial class PgColorsViewModel : ObservableObject
 
     public PgColorsViewModel(IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService)
     {
-        PrincipalLightColorStyle = new(styleTemplateService.GetDefaultPrincipalLightColorStyle());
-        NeutralLightColorStyle = new(styleTemplateService.GetDefaultNeutralLightColorStyle());
+        //PrincipalLightColorStyle = new(styleTemplateService.GetDefaultPrincipalLightColorStyle());
+        //NeutralLightColorStyle = new(styleTemplateService.GetDefaultNeutralLightColorStyle());
 
-        PrincipalDarkColorStyle = new(styleTemplateService.GetDefaultPrincipalDarkColorStyle());
+        //PrincipalDarkColorStyle = new(styleTemplateService.GetDefaultPrincipalDarkColorStyle());
         LoadCustomPalette();
+        LightColorStyles = new(styleTemplateService.GetDefaultLightColorStyle());
+        DarkColorStyles = new(styleTemplateService.GetDefaultDarkColorStyle());
         colormindApiServ = colormindApiService;
     }
 
@@ -26,7 +28,7 @@ public partial class PgColorsViewModel : ObservableObject
     bool isSelectDarkTheme;
 
     [ObservableProperty]
-    bool isSelectAll;
+    bool isSelectAll = true;
 
     [ObservableProperty]
     bool isSelectPRINCIPAL;
@@ -73,41 +75,47 @@ public partial class PgColorsViewModel : ObservableObject
     [ObservableProperty]
     ColorStyle? selectedNeutralDarkColorStyle;
 
+
+    [ObservableProperty]
+    ObservableCollection<ColorStyle>? lightColorStyles;
+
+    [ObservableProperty]
+    ColorStyle? selectedLightColorStyle;
+
+    [ObservableProperty]
+    ObservableCollection<ColorStyle>? darkColorStyles;
+
+    [ObservableProperty]
+    ColorStyle? selectedDarkColorStyle;
+
+
     [ObservableProperty]
     ObservableCollection<Color>? defaultPalette;
 
     [ObservableProperty]
-    Color? selectredDefaultColor;
+    Color? selectedDefaultColor;
 
     [RelayCommand]
-    void Deselect()
+    async Task Generate()
     {
-        IsSelectAll = false;
-        IsSelectPRINCIPAL = false;
-        IsSelectSEMANTIC = false;
-        IsSelectNEUTRAL = false;
-    }
 
-    [RelayCommand]
-    async Task Random()
-    {
-        var randomColors = await colormindApiServ.GetRandomPaletteAsync("ui");
+        var randomColors = await colormindApiServ.GetPaletteAsync("ui");
         if (randomColors is null || randomColors.Length == 0)
         {
-            await Random();
+            await Generate();
         }
         else
         {
-            var randomColors1 = await colormindApiServ.GetPaletteWithInputAsync([randomColors.First(), null, null, null, randomColors.Last()]);
+            var randomColors1 = await colormindApiServ.GetPaletteWithInputAsync([randomColors.First(), null, null, null, randomColors.Last()], "ui");
             List<ColorStyle> principalLightColor = [];
             int j = 0;
             for (int i = 0; i < 5; i++)
             {
                 if (i == 0)
                 {
-                    var NeutralLightColorStyle0 = NeutralLightColorStyle![i];
-                    NeutralLightColorStyle0.Value = randomColors[i];
-                    NeutralLightColorStyle![i] = NeutralLightColorStyle0;
+                    var NeutralLightColorStyle0 = NeutralLightColorStyle![0];
+                    NeutralLightColorStyle0.Value = randomColors[0];
+                    NeutralLightColorStyle![0] = NeutralLightColorStyle0;
                     continue;
                 }
 
@@ -119,18 +127,19 @@ public partial class PgColorsViewModel : ObservableObject
                     continue;
                 }
 
+                if (i > 0 && i < 4)
+                {
+                    var NeutralLightColorStyle1_3 = NeutralLightColorStyle![i];
+                    NeutralLightColorStyle1_3.Value = randomColors1[i];
+                    NeutralLightColorStyle![i] = NeutralLightColorStyle1_3;
+                }
+
                 principalLightColor.Add(PrincipalLightColorStyle![j]);
                 principalLightColor[j].Value = randomColors[i];
                 j++;
             }
             PrincipalLightColorStyle = [.. principalLightColor];
         }
-    }
-
-    [RelayCommand]
-    async Task Autogenerate()
-    {
-        await Shell.Current.GoToAsync(nameof(PgView), true);
     }
 
     [RelayCommand]
@@ -146,35 +155,9 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     #region EXTRA
-    partial void OnSelectredDefaultColorChanged(Color? value)
+    partial void OnSelectedPrincipalLightColorStyleChanged(ColorStyle? value)
     {
-        if (!IsSelectAll)
-        {
-            if (IsSelectPRINCIPAL)
-            {
 
-                if (IsSelectDarkTheme)
-                {
-
-                }
-            }
-            if (IsSelectSEMANTIC)
-            {
-
-                if (IsSelectDarkTheme)
-                {
-
-                }
-            }
-            if (IsSelectNEUTRAL)
-            {
-
-                if (IsSelectDarkTheme)
-                {
-
-                }
-            }
-        }
     }
 
     void LoadCustomPalette()

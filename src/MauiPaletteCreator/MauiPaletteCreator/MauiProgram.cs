@@ -18,6 +18,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("Iosevka-Regular.ttf", "iosevkaRegular");
                 fonts.AddFont("NFCode-Regular.ttf", "nfcodeRegular");
+                fonts.AddFont("icofont.ttf", "icofont");
             });
 
         builder.Services.AddSingleton<IStyleTemplateService, StyleTemplateService>();

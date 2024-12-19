@@ -15,34 +15,61 @@
                 BackgroundColor="{Binding Value}"
                 Style="{StaticResource colorItemBorder}"
                 ToolTipProperties.Text="{Binding Value, Converter={ctk:ColorToHexRgbaStringConverter}}">
-                <Label
-                    Padding="4,2"
-                    BackgroundColor="Black"
-                    FontFamily="iosevkaRegular"
-                    FontSize="16"
-                    HorizontalOptions="Start"
-                    Text="{Binding Name}"
-                    TextColor="White"
-                    TextTransform="Uppercase"
-                    VerticalOptions="Center" />
+                <HorizontalStackLayout Spacing="8">
+                    <Label
+                        Padding="4"
+                        BackgroundColor="Black"
+                        FontFamily="icofont"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        TextColor="White"
+                        TextTransform="Uppercase"
+                        VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Locked}"
+                                TargetType="Label"
+                                Value="false">
+                                <Setter Property="Text" Value="{StaticResource ico:uiunlock}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding Locked}"
+                                TargetType="Label"
+                                Value="true">
+                                <Setter Property="Text" Value="{StaticResource ico:uilock}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label
+                        Padding="4,2"
+                        BackgroundColor="Black"
+                        FontFamily="iosevkaRegular"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="{Binding Name}"
+                        TextColor="White"
+                        TextTransform="Uppercase"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
             </Border>
         </DataTemplate>
         <Style x:Key="colorItemBorder" TargetType="Border">
             <Setter Property="Padding" Value="8" />
             <Setter Property="StrokeShape" Value="RoundRectangle 6" />
             <Setter Property="StrokeThickness" Value="2" />
-            <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
-            <Setter TargetName="selectedCheckBox" Property="Label.IsVisible" Value="False" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup Name="CommonStates">
-                        <VisualState Name="Normal" />
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
+                            </VisualState.Setters>
+                        </VisualState>
                         <VisualState Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="Stroke" Value="{StaticResource Gray250CL}" />
                             </VisualState.Setters>
                         </VisualState>
-                        <VisualState Name="Disabled" />
                     </VisualStateGroup>
                 </VisualStateGroupList>
             </Setter>
@@ -117,19 +144,31 @@
         <!--#region CONTENT-->
         <Frame Grid.Row="1" Margin="8,0,8,8">
             <Grid RowDefinitions="*,auto,auto" RowSpacing="16">
-                <Grid ColumnDefinitions="*,auto" ColumnSpacing="16">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                    <!--#region NEW PALETTE-->
                     <!--#region LEFT SIDE-->
                     <ScrollView>
                         <HorizontalStackLayout Spacing="8">
                             <!--#region CLARO-->
-                            <Frame BackgroundColor="White" WidthRequest="250">
+                            <Frame
+                                BackgroundColor="White"
+                                IsEnabled="{Binding IsSelectDarkTheme, Converter={ctk:InvertedBoolConverter}}"
+                                WidthRequest="250">
                                 <VerticalStackLayout Spacing="8">
                                     <Label
                                         FontSize="16"
                                         HorizontalOptions="CenterAndExpand"
                                         Text="Claro"
                                         TextTransform="Uppercase" />
-                                    <Label
+                                    <CollectionView
+                                        Grid.Row="1"
+                                        ItemTemplate="{StaticResource ItemColorTemplate}"
+                                        ItemsLayout="{StaticResource ItemColorLayout}"
+                                        ItemsSource="{Binding LightColorStyles}"
+                                        SelectedItem="{Binding SelectedLightColorStyle}"
+                                        SelectionChanged="CollectionView_SelectionChanged"
+                                        SelectionMode="Single" />
+                                    <!--<Label
                                         FontSize="14"
                                         Text="PRINCIPAL"
                                         TextTransform="Uppercase" />
@@ -140,8 +179,8 @@
                                         ItemsSource="{Binding PrincipalLightColorStyle}"
                                         SelectedItem="{Binding SelectedPrincipalLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="Single" />
-                                    <Label
+                                        SelectionMode="Single" />-->
+                                    <!--<Label
                                         FontSize="14"
                                         Text="NEUTRAL"
                                         TextTransform="Uppercase" />
@@ -152,12 +191,15 @@
                                         ItemsSource="{Binding NeutralLightColorStyle}"
                                         SelectedItem="{Binding SelectedNeutralLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="Single" />
+                                        SelectionMode="Single" />-->
                                 </VerticalStackLayout>
                             </Frame>
                             <!--#endregion-->
                             <!--#region OSCURO-->
-                            <Frame BackgroundColor="Black" WidthRequest="250">
+                            <Frame
+                                BackgroundColor="Black"
+                                IsEnabled="{Binding IsSelectDarkTheme}"
+                                WidthRequest="250">
                                 <VerticalStackLayout Spacing="8">
                                     <Label
                                         FontSize="16"
@@ -170,8 +212,8 @@
                                         Grid.Row="1"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
-                                        ItemsSource="{Binding PrincipalDarkColorStyle}"
-                                        SelectedItem="{Binding SelectedPrincipalDarkColorStyle}"
+                                        ItemsSource="{Binding DarkColorStyles}"
+                                        SelectedItem="{Binding SelectedDarkColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
                                         SelectionMode="Single" />
                                 </VerticalStackLayout>
@@ -181,75 +223,90 @@
                     </ScrollView>
                     <!--#endregion-->
                     <!--#region RIGHT SIDE-->
-                    <VerticalStackLayout
+                    <HorizontalStackLayout
                         Grid.Column="1"
-                        Spacing="8"
-                        WidthRequest="250">
-                        <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
+                        HorizontalOptions="End"
+                        Spacing="8">
+                        <VerticalStackLayout Spacing="8" WidthRequest="250">
                             <Label
                                 FontSize="16"
-                                Text="Tema oscuro: "
-                                VerticalOptions="Center" />
-                            <Switch
-                                Grid.Column="1"
-                                IsToggled="{Binding IsSelectDarkTheme}"
+                                HorizontalOptions="CenterAndExpand"
+                                Text="Colores de .NET MAUI"
+                                TextTransform="Uppercase" />
+                            <ScrollView HeightRequest="310">
+                                <CollectionView
+                                    ItemsSource="{Binding DefaultPalette}"
+                                    SelectedItem="{Binding SelectedDefaultColor}"
+                                    SelectionMode="Single">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout
+                                            HorizontalItemSpacing="2"
+                                            Orientation="Vertical"
+                                            Span="5"
+                                            VerticalItemSpacing="4" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="Color">
+                                            <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                            <Button Text="Establecer color" />
+                            <Button Text="Bloquear color">
+                                <Button.IsEnabled>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <ctk:VariableMultiValueConverter ConditionType="Any" Count="6" />
+                                        </MultiBinding.Converter>
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedPrincipalLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedSemanticLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedNeutralLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedPrincipalDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedSemanticDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedNeutralDarkColorStyle" />
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="8" WidthRequest="250">
+                            <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
+                                <Label
+                                    FontSize="16"
+                                    Text="Tema oscuro: "
+                                    VerticalOptions="Center" />
+                                <Switch
+                                    Grid.Column="1"
+                                    IsToggled="{Binding IsSelectDarkTheme}"
+                                    MinimumHeightRequest="32"
+                                    MinimumWidthRequest="44" />
+                            </Grid>
+                            <RadioButton
+                                Content="Todos"
+                                IsChecked="{Binding IsSelectAll}"
                                 MinimumHeightRequest="32"
-                                MinimumWidthRequest="44" />
-                        </Grid>
-                        <RadioButton
-                            Content="Todos"
-                            IsChecked="{Binding IsSelectAll}"
-                            MinimumHeightRequest="32"
-                            MinimumWidthRequest="32" />
-                        <RadioButton
-                            Content="PRINCIPAL"
-                            IsChecked="{Binding IsSelectPRINCIPAL}"
-                            MinimumHeightRequest="32"
-                            MinimumWidthRequest="32" />
-                        <RadioButton
-                            Content="SEMANTIC"
-                            IsChecked="{Binding IsSelectSEMANTIC}"
-                            MinimumHeightRequest="32"
-                            MinimumWidthRequest="32" />
-                        <RadioButton
-                            Content="NEUTRAL"
-                            IsChecked="{Binding IsSelectNEUTRAL}"
-                            MinimumHeightRequest="32"
-                            MinimumWidthRequest="32" />
-                        <Button
-                            Margin="0,0,0,8"
-                            Command="{Binding DeselectCommand}"
-                            Text="Deseleccionar" />
-                        <Button
-                            Command="{Binding RandomCommand}"
-                            Text="Aleatorio"
-                            ToolTipProperties.Text="Genera una paleta de colores completamente aleatoria, no toma en cuenta colores seleccionados." />
-                        <Button Text="Autogenerar" ToolTipProperties.Text="Genera una paleta de colores generando los colores no seleccionados." />
-                    </VerticalStackLayout>
-                    <!--#region-->
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="PRINCIPAL"
+                                IsChecked="{Binding IsSelectPRINCIPAL}"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="SEMANTIC"
+                                IsChecked="{Binding IsSelectSEMANTIC}"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <RadioButton
+                                Content="NEUTRAL"
+                                IsChecked="{Binding IsSelectNEUTRAL}"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="32" />
+                            <Button Text="Generar colores" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <!--#endregion-->
+                    <!--#endregion-->
                 </Grid>
-                <VerticalStackLayout Grid.Row="1" Spacing="8">
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="18"
-                        Text="Paleta de colores de .NET MAUI:" />
-                    <ScrollView>
-                        <CollectionView ItemsSource="{Binding DefaultPalette}" SelectionMode="Single">
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout
-                                    HorizontalItemSpacing="2"
-                                    Orientation="Horizontal"
-                                    Span="1"
-                                    VerticalItemSpacing="4" />
-                            </CollectionView.ItemsLayout>
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="Color">
-                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </ScrollView>
-                </VerticalStackLayout>
                 <Grid
                     Grid.Row="2"
                     ColumnDefinitions="*,auto"
@@ -262,6 +319,7 @@
             </Grid>
         </Frame>
         <!--#endregion-->
+
         <!--#region FOOT-->
         <Grid Grid.Row="2">
             <Label

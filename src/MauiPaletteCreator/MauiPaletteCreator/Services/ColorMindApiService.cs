@@ -6,13 +6,9 @@ public interface IColormindApiService
 {
     Task<string[]> GetAvailableModelsAsync();
     Task<Color[]> GetPaletteWithInputAsync(Color?[] inputColors, string selectedModel = "default");
-    Task<Color[]> GetRandomPaletteAsync(string selectedModel = "default");
+    Task<Color[]> GetPaletteAsync(string selectedModel = "default");
 }
 
-
-/// <summary>
-/// Service for interacting with the Colormind API
-/// </summary>
 public class ColormindApiService : IColormindApiService
 {
     readonly HttpClient _httpClient;
@@ -24,11 +20,7 @@ public class ColormindApiService : IColormindApiService
         _httpClient = new HttpClient();
     }
 
-    /// <summary>
-    /// Get a random color palette using the default model
-    /// </summary>
-    /// <returns>A list of color palettes</returns>
-    public async Task<Color[]> GetRandomPaletteAsync(string selectedModel = "default")
+    public async Task<Color[]> GetPaletteAsync(string selectedModel = "default")
     {
         var request = new
         {
@@ -40,12 +32,6 @@ public class ColormindApiService : IColormindApiService
         return [.. result];
     }
 
-    /// <summary>
-    /// Get a color palette with some input colors
-    /// </summary>
-    /// <param name="inputColors">List of input colors (use "N" for unknown slots)</param>
-    /// <param name="selectedModel">Optional model name (defaults to "default")</param>
-    /// <returns>A color palette</returns>
     public async Task<Color[]> GetPaletteWithInputAsync(
         Color?[] inputColors,
         string selectedModel = "default")
@@ -63,10 +49,6 @@ public class ColormindApiService : IColormindApiService
         return [.. result];
     }
 
-    /// <summary>
-    /// Get the array of currently available models
-    /// </summary>
-    /// <returns>Array of model names</returns>
     public async Task<string[]> GetAvailableModelsAsync()
     {
         var response = await _httpClient.GetAsync(ListUrl);
@@ -78,9 +60,6 @@ public class ColormindApiService : IColormindApiService
         return models?["result"] ?? [];
     }
 
-    /// <summary>
-    /// Internal method to send palette requests to the API
-    /// </summary>
     async Task<IEnumerable<Color>> SendPaletteRequestAsync(object requestBody)
     {
         var jsonRequest = JsonSerializer.Serialize(requestBody);
@@ -92,28 +71,43 @@ public class ColormindApiService : IColormindApiService
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<int[][]>(responseContent);
 
-            if (result is null || result.Length == 0)
+            using (JsonDocument doc = JsonDocument.Parse(responseContent))
             {
-                return [];
+                if (doc.RootElement.TryGetProperty("result", out JsonElement resultElement))
+                {
+                    if (resultElement.ValueKind is JsonValueKind.Array)
+                    {
+                        var colors = resultElement.EnumerateArray()
+                            .Select(colorArray =>
+                            {
+                                var rgbValues = colorArray.EnumerateArray()
+                                    .Select(x => x.GetInt32())
+                                    .ToArray();
+
+                                return ToColor(rgbValues);
+                            });
+
+                        return colors;
+                    }
+                }
             }
 
-            var colors = from x in result select RgbToColor(x);
-
-            return colors;
+            return [];
         }
         catch (HttpRequestException e)
         {
+            Console.WriteLine(e.Message);
             return [];
         }
         catch (JsonException e)
         {
+            Console.WriteLine(e.Message);
             return [];
         }
     }
 
-    Color RgbToColor(int[] rgb)
+    Color ToColor(int[] rgb)
     {
         return Color.FromRgb(rgb[0], rgb[1], rgb[2]);
     }
@@ -124,20 +118,10 @@ public class ColormindApiService : IColormindApiService
         {
             if (x is null)
             {
-                return "N";
+                return (object)"N";
             }
             x.ToRgb(out byte r, out byte g, out byte b);
-            return (object)new[] { r, g, b };
+            return (object)new[] { (int)r, (int)g, (int)b };
         }).ToArray();
-
-        //return $"[{string.Join(",", colors.Select(x =>
-        //{
-        //    if (x is null)
-        //    {
-        //        return "\"N\"";
-        //    }
-        //    x.ToRgb(out byte r, out byte g, out byte b);
-        //    return $"[{r},{g},{b}]";
-        //}))}]";
     }
 }

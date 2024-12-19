@@ -8,4 +8,5 @@ public class ColorStyle
     public Color? Value { get; set; }
     public string? Tag { get; set; }
     public ColorScheme Scheme { get; set; }
+    public bool? Locked { get; set; }
 }
