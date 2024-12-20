@@ -10,6 +10,19 @@
     x:DataType="vm:PgColorsViewModel"
     Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
+        <DataTemplate x:Key="LightColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding Key}"
+                TextTransform="Uppercase" />
+        </DataTemplate>
+        <DataTemplate x:Key="DarkColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding Key}"
+                TextColor="White"
+                TextTransform="Uppercase" />
+        </DataTemplate>
         <DataTemplate x:Key="ItemColorTemplate" x:DataType="model:ColorStyle">
             <Border
                 BackgroundColor="{Binding Value}"
@@ -162,6 +175,8 @@
                                         TextTransform="Uppercase" />
                                     <CollectionView
                                         Grid.Row="1"
+                                        GroupHeaderTemplate="{StaticResource LightColorStyleGroupHeaderTemplate}"
+                                        IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding LightColorStyles}"
@@ -210,6 +225,8 @@
                                     <CollectionView
                                         x:Name="CvDarkColorStyle"
                                         Grid.Row="1"
+                                        GroupHeaderTemplate="{StaticResource DarkColorStyleGroupHeaderTemplate}"
+                                        IsGrouped="True"
                                         ItemTemplate="{StaticResource ItemColorTemplate}"
                                         ItemsLayout="{StaticResource ItemColorLayout}"
                                         ItemsSource="{Binding DarkColorStyles}"
