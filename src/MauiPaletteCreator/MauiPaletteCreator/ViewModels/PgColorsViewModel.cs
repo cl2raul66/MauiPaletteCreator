@@ -105,50 +105,25 @@ public partial class PgColorsViewModel : ObservableObject
             }
             else
             {
-                // Crear una nueva lista para almacenar los grupos modificados
-                List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
-
-                // Primera llamada al API
-                randomColors = await colormindApiServ.GetPaletteAsync("ui");
-
-                // Crear el array de entrada para la segunda llamada
-                var inputColors = new Color?[5];
-                inputColors[0] = randomColors[0]; // ForegroundCl
-                inputColors[4] = randomColors[4]; // BackgroundCl
-
-                // Segunda llamada al API
-                var randomColors2 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
-
-                // Asignar los colores obtenidos a los elementos correspondientes
-                var principalGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
-                if (principalGroup is not null)
+                if (IsSelectAll)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        principalGroup[i].Value = randomColors[i + 1]; // Principal colors
-                    }
+                    await GenerateForAll();
                 }
 
-                var neutralGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
-                if (neutralGroup is not null)
+                if (IsSelectPRINCIPAL)
                 {
-                    neutralGroup[0].Value = randomColors[0]; // ForegroundCl
-                    neutralGroup[1].Value = randomColors[4]; // BackgroundCl
-                    for (int i = 2; i < 5; i++)
-                    {
-                        neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
-                    }
+                    await GenerateForPRINCIPAL();
                 }
 
-                var semanticGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
-                inputColors[0] = semanticGroup![0].Value;
+                if (IsSelectSEMANTIC)
+                {
+                    await GenerateForSEMANTIC();
+                }
 
-
-                // Tercera llamada al API
-                var randomColors3 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
-
-                // Asignar la lista modificada a LightColorStyles
-                LightColorStyles = [.. updatedLightColorStyles];
+                if (IsSelectNEUTRAL)
+                {
+                    await GenerateForNEUTRAL();
+                }
             }
         }
     }
@@ -229,6 +204,119 @@ public partial class PgColorsViewModel : ObservableObject
         if (colorStyleGroups is null) return [];
 
         return colorStyleGroups.Where(g => g.Any(x => x.Locked == true));
+    }
+
+    async Task GenerateForAll()
+    {
+        // Crear una nueva lista para almacenar los grupos modificados
+        List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
+
+        // Primera llamada al API
+        var randomColors = await colormindApiServ.GetPaletteAsync("ui");
+
+        // Crear el array de entrada para la segunda llamada
+        var inputColors = new Color?[5];
+        inputColors[0] = randomColors[0]; // ForegroundCl
+        inputColors[4] = randomColors[4]; // BackgroundCl
+
+        // Segunda llamada al API
+        var randomColors2 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
+
+        // Asignar los colores obtenidos a los elementos correspondientes
+        var principalGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
+        if (principalGroup is not null)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                principalGroup[i].Value = randomColors[i + 1]; // Principal colors
+            }
+        }
+
+        var neutralGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
+        if (neutralGroup is not null)
+        {
+            neutralGroup[0].Value = randomColors[0]; // ForegroundCl
+            neutralGroup[1].Value = randomColors[4]; // BackgroundCl
+            for (int i = 2; i < 5; i++)
+            {
+                neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
+            }
+        }
+
+        var semanticGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
+        for (int i = 0; i < 3; i++)
+        {
+            //inputColors = [semanticGroup![i].Value, null, null, null, null];
+            //var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors);
+            //semanticGroup![i].Value = colors[1];
+
+            inputColors = [principalGroup![0].Value, semanticGroup![i].Value, null, null, null];
+            var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors);
+            semanticGroup![i].Value = colors[2];
+        }
+
+        // Asignar la lista modificada a LightColorStyles
+        LightColorStyles = [.. updatedLightColorStyles];
+    }
+
+    async Task GenerateForPRINCIPAL()
+    {
+        // Crear una nueva lista para almacenar los grupos modificados
+        List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
+        var principalGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
+        if (principalGroup is not null)
+        {
+            var randomColors = await colormindApiServ.GetPaletteAsync("ui");
+            //for (int i = 0; i < principalGroup.Count; i++)
+            //{
+            //    principalGroup[i].Value = randomColors[i];
+            //}
+            for (int i = 0; i < 3; i++)
+            {
+                principalGroup[i].Value = randomColors[i + 1]; // Principal colors
+            }
+
+            // Asignar la lista modificada a LightColorStyles
+            LightColorStyles = [.. updatedLightColorStyles];
+        }
+    }
+
+    async Task GenerateForSEMANTIC()
+    {
+        var semanticGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
+        var principalGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
+        if (semanticGroup is not null && principalGroup is not null)
+        {
+            for (int i = 0; i < semanticGroup.Count; i++)
+            {
+                var inputColors = new Color?[5];
+                inputColors[0] = principalGroup[0].Value;
+                inputColors[1] = semanticGroup[i].Value;
+                var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
+                semanticGroup[i].Value = colors[2];
+            }
+        }
+    }
+
+    async Task GenerateForNEUTRAL()
+    {
+        var neutralGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
+        if (neutralGroup is not null)
+        {
+            var randomColors = await colormindApiServ.GetPaletteAsync("ui");
+            neutralGroup[0].Value = randomColors[0]; // ForegroundCl
+            neutralGroup[1].Value = randomColors[4]; // BackgroundCl
+
+            var inputColors = new Color?[5];
+            inputColors[0] = randomColors[0]; // ForegroundCl
+            inputColors[4] = randomColors[4]; // BackgroundCl
+            var randomColors2 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
+
+            for (int i = 2; i < 5; i++)
+            {
+                neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
+            }
+        }
     }
     #endregion
 }
