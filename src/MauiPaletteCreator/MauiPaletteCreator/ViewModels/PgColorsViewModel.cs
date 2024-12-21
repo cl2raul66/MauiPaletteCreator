@@ -93,37 +93,30 @@ public partial class PgColorsViewModel : ObservableObject
     {
         if (IsSelectDarkTheme)
         {
-
+            SelectedDarkColorStyle = null;
         }
         else
         {
-            Color[] randomColors = [];
-            var lockedColorStyles = GetLockedColorStyleGroups(LightColorStyles!);
-            if (lockedColorStyles.Any())
+            SelectedLightColorStyle = null;
+
+            if (IsSelectAll)
             {
-                //randomColors = await colormindApiServ.GetPaletteWithInputAsync(,"ui");
+                await GenerateForAll();
             }
-            else
+
+            if (IsSelectPRINCIPAL)
             {
-                if (IsSelectAll)
-                {
-                    await GenerateForAll();
-                }
+                await GenerateForPRINCIPAL();
+            }
 
-                if (IsSelectPRINCIPAL)
-                {
-                    await GenerateForPRINCIPAL();
-                }
+            if (IsSelectSEMANTIC)
+            {
+                await GenerateForSEMANTIC();
+            }
 
-                if (IsSelectSEMANTIC)
-                {
-                    await GenerateForSEMANTIC();
-                }
-
-                if (IsSelectNEUTRAL)
-                {
-                    await GenerateForNEUTRAL();
-                }
+            if (IsSelectNEUTRAL)
+            {
+                await GenerateForNEUTRAL();
             }
         }
     }
@@ -199,13 +192,6 @@ public partial class PgColorsViewModel : ObservableObject
         DarkColorStyles = [.. groups];
     }
 
-    IEnumerable<ColorStyleGroup> GetLockedColorStyleGroups(ObservableCollection<ColorStyleGroup>? colorStyleGroups)
-    {
-        if (colorStyleGroups is null) return [];
-
-        return colorStyleGroups.Where(g => g.Any(x => x.Locked == true));
-    }
-
     async Task GenerateForAll()
     {
         // Crear una nueva lista para almacenar los grupos modificados
@@ -246,10 +232,6 @@ public partial class PgColorsViewModel : ObservableObject
         var semanticGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
         for (int i = 0; i < 3; i++)
         {
-            //inputColors = [semanticGroup![i].Value, null, null, null, null];
-            //var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors);
-            //semanticGroup![i].Value = colors[1];
-
             inputColors = [principalGroup![0].Value, semanticGroup![i].Value, null, null, null];
             var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors);
             semanticGroup![i].Value = colors[2];
@@ -267,10 +249,6 @@ public partial class PgColorsViewModel : ObservableObject
         if (principalGroup is not null)
         {
             var randomColors = await colormindApiServ.GetPaletteAsync("ui");
-            //for (int i = 0; i < principalGroup.Count; i++)
-            //{
-            //    principalGroup[i].Value = randomColors[i];
-            //}
             for (int i = 0; i < 3; i++)
             {
                 principalGroup[i].Value = randomColors[i + 1]; // Principal colors
@@ -283,8 +261,11 @@ public partial class PgColorsViewModel : ObservableObject
 
     async Task GenerateForSEMANTIC()
     {
-        var semanticGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
-        var principalGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
+        // Crear una nueva lista para almacenar los grupos modificados
+        List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
+
+        var semanticGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
+        var principalGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
         if (semanticGroup is not null && principalGroup is not null)
         {
             for (int i = 0; i < semanticGroup.Count; i++)
@@ -295,12 +276,18 @@ public partial class PgColorsViewModel : ObservableObject
                 var colors = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
                 semanticGroup[i].Value = colors[2];
             }
+
+            // Asignar la lista modificada a LightColorStyles
+            LightColorStyles = [.. updatedLightColorStyles];
         }
     }
 
     async Task GenerateForNEUTRAL()
     {
-        var neutralGroup = LightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
+        // Crear una nueva lista para almacenar los grupos modificados
+        List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
+
+        var neutralGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
         if (neutralGroup is not null)
         {
             var randomColors = await colormindApiServ.GetPaletteAsync("ui");
@@ -316,6 +303,9 @@ public partial class PgColorsViewModel : ObservableObject
             {
                 neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
             }
+
+            // Asignar la lista modificada a LightColorStyles
+            LightColorStyles = [.. updatedLightColorStyles];
         }
     }
     #endregion
