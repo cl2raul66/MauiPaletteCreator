@@ -44,43 +44,6 @@ public partial class PgColorsViewModel : ObservableObject
     [ObservableProperty]
     bool isSelectNEUTRAL;
 
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? principalLightColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedPrincipalLightColorStyle;
-
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? semanticLightColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedSemanticLightColorStyle;
-
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? neutralLightColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedNeutralLightColorStyle;
-
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? principalDarkColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedPrincipalDarkColorStyle;
-
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? semanticDarkColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedSemanticDarkColorStyle;
-
-    //[ObservableProperty]
-    //ObservableCollection<ColorStyle>? neutralDarkColorStyle;
-
-    //[ObservableProperty]
-    //ColorStyle? selectedNeutralDarkColorStyle;
-
-
     [ObservableProperty]
     ObservableCollection<ColorStyleGroup>? lightColorStyles;
 
@@ -101,49 +64,92 @@ public partial class PgColorsViewModel : ObservableObject
     Color? selectedDefaultColor;
 
     [RelayCommand]
-    async Task Generate()
+    void SetSelectedDefaultColor()
     {
-
-        var randomColors = await colormindApiServ.GetPaletteAsync("ui");
-        if (randomColors is null || randomColors.Length == 0)
+        if (IsSelectDarkTheme)
         {
-            await Generate();
+            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedDefaultColor;
+            DarkColorStyles = [.. copy];
         }
         else
         {
-            var randomColors1 = await colormindApiServ.GetPaletteWithInputAsync([randomColors.First(), null, null, null, randomColors.Last()], "ui");
-            //List<ColorStyle> principalLightColor = [];
-            //int j = 0;
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    if (i == 0)
-            //    {
-            //        var NeutralLightColorStyle0 = NeutralLightColorStyle![0];
-            //        NeutralLightColorStyle0.Value = randomColors[0];
-            //        NeutralLightColorStyle![0] = NeutralLightColorStyle0;
-            //        continue;
-            //    }
+            List<ColorStyleGroup> copy = [.. LightColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedDefaultColor;
+            LightColorStyles = [.. copy];
+        }
+    }
 
-            //    if (i == 4)
-            //    {
-            //        var NeutralLightColorStyle1 = NeutralLightColorStyle![1];
-            //        NeutralLightColorStyle1.Value = randomColors[i];
-            //        NeutralLightColorStyle![1] = NeutralLightColorStyle1;
-            //        continue;
-            //    }
+    [RelayCommand]
+    async Task Generate()
+    {
+        if (IsSelectDarkTheme)
+        {
 
-            //    if (i > 0 && i < 4)
-            //    {
-            //        var NeutralLightColorStyle1_3 = NeutralLightColorStyle![i];
-            //        NeutralLightColorStyle1_3.Value = randomColors1[i];
-            //        NeutralLightColorStyle![i] = NeutralLightColorStyle1_3;
-            //    }
+        }
+        else
+        {
+            Color[] randomColors = [];
+            var lockedColorStyles = GetLockedColorStyleGroups(LightColorStyles!);
+            if (lockedColorStyles.Any())
+            {
+                //randomColors = await colormindApiServ.GetPaletteWithInputAsync(,"ui");
+            }
+            else
+            {
+                // Crear una nueva lista para almacenar los grupos modificados
+                List<ColorStyleGroup> updatedLightColorStyles = [.. LightColorStyles!];
 
-            //    principalLightColor.Add(PrincipalLightColorStyle![j]);
-            //    principalLightColor[j].Value = randomColors[i];
-            //    j++;
-            //}
-            //PrincipalLightColorStyle = [.. principalLightColor];
+                // Primera llamada al API
+                randomColors = await colormindApiServ.GetPaletteAsync("ui");
+
+                // Crear el array de entrada para la segunda llamada
+                var inputColors = new Color?[5];
+                inputColors[0] = randomColors[0]; // ForegroundCl
+                inputColors[4] = randomColors[4]; // BackgroundCl
+
+                // Segunda llamada al API
+                var randomColors2 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
+
+                // Asignar los colores obtenidos a los elementos correspondientes
+                var principalGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "PRINCIPAL");
+                if (principalGroup is not null)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        principalGroup[i].Value = randomColors[i + 1]; // Principal colors
+                    }
+                }
+
+                var neutralGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
+                if (neutralGroup is not null)
+                {
+                    neutralGroup[0].Value = randomColors[0]; // ForegroundCl
+                    neutralGroup[1].Value = randomColors[4]; // BackgroundCl
+                    for (int i = 2; i < 5; i++)
+                    {
+                        neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
+                    }
+                }
+
+                var semanticGroup = updatedLightColorStyles!.FirstOrDefault(g => g.Key == "SEMANTIC");
+                inputColors[0] = semanticGroup![0].Value;
+
+
+                // Tercera llamada al API
+                var randomColors3 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
+
+                // Asignar la lista modificada a LightColorStyles
+                LightColorStyles = [.. updatedLightColorStyles];
+            }
         }
     }
 
@@ -218,5 +224,11 @@ public partial class PgColorsViewModel : ObservableObject
         DarkColorStyles = [.. groups];
     }
 
+    IEnumerable<ColorStyleGroup> GetLockedColorStyleGroups(ObservableCollection<ColorStyleGroup>? colorStyleGroups)
+    {
+        if (colorStyleGroups is null) return [];
+
+        return colorStyleGroups.Where(g => g.Any(x => x.Locked == true));
+    }
     #endregion
 }

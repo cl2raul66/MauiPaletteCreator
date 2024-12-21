@@ -29,7 +29,7 @@ public class ColormindApiService : IColormindApiService
 
         var result = await SendPaletteRequestAsync(request);
 
-        return [.. result];
+        return result;
     }
 
     public async Task<Color[]> GetPaletteWithInputAsync(
@@ -46,7 +46,7 @@ public class ColormindApiService : IColormindApiService
 
         var result = await SendPaletteRequestAsync(request);
 
-        return [.. result];
+        return result;
     }
 
     public async Task<string[]> GetAvailableModelsAsync()
@@ -60,7 +60,7 @@ public class ColormindApiService : IColormindApiService
         return models?["result"] ?? [];
     }
 
-    async Task<IEnumerable<Color>> SendPaletteRequestAsync(object requestBody)
+    async Task<Color[]> SendPaletteRequestAsync(object requestBody)
     {
         var jsonRequest = JsonSerializer.Serialize(requestBody);
         var content = new StringContent(jsonRequest, System.Text.Encoding.UTF8, "application/json");
@@ -86,7 +86,7 @@ public class ColormindApiService : IColormindApiService
                                     .ToArray();
 
                                 return ToColor(rgbValues);
-                            });
+                            }).ToArray();
 
                         return colors;
                     }

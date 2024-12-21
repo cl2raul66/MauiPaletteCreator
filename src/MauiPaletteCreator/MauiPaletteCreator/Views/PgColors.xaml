@@ -75,12 +75,12 @@
                     <VisualStateGroup Name="CommonStates">
                         <VisualState Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
+                                <Setter Property="Stroke" Value="{StaticResource Gray250CL}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="Selected">
                             <VisualState.Setters>
-                                <Setter Property="Stroke" Value="{StaticResource Gray250CL}" />
+                                <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -183,37 +183,13 @@
                                         SelectedItem="{Binding SelectedLightColorStyle}"
                                         SelectionChanged="CollectionView_SelectionChanged"
                                         SelectionMode="Single" />
-                                    <!--<Label
-                                        FontSize="14"
-                                        Text="PRINCIPAL"
-                                        TextTransform="Uppercase" />
-                                    <CollectionView
-                                        Grid.Row="1"
-                                        ItemTemplate="{StaticResource ItemColorTemplate}"
-                                        ItemsLayout="{StaticResource ItemColorLayout}"
-                                        ItemsSource="{Binding PrincipalLightColorStyle}"
-                                        SelectedItem="{Binding SelectedPrincipalLightColorStyle}"
-                                        SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="Single" />-->
-                                    <!--<Label
-                                        FontSize="14"
-                                        Text="NEUTRAL"
-                                        TextTransform="Uppercase" />
-                                    <CollectionView
-                                        Grid.Row="1"
-                                        ItemTemplate="{StaticResource ItemColorTemplate}"
-                                        ItemsLayout="{StaticResource ItemColorLayout}"
-                                        ItemsSource="{Binding NeutralLightColorStyle}"
-                                        SelectedItem="{Binding SelectedNeutralLightColorStyle}"
-                                        SelectionChanged="CollectionView_SelectionChanged"
-                                        SelectionMode="Single" />-->
                                 </VerticalStackLayout>
                             </Frame>
                             <!--#endregion-->
                             <!--#region OSCURO-->
                             <Frame
                                 BackgroundColor="Black"
-                                IsEnabled="{Binding IsSelectDarkTheme}"
+                                IsEnabled="{Binding IsSelectDarkTheme, FallbackValue='False', TargetNullValue='False'}"
                                 WidthRequest="250">
                                 <VerticalStackLayout Spacing="8">
                                     <Label
@@ -269,19 +245,26 @@
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
                             </ScrollView>
-                            <Button Text="Establecer color" />
+                            <Button Command="{Binding SetSelectedDefaultColorCommand}" Text="Establecer color">
+                                <Button.IsEnabled>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                        </MultiBinding.Converter>
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDefaultColor" />
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
                             <Button Text="Bloquear color">
                                 <Button.IsEnabled>
                                     <MultiBinding>
                                         <MultiBinding.Converter>
-                                            <ctk:VariableMultiValueConverter ConditionType="Any" Count="6" />
+                                            <ctk:VariableMultiValueConverter ConditionType="Any" Count="2" />
                                         </MultiBinding.Converter>
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedPrincipalLightColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedSemanticLightColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedNeutralLightColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedPrincipalDarkColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedSemanticDarkColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedNeutralDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
                                     </MultiBinding>
                                 </Button.IsEnabled>
                             </Button>
@@ -318,7 +301,7 @@
                                 IsChecked="{Binding IsSelectNEUTRAL}"
                                 MinimumHeightRequest="32"
                                 MinimumWidthRequest="32" />
-                            <Button Text="Generar colores" />
+                            <Button Command="{Binding GenerateCommand}" Text="Generar colores" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
                     <!--#endregion-->
