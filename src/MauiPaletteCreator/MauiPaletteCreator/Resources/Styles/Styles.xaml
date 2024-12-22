@@ -17,9 +17,9 @@
         <Setter Property="StrokeThickness" Value="1" />
     </Style>
 
-    <!--<Style TargetType="Stepper">
+    <Style TargetType="Stepper">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray750CL}, Dark={StaticResource Gray250CL}}" />
-    </Style>-->
+    </Style>
 
     <Style TargetType="Button">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ForegroundCL}, Dark={StaticResource BackgroundCL}}" />

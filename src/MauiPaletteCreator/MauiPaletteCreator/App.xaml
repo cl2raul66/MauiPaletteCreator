@@ -12,30 +12,31 @@
                 <ResourceDictionary Source="Resources/Styles/icofont.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="BrPosition" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="{StaticResource SecondaryCL}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryCL}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="64" />
-                <Setter Property="WidthRequest" Value="64" />
-                <Setter Property="Stroke" Value="{StaticResource PrimaryCL}" />
-                <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
+                <Setter Property="HeightRequest" Value="56" />
+                <Setter Property="WidthRequest" Value="100" />
+                <Setter Property="Stroke" Value="{StaticResource SecondaryCL}" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 6" />
                 <Setter Property="StrokeThickness" Value="4" />
             </Style>
             <Style x:Key="BrPositionVisited" TargetType="Border">
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryCL}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource AccentCL}" />
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="HeightRequest" Value="64" />
-                <Setter Property="WidthRequest" Value="64" />
+                <Setter Property="HeightRequest" Value="56" />
+                <Setter Property="WidthRequest" Value="100" />
                 <Setter Property="Stroke" Value="{StaticResource SecondaryCL}" />
-                <Setter Property="StrokeShape" Value="RoundRectangle 50,50,50,50" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 6" />
                 <Setter Property="StrokeThickness" Value="4" />
             </Style>
             <Style x:Key="LbPosition" TargetType="Label">
                 <Setter Property="FontSize" Value="18" />
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="TextTransform" Value="Uppercase" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
-                <Setter Property="MaximumWidthRequest" Value="85" />
+                <Setter Property="TextColor" Value="{StaticResource ForegroundCL}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

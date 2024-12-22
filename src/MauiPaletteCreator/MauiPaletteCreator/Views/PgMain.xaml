@@ -17,33 +17,27 @@
                 HorizontalOptions="Center"
                 Spacing="16"
                 ZIndex="10">
-                <VerticalStackLayout>
-                    <Border Style="{StaticResource BrPositionVisited}" />
+                <Border Style="{StaticResource BrPositionVisited}">
                     <Label Style="{StaticResource LbPosition}" Text="Inicio" />
-                </VerticalStackLayout>
-                <VerticalStackLayout>
-                    <Border Style="{StaticResource BrPosition}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
                     <Label Style="{StaticResource LbPosition}" Text="Proyecto" />
-                </VerticalStackLayout>
-                <VerticalStackLayout>
-                    <Border Style="{StaticResource BrPosition}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
                     <Label Style="{StaticResource LbPosition}" Text="Colores" />
-                </VerticalStackLayout>
-                <VerticalStackLayout>
-                    <Border Style="{StaticResource BrPosition}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
                     <Label Style="{StaticResource LbPosition}" Text="Ver" />
-                </VerticalStackLayout>
-                <VerticalStackLayout>
-                    <Border Style="{StaticResource BrPosition}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
                     <Label Style="{StaticResource LbPosition}" Text="Fin" />
-                </VerticalStackLayout>
+                </Border>
             </HorizontalStackLayout>
             <Border
-                Margin="0,-16,0,0"
-                BackgroundColor="{StaticResource PrimaryCL}"
+                BackgroundColor="{StaticResource SecondaryCL}"
                 HeightRequest="4"
                 StrokeThickness="0"
-                WidthRequest="320"
+                WidthRequest="400"
                 ZIndex="1" />
         </Grid>
         <!--#endregion-->
