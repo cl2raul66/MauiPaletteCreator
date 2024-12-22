@@ -2,9 +2,9 @@ using MauiPaletteCreator.ViewModels;
 
 namespace MauiPaletteCreator.Views;
 
-public partial class PgProyect : ContentPage
+public partial class PgProject : ContentPage
 {
-	public PgProyect(PgProyectViewModel vm)
+	public PgProject(PgProjectViewModel vm)
 	{
 		InitializeComponent();
 

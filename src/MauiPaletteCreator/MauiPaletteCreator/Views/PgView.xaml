@@ -7,6 +7,9 @@
     Title="View"
     x:DataType="vm:PgViewViewModel"
     Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
 
     <Grid Padding="8" RowDefinitions="auto,*,auto">
         <!--#region HEADER-->

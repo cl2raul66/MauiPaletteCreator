@@ -9,6 +9,9 @@
     Title="Colors"
     x:DataType="vm:PgColorsViewModel"
     Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
     <ContentPage.Resources>
         <DataTemplate x:Key="LightColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
             <Label

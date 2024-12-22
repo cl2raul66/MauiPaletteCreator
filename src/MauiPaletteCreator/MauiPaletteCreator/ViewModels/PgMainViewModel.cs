@@ -9,6 +9,6 @@ public partial class PgMainViewModel : ObservableRecipient
     [RelayCommand]
     async Task GoToNext()
     {
-        await Shell.Current.GoToAsync(nameof(PgProyect), true);
+        await Shell.Current.GoToAsync(nameof(PgProject), true);
     }
 }

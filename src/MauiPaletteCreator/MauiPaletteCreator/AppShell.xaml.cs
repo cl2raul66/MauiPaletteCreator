@@ -8,7 +8,7 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        Routing.RegisterRoute(nameof(PgProyect), typeof(PgProyect));
+        Routing.RegisterRoute(nameof(PgProject), typeof(PgProject));
         Routing.RegisterRoute(nameof(PgColors), typeof(PgColors));
         Routing.RegisterRoute(nameof(PgView), typeof(PgView));
         Routing.RegisterRoute(nameof(PgEnd), typeof(PgEnd));

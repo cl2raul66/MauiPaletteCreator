@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="MauiPaletteCreator.Views.PgProyect"
+    x:Class="MauiPaletteCreator.Views.PgProject"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
-    Title="Proyect"
-    x:DataType="vm:PgProyectViewModel"
+    Title="Project"
+    x:DataType="vm:PgProjectViewModel"
     Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
 
     <Grid Padding="8" RowDefinitions="auto,*,auto">
         <!--#region HEADER-->
@@ -51,15 +55,15 @@
                         Text="Seleccione un proyecto local .NET MAUI" />
                     <Button
                         Grid.Column="1"
-                        Command="{Binding GoToNextCommand}"
+                        Command="{Binding LoadProjectCommand}"
                         HorizontalOptions="Center"
                         Text="Cargar proyecto" />
                     <Label
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        LineBreakMode="MiddleTruncation"
-                        Text="Url: "
-                        WidthRequest="350" />
+                        LineBreakMode="TailTruncation"
+                        Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
+                        WidthRequest="400" />
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
@@ -68,6 +72,7 @@
                     <Button
                         Grid.Column="1"
                         Command="{Binding GoToNextCommand}"
+                        IsEnabled="{Binding ProjectFilePath, Converter={ctk:IsStringNotNullOrEmptyConverter}}"
                         Text="Siguiente" />
                 </Grid>
             </Grid>
