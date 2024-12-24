@@ -47,6 +47,16 @@
         <!--#region CONTENT-->
         <Frame Grid.Row="1" Margin="8,0,8,8">
             <Grid RowDefinitions="*,auto">
+                <VerticalStackLayout Spacing="16" VerticalOptions="Center">
+                    <Label
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="Seleccione una plataforma para visualizar" />
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Cree hermosos temas de colores para .NET MAUI" />
+                </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
                     ColumnDefinitions="*,auto"

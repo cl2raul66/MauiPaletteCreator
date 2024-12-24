@@ -2,6 +2,8 @@
 
 public class FileHelper
 {
+    public static Dictionary<string, string[]> FilesToBeModified = [];
+
     public static async Task<string> LoadProjectFile()
     {
         var projectFile = await FilePicker.Default.PickAsync();
