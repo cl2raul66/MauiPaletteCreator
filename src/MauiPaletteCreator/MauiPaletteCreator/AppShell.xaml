@@ -7,13 +7,13 @@
     Title="MauiPaletteCreator"
     Shell.FlyoutBehavior="Disabled">
 
-    <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate v:PgMain}"
-        Route="PgMain" />-->
     <ShellContent
         Title="Home"
+        ContentTemplate="{DataTemplate v:PgMain}"
+        Route="PgMain" />
+    <!--<ShellContent
+        Title="Home"
         ContentTemplate="{DataTemplate v:PgEnd}"
-        Route="PgEnd" />
+        Route="PgEnd" />-->
 
 </Shell>

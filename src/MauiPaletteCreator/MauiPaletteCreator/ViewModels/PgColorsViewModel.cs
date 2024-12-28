@@ -8,6 +8,7 @@ using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace MauiPaletteCreator.ViewModels;
 
@@ -51,7 +52,6 @@ public partial class PgColorsViewModel : ObservableObject
 
     [ObservableProperty]
     ColorStyle? selectedDarkColorStyle;
-
 
     [ObservableProperty]
     ObservableCollection<Color>? defaultPalette;
@@ -120,16 +120,17 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task GoToNext()
     {
+        GenerateFilesToBeModified();
         await Shell.Current.GoToAsync(nameof(PgView), true);
     }
 
     [RelayCommand]
     async Task GoToEnd()
     {
+        GenerateFilesToBeModified();
         await Shell.Current.GoToAsync(nameof(PgEnd), true);
     }
 
-    #region EXTRA
     partial void OnIsSelectDarkThemeChanged(bool value)
     {
         if (value)
@@ -142,6 +143,7 @@ public partial class PgColorsViewModel : ObservableObject
         }
     }
 
+    #region EXTRA
     void LoadCustomPalette()
     {
         HashSet<Color> allColors = [];
@@ -205,7 +207,7 @@ public partial class PgColorsViewModel : ObservableObject
         {
             for (int i = 0; i < 3; i++)
             {
-                principalGroup[i].Value = randomColors[i + 1]; 
+                principalGroup[i].Value = randomColors[i + 1];
             }
         }
 
@@ -216,7 +218,7 @@ public partial class PgColorsViewModel : ObservableObject
             neutralGroup[1].Value = randomColors[4];
             for (int i = 2; i < 5; i++)
             {
-                neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
+                neutralGroup[i].Value = randomColors2[i - 1]; // Complementary1Cl, Complementary2Cl, Complementary3Cl
             }
         }
 
@@ -307,7 +309,7 @@ public partial class PgColorsViewModel : ObservableObject
 
             for (int i = 2; i < 5; i++)
             {
-                neutralGroup[i].Value = randomColors2[i - 1]; // Gray250Cl, Gray500Cl, Gray750Cl
+                neutralGroup[i].Value = randomColors2[i - 1]; // Complementary1Cl, Complementary2Cl, Complementary3Cl
             }
 
             if (IsSelectDarkTheme)
@@ -319,6 +321,14 @@ public partial class PgColorsViewModel : ObservableObject
                 LightColorStyles = [.. copyColorStyles];
             }
         }
+    }
+
+    void GenerateFilesToBeModified()
+    {
+        styleTemplateServ.GenerateFilesToBeModified(
+            LightColorStyles!.SelectMany(x => x).ToArray(),
+            DarkColorStyles!.SelectMany(x => x).ToArray()
+        );
     }
     #endregion
 }

@@ -1,6 +1,5 @@
 ﻿// Ignore Spelling: csproj
 
-using System.Linq;
 using System.Xml.Linq;
 
 namespace MauiPaletteCreator.Tools;

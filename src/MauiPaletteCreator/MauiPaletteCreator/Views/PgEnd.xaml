@@ -59,7 +59,10 @@
                         FontSize="16"
                         HorizontalTextAlignment="Center"
                         Text="Precione aplicar para proceder a modificar los ficheros pertinentes de su proyecto y comience su desarrollo con sus colores deceados." />
-                    <Button Text="Aplicar" WidthRequest="250" />
+                    <Button
+                        Command="{Binding ApplyCommand}"
+                        Text="Aplicar"
+                        WidthRequest="250" />
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
