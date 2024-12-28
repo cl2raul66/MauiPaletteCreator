@@ -52,12 +52,12 @@
                     <VisualStateGroup Name="CommonStates">
                         <VisualState Name="Normal">
                             <VisualState.Setters>
-                                <Setter Property="Stroke" Value="{StaticResource Gray250CL}" />
+                                <Setter Property="Stroke" Value="{StaticResource ComplementaryThirdCl}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState Name="Selected">
                             <VisualState.Setters>
-                                <Setter Property="Stroke" Value="{StaticResource Gray750CL}" />
+                                <Setter Property="Stroke" Value="{StaticResource ComplementaryFirstCl}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -75,7 +75,7 @@
             <Setter Property="WidthRequest" Value="42" />
             <Setter Property="StrokeShape" Value="RoundRectangle 6" />
             <Setter Property="StrokeThickness" Value="1" />
-            <Setter Property="Stroke" Value="{StaticResource Gray500CL}" />
+            <Setter Property="Stroke" Value="{StaticResource ComplementaryThirdCl}" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup Name="CommonStates">

@@ -36,7 +36,7 @@
                 <Setter Property="VerticalOptions" Value="Center" />
                 <Setter Property="TextTransform" Value="Uppercase" />
                 <Setter Property="LineBreakMode" Value="WordWrap" />
-                <Setter Property="TextColor" Value="{StaticResource ForegroundCL}" />
+                <Setter Property="TextColor" Value="{StaticResource BackgroundCL}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>
