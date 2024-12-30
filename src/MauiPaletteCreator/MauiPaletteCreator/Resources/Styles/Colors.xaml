@@ -2,17 +2,17 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!--  PRINCIPAL  -->
-    <Color x:Key="PrimaryCL">#FF512BD4</Color>
-    <Color x:Key="SecondaryCL">#FF2B0B98</Color>
-    <Color x:Key="AccentCL">#FF2D6FCC</Color>
+    <Color x:Key="PrimaryCL">#FF12355E</Color>
+    <Color x:Key="SecondaryCL">#FF182336</Color>
+    <Color x:Key="AccentCL">#FF155689</Color>
     <!--  SEMANTIC  -->
-    <Color x:Key="ErrorCL">#FFFF0000</Color>
-    <Color x:Key="SuccessCL">#FF00FF00</Color>
-    <Color x:Key="WarningCL">#FFFFFF00</Color>
+    <Color x:Key="ErrorCL">#FF6B253F</Color>
+    <Color x:Key="SuccessCL">#FF9ACC78</Color>
+    <Color x:Key="WarningCL">#FFEE9424</Color>
     <!--  NEUTRAL  -->
-    <Color x:Key="ForegroundCL">#FF23135E</Color>
+    <Color x:Key="ForegroundCL">#FF171C25</Color>
     <Color x:Key="BackgroundCL">#FFF7F5FF</Color>
-    <Color x:Key="ComplementaryFirstCl">#FF938EA8</Color>
-    <Color x:Key="ComplementarySecondCl">#FF8C769A</Color>
-    <Color x:Key="ComplementaryThirdCl">#FF7678A0</Color>
+    <Color x:Key="ComplementaryFirstCl">#FFA8BBAD</Color>
+    <Color x:Key="ComplementarySecondCl">#FF757A74</Color>
+    <Color x:Key="ComplementaryThirdCl">#FF41505B</Color>
 </ResourceDictionary>

@@ -38,24 +38,24 @@ public class ProjectAnalyzerHelper
         {
             var mauiFiles = new[]
             {
-                    Path.Combine(projectDirectory, "Resources", "Styles", "Colors.xaml"),
-                    Path.Combine(projectDirectory, "Resources", "Styles", "Styles.xaml")
-                };
+                Path.Combine(projectDirectory, "Resources", "Styles", "Colors.xaml"),
+                Path.Combine(projectDirectory, "Resources", "Styles", "Styles.xaml")
+            };
 
             var androidFiles = new[]
             {
-                    Path.Combine(projectDirectory, "Platforms", "Android", "Resources", "values", "colors.xml")
-                };
+                Path.Combine(projectDirectory, "Platforms", "Android", "Resources", "values", "colors.xml")
+            };
 
-            var iosFiles = new[]
-            {
-                    Path.Combine(projectDirectory, "Platforms", "iOS", "AppDelegate.cs"),
-                    Path.Combine(projectDirectory, "Platforms", "iOS", "Info.plist")
-                };
+            //var iosFiles = new[]
+            //{
+            //    Path.Combine(projectDirectory, "Platforms", "iOS", "AppDelegate.cs"),
+            //    Path.Combine(projectDirectory, "Platforms", "iOS", "Info.plist")
+            //};
 
             FileHelper.FilesToBeModified["MAUI"] = [.. mauiFiles.Where(File.Exists)];
             FileHelper.FilesToBeModified["Android"] = [.. androidFiles.Where(File.Exists)];
-            FileHelper.FilesToBeModified["iOS"] = [.. iosFiles.Where(File.Exists)];
+            //FileHelper.FilesToBeModified["iOS"] = [.. iosFiles.Where(File.Exists)];
         }
     }
 

@@ -8,9 +8,10 @@ using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace MauiPaletteCreator.ViewModels;
+
+// nota: para obtener los colores semántico desde la api de ColorMind, se envía un array de 5 elementos, el segundo elemento es amarillo, el cuarto es verde y el resto null, el array de 5 elementos resultante tomamos el primer elemento para ErrorCL, el tercer para WarningCL y el quinto para SuccessCL 
 
 public partial class PgColorsViewModel : ObservableObject
 {

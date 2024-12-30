@@ -17,4 +17,31 @@ public class FileHelper
         }
         return string.Empty;
     }
+
+    public static void ApplyModifications()
+    {
+        foreach (var group in FilesToBeModified)
+        {
+            if (ModifiedFiles.TryGetValue(group.Key, out var modifiedFiles))
+            {
+                var filesToBeModified = group.Value;
+                for (int i = 0; i < filesToBeModified.Length; i++)
+                {
+                    var fileToBeModified = filesToBeModified[i];
+                    var modifiedFile = modifiedFiles[i];
+
+                    if (Path.GetFileName(fileToBeModified) == Path.GetFileName(modifiedFile))
+                    {
+                        // Crear copia de seguridad
+                        var backupFile = fileToBeModified + ".bak";
+                        File.Copy(fileToBeModified, backupFile, true);
+
+                        // Reemplazar contenido
+                        var content = File.ReadAllText(modifiedFile);
+                        File.WriteAllText(fileToBeModified, content);
+                    }
+                }
+            }
+        }
+    }
 }

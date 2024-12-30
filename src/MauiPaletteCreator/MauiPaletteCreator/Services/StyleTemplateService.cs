@@ -81,9 +81,9 @@ public class StyleTemplateService : IStyleTemplateService
         //    Path.Combine(FileHelper.CachePath,  "Info.plist")
         //};
 
-        FileHelper.FilesToBeModified["MAUI"] = [.. mauiFiles.Where(File.Exists)];
-        FileHelper.FilesToBeModified["Android"] = [.. androidFiles.Where(File.Exists)];
-        //FileHelper.FilesToBeModified["iOS"] = [.. iosFiles.Where(File.Exists)];
+        FileHelper.ModifiedFiles["MAUI"] = [.. mauiFiles.Where(File.Exists)];
+        FileHelper.ModifiedFiles["Android"] = [.. androidFiles.Where(File.Exists)];
+        //FileHelper.ModifiedFiles["iOS"] = [.. iosFiles.Where(File.Exists)];
     }
 
     #region EXTRA
