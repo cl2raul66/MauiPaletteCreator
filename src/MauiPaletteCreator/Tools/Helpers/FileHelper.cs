@@ -1,6 +1,6 @@
 ﻿namespace MauiPaletteCreator.Tools;
 
-public class FileHelper
+public partial class FileHelper
 {
     public static Dictionary<string, string[]> FilesToBeModified = [];
 
@@ -33,7 +33,7 @@ public class FileHelper
                     if (Path.GetFileName(fileToBeModified) == Path.GetFileName(modifiedFile))
                     {
                         // Crear copia de seguridad
-                        var backupFile = fileToBeModified + ".bak";
+                        var backupFile = Path.Combine(CachePath, "Backup", fileToBeModified + ".bak");
                         File.Copy(fileToBeModified, backupFile, true);
 
                         // Reemplazar contenido

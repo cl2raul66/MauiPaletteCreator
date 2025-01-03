@@ -21,12 +21,6 @@ public class ProjectAnalyzerHelper
 
         var result = useMaui == "true" && outputType == "Exe";
 
-        if (result)
-        {
-            SetFilesToBeModified(csprojPath);
-            SetTargetPlatforms(csprojPath);
-        }
-
         return result;
     }
 
