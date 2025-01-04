@@ -14,14 +14,17 @@ public partial class PgProjectViewModel : ObservableObject
     async Task LoadProject(CancellationToken token)
     {
         ProjectFilePath = null;
-        string result = await FileHelper.LoadProjectFile();
-        if (string.IsNullOrEmpty(result)) return;
+        string filePath = await FileHelper.LoadProjectFile();
+        if (string.IsNullOrEmpty(filePath)) return;
 
         token.ThrowIfCancellationRequested();
-        var isMauiApp = ProjectAnalyzerHelper.IsApplicationMaui(result);
+        var isMauiApp = await ProjectAnalyzerHelper.IsApplicationMauiAsync(filePath);
         if (isMauiApp)
         {
-            ProjectFilePath = result;
+            ProjectFilePath = filePath;
+            FileHelper.FilesToBeModified = await ProjectAnalyzerHelper.GetFilesToBeModifiedAsync(filePath);
+            FileHelper.TargetPlatforms = await ProjectAnalyzerHelper.GetTargetPlatformsAsync(filePath);
+            _ = await ProjectFilesHelper.GeneratedTestGalleryAsync();            
         }
     }
 

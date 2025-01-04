@@ -6,16 +6,14 @@ namespace MauiPaletteCreator.Tools;
 
 public class ProjectAnalyzerHelper
 {
-    public static Dictionary<string, string> TargetPlatforms = [];
-
-    public static bool IsApplicationMaui(string csprojPath)
+    public static async Task<bool> IsApplicationMauiAsync(string csprojPath)
     {
         if (!File.Exists(csprojPath) || Path.GetExtension(csprojPath) != ".csproj")
         {
             return false;
         }
 
-        var doc = XDocument.Load(csprojPath);
+        var doc = await XDocument.LoadAsync(File.OpenRead(csprojPath), LoadOptions.None, CancellationToken.None);
         var useMaui = doc.Descendants("UseMaui").FirstOrDefault()?.Value;
         var outputType = doc.Descendants("OutputType").FirstOrDefault()?.Value;
 
@@ -24,9 +22,14 @@ public class ProjectAnalyzerHelper
         return result;
     }
 
-    #region EXTRA
-    static void SetFilesToBeModified(string csprojPath)
+    public static async Task<Dictionary<string, string[]>> GetFilesToBeModifiedAsync(string? csprojPath)
     {
+        if (string.IsNullOrEmpty(csprojPath))
+        {
+            return [];
+        }
+
+        Dictionary<string, string[]> result = [];
         var projectDirectory = Path.GetDirectoryName(csprojPath);
         if (projectDirectory is not null)
         {
@@ -41,21 +44,21 @@ public class ProjectAnalyzerHelper
                 Path.Combine(projectDirectory, "Platforms", "Android", "Resources", "values", "colors.xml")
             };
 
-            //var iosFiles = new[]
-            //{
-            //    Path.Combine(projectDirectory, "Platforms", "iOS", "AppDelegate.cs"),
-            //    Path.Combine(projectDirectory, "Platforms", "iOS", "Info.plist")
-            //};
-
-            FileHelper.FilesToBeModified["MAUI"] = [.. mauiFiles.Where(File.Exists)];
-            FileHelper.FilesToBeModified["Android"] = [.. androidFiles.Where(File.Exists)];
-            //FileHelper.FilesToBeModified["iOS"] = [.. iosFiles.Where(File.Exists)];
+            result["MAUI"] = mauiFiles.Where(File.Exists).ToArray();
+            result["Android"] = androidFiles.Where(File.Exists).ToArray();
         }
+        return await Task.FromResult(result);
     }
 
-    static void SetTargetPlatforms(string csprojPath)
+    public static async Task<Dictionary<string, string>> GetTargetPlatformsAsync(string? csprojPath)
     {
-        var doc = XDocument.Load(csprojPath);
+        if (string.IsNullOrEmpty(csprojPath))
+        {
+            return [];
+        }
+
+        Dictionary<string, string> result = [];
+        var doc = await XDocument.LoadAsync(File.OpenRead(csprojPath), LoadOptions.None, CancellationToken.None);
         var targetFrameworks = doc.Descendants("TargetFrameworks").FirstOrDefault()?.Value;
 
         if (targetFrameworks is not null)
@@ -67,23 +70,23 @@ public class ProjectAnalyzerHelper
                 {
                     if (framework.Contains("android"))
                     {
-                        TargetPlatforms["Android"] = framework;
+                        result["Android"] = framework;
                     }
                     else if (framework.Contains("ios"))
                     {
-                        TargetPlatforms["iOS"] = framework;
+                        result["iOS"] = framework;
                     }
                     else if (framework.Contains("maccatalyst"))
                     {
-                        TargetPlatforms["MacCatalyst"] = framework;
+                        result["MacCatalyst"] = framework;
                     }
                     else if (framework.Contains("windows"))
                     {
-                        TargetPlatforms["Windows"] = framework;
+                        result["Windows"] = framework;
                     }
                     else if (framework.Contains("tizen"))
                     {
-                        TargetPlatforms["Tizen"] = framework;
+                        result["Tizen"] = framework;
                     }
                 }
             }
@@ -102,26 +105,27 @@ public class ProjectAnalyzerHelper
             {
                 if (framework.Contains("android"))
                 {
-                    TargetPlatforms["Android"] = framework;
+                    result["Android"] = framework;
                 }
                 else if (framework.Contains("ios"))
                 {
-                    TargetPlatforms["iOS"] = framework;
+                    result["iOS"] = framework;
                 }
                 else if (framework.Contains("maccatalyst"))
                 {
-                    TargetPlatforms["MacCatalyst"] = framework;
+                    result["MacCatalyst"] = framework;
                 }
                 else if (framework.Contains("windows"))
                 {
-                    TargetPlatforms["Windows"] = framework;
+                    result["Windows"] = framework;
                 }
                 else if (framework.Contains("tizen"))
                 {
-                    TargetPlatforms["Tizen"] = framework;
+                    result["Tizen"] = framework;
                 }
             }
         }
+
+        return await Task.FromResult(result);
     }
-    #endregion
 }

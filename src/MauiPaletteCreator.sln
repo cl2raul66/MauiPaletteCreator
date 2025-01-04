@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiPaletteCreator", "MauiPaletteCreator\MauiPaletteCreator.csproj", "{23E75F32-A18D-42B3-8EA7-77ED375C7773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGalleryLib", "TestGalleryLib\TestGalleryLib.csproj", "{AD6301C1-17ED-4B7E-86E6-68E7ED63C67B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,10 +17,6 @@ Global
 		{23E75F32-A18D-42B3-8EA7-77ED375C7773}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23E75F32-A18D-42B3-8EA7-77ED375C7773}.Release|Any CPU.Build.0 = Release|Any CPU
 		{23E75F32-A18D-42B3-8EA7-77ED375C7773}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{AD6301C1-17ED-4B7E-86E6-68E7ED63C67B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD6301C1-17ED-4B7E-86E6-68E7ED63C67B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD6301C1-17ED-4B7E-86E6-68E7ED63C67B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD6301C1-17ED-4B7E-86E6-68E7ED63C67B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
