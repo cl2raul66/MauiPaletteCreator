@@ -8,9 +8,9 @@ namespace MauiPaletteCreator.ViewModels;
 public partial class PgEndViewModel : ObservableObject
 {
     [RelayCommand]
-    void Apply()
+    async Task Apply()
     {
-        FileHelper.ApplyModifications();
+        await FileHelper.ApplyModificationsAsync();
     }
 
     [RelayCommand]

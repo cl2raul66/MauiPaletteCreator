@@ -121,14 +121,19 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task GoToNext()
     {
-        GenerateFilesToBeModified();
-        await Shell.Current.GoToAsync(nameof(PgView), true);
+        await GenerateFilesToBeModified();
+        bool result = await ProjectFilesHelper.GeneratedTestGalleryAsync();
+        if (result)
+        {
+            await FileHelper.ApplyModificationsAsync(ProjectFilesHelper.FilesToBeModified);
+            await Shell.Current.GoToAsync(nameof(PgView), true);
+        }
     }
 
     [RelayCommand]
     async Task GoToEnd()
     {
-        GenerateFilesToBeModified();
+        await GenerateFilesToBeModified();
         await Shell.Current.GoToAsync(nameof(PgEnd), true);
     }
 
@@ -324,9 +329,9 @@ public partial class PgColorsViewModel : ObservableObject
         }
     }
 
-    void GenerateFilesToBeModified()
+    async Task GenerateFilesToBeModified()
     {
-        styleTemplateServ.GenerateFilesToBeModified(
+        await styleTemplateServ.GenerateFilesToBeModifiedAsync(
             LightColorStyles!.SelectMany(x => x).ToArray(),
             DarkColorStyles!.SelectMany(x => x).ToArray()
         );

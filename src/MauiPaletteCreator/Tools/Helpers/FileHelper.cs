@@ -20,16 +20,16 @@ public partial class FileHelper
         return string.Empty;
     }
 
-    public static void ApplyModifications()
+    public static async Task ApplyModificationsAsync(Dictionary<string, string[]>? filesToBeModified = null)
     {
-        foreach (var group in FilesToBeModified)
+        foreach (var group in filesToBeModified ?? FilesToBeModified)
         {
             if (ModifiedFiles.TryGetValue(group.Key, out var modifiedFiles))
             {
-                var filesToBeModified = group.Value;
-                for (int i = 0; i < filesToBeModified.Length; i++)
+                var filesToBeModifiedValues = group.Value;
+                for (int i = 0; i < filesToBeModifiedValues.Length; i++)
                 {
-                    var fileToBeModified = filesToBeModified[i];
+                    var fileToBeModified = filesToBeModifiedValues[i];
                     var modifiedFile = modifiedFiles[i];
 
                     if (Path.GetFileName(fileToBeModified) == Path.GetFileName(modifiedFile))
@@ -39,8 +39,8 @@ public partial class FileHelper
                         File.Copy(fileToBeModified, backupFile, true);
 
                         // Reemplazar contenido
-                        var content = File.ReadAllText(modifiedFile);
-                        File.WriteAllText(fileToBeModified, content);
+                        var content = await File.ReadAllTextAsync(modifiedFile);
+                        await File.WriteAllTextAsync(fileToBeModified, content);
                     }
                 }
             }

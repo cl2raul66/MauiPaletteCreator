@@ -21,10 +21,13 @@ public partial class PgProjectViewModel : ObservableObject
         var isMauiApp = await ProjectAnalyzerHelper.IsApplicationMauiAsync(filePath);
         if (isMauiApp)
         {
-            ProjectFilePath = filePath;
             FileHelper.FilesToBeModified = await ProjectAnalyzerHelper.GetFilesToBeModifiedAsync(filePath);
             FileHelper.TargetPlatforms = await ProjectAnalyzerHelper.GetTargetPlatformsAsync(filePath);
-            _ = await ProjectFilesHelper.GeneratedTestGalleryAsync();            
+            
+            if (FileHelper.FilesToBeModified.Count > 0 && FileHelper.TargetPlatforms.Count > 0)
+            {
+                ProjectFilePath = filePath;
+            }
         }
     }
 
