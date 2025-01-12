@@ -1,7 +1,11 @@
 ﻿namespace MauiPaletteCreator.Tools;
 
 public partial class FileHelper
-{  
+{
+    public static Dictionary<string, string[]> ModifiedFiles = [];
+
+    public static string CachePath => FileSystem.Current.CacheDirectory;
+
     public static async Task<string> LoadProjectFile()
     {
         var projectFile = await FilePicker.Default.PickAsync();

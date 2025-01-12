@@ -17,14 +17,18 @@ public partial class PgColorsViewModel : ObservableObject
 {
     readonly IColormindApiService colormindApiServ;
     readonly IStyleTemplateService styleTemplateServ;
+    readonly IExternalProjectService externalProjectServ;
+    readonly ITestProjectService testProjectServ;
 
-    public PgColorsViewModel(IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService)
+    public PgColorsViewModel(IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService, IExternalProjectService externalProjectService, ITestProjectService testProjectService)
     {
         styleTemplateServ = styleTemplateService;
         colormindApiServ = colormindApiService;
         LoadCustomPalette();
         LoadLightColorStyle();
         LoadDarkColorStyle();
+        externalProjectServ = externalProjectService;
+        testProjectServ = testProjectService;
     }
 
     [ObservableProperty]
@@ -122,19 +126,31 @@ public partial class PgColorsViewModel : ObservableObject
     async Task GoToNext()
     {
         await GenerateFilesToBeModified();
-        bool result = await ProjectFilesHelper.GeneratedTestGalleryAsync();
-        if (result)
+        var testProjectPath = Path.Combine(FileHelper.CachePath, "TestGallery");
+        await testProjectServ.CreateProjectAsync(testProjectPath);
+        if (testProjectServ.IsCreated)
         {
-            await FileHelper.ApplyModificationsAsync(ProjectFilesHelper.FilesToBeModified);
+            await FileHelper.ApplyModificationsAsync(testProjectServ.FilesToBeModified!);
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
+
+        //bool result = await ProjectFilesHelper.GeneratedTestGalleryAsync();
+        //if (result)
+        //{
+        //    await FileHelper.ApplyModificationsAsync(ProjectFilesHelper.FilesToBeModified);
+        //    await Shell.Current.GoToAsync(nameof(PgView), true);
+        //}
     }
 
     [RelayCommand]
     async Task GoToEnd()
     {
         await GenerateFilesToBeModified();
-        await Shell.Current.GoToAsync(nameof(PgEnd), true);
+        if (externalProjectServ.IsLoaded)
+        {
+            await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
+            await Shell.Current.GoToAsync(nameof(PgEnd), true);
+        }
     }
 
     partial void OnIsSelectDarkThemeChanged(bool value)

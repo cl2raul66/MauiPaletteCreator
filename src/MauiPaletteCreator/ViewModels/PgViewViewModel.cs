@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MauiPaletteCreator.Tools;
+using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Views;
 using System.Collections.ObjectModel;
 
@@ -8,8 +8,16 @@ namespace MauiPaletteCreator.ViewModels;
 
 public partial class PgViewViewModel : ObservableObject
 {
+    readonly ITestProjectService testProjectServ;
+
+    public PgViewViewModel(ITestProjectService testProjectService)
+    {
+        testProjectServ = testProjectService;
+        Platforms = [.. testProjectServ.TargetPlatforms.Keys];
+    }
+
     [ObservableProperty]
-    ObservableCollection<string>? platforms = [.. ProjectFilesHelper.TargetPlatforms.Keys];
+    ObservableCollection<string>? platforms;
 
     [ObservableProperty]
     string? selectedPlatform;
@@ -17,8 +25,7 @@ public partial class PgViewViewModel : ObservableObject
     [RelayCommand]
     async Task Preview()
     {
-        string targetFramework = ProjectFilesHelper.TargetPlatforms[SelectedPlatform!];
-        _ = await ProjectFilesHelper.RunTestGalleryAsync(targetFramework);
+        await testProjectServ.RunProjectAsync(SelectedPlatform!);
     }
 
     [RelayCommand]

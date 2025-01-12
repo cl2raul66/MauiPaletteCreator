@@ -2,6 +2,7 @@
 
 public interface IExternalProjectService
 {
+    Dictionary<string, string[]>? FilesToBeModified { get; set; }
     bool IsLoaded { get; }
 
     Task LoadProjectAsync(string projectPath);
@@ -11,11 +12,7 @@ public class ExternalProjectService : IExternalProjectService
 {
     readonly IProjectManager projectManagerServ;
 
-    Dictionary<string, string[]> FilesToBeModified = [];
-
-    Dictionary<string, string[]> ModifiedFiles = [];
-
-    Dictionary<string, string> TargetPlatforms = [];
+    public Dictionary<string, string[]>? FilesToBeModified { get; set; }
 
     public ExternalProjectService(IProjectManager projectManager)
     {
@@ -29,11 +26,5 @@ public class ExternalProjectService : IExternalProjectService
         await projectManagerServ.SetProjectDirectory(projectPath);
         await projectManagerServ.RestoreAsync();
         await projectManagerServ.BuildAsync();
-        TargetPlatforms = await projectManagerServ.GetTargetPlatformsAsync();
-        IsLoaded = TargetPlatforms.Count > 0;
-        //if (TargetPlatforms.Count > 0)
-        //{
-        //    FilesToBeModified = await ProjectAnalyzerHelper.GetFilesToBeModifiedAsync(projectPath);
-        //}
     }
 }

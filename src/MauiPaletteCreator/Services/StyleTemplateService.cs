@@ -66,6 +66,8 @@ public class StyleTemplateService : IStyleTemplateService
             Path.Combine(FileHelper.CachePath, "Colors.xaml"),
             Path.Combine(FileHelper.CachePath, "Styles.xaml")
         };
+        //ModifyFileMauiColors(mauiFiles.First(), lightColorStyles, darkColorStyles);
+        //ModifyFileMauiStyles(mauiFiles.Last());
         await ModifyFileMauiColorsAsync(mauiFiles.First(), lightColorStyles, darkColorStyles);
         await ModifyFileMauiStylesAsync(mauiFiles.Last());
 
@@ -73,6 +75,7 @@ public class StyleTemplateService : IStyleTemplateService
         {
             Path.Combine(FileHelper.CachePath, "colors.xml")
         };
+        //ModifyFileAndroidColors(androidFiles[0], lightColorStyles, darkColorStyles);
         await ModifyFileAndroidColorsAsync(androidFiles[0], lightColorStyles, darkColorStyles);
 
         //var iosFiles = new[]
