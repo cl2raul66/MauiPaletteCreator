@@ -1,6 +1,7 @@
 ﻿// Ignore Spelling: csproj
 
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace MauiPaletteCreator.Tools;
 
@@ -106,7 +107,7 @@ public class ProjectFilesHelper
 
         if (OperatingSystem.IsWindows())
         {
-            processInfo = new ProcessStartInfo("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass -Command \"dotnet run --framework {targetFramework}\"")
+            processInfo = new ProcessStartInfo("powershell.exe", $"-NoProfile -ExecutionPolicy Bypass -Command \"dotnet build {TestGalleryPath} && dotnet run --framework {targetFramework}\"")
             {
                 WorkingDirectory = projectDirectory,
                 RedirectStandardOutput = true,
@@ -117,7 +118,7 @@ public class ProjectFilesHelper
         }
         else if (OperatingSystem.IsMacOS())
         {
-            processInfo = new ProcessStartInfo("/bin/bash", $"-c \"dotnet run --framework {targetFramework}\"")
+            processInfo = new ProcessStartInfo("/bin/bash", $"-c \"dotnet build {TestGalleryPath} && dotnet run --framework {targetFramework}\"")
             {
                 WorkingDirectory = projectDirectory,
                 RedirectStandardOutput = true,
@@ -161,12 +162,31 @@ public class ProjectFilesHelper
     }
 
     #region EXTRA
+    //static async Task ModifyFileAppShellXamlAsync()
+    //{
+    //    var filePath = GetFilePath(TestGalleryPath, "AppShell.xaml");
+    //    var text = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<Shell\r\n    x:Class=\"TestGallery.AppShell\"\r\n    xmlns=\"http://schemas.microsoft.com/dotnet/2021/maui\"\r\n    xmlns:x=\"http://schemas.microsoft.com/winfx/2009/xaml\"\r\n    xmlns:local=\"clr-namespace:TestGallery\"\r\n    Shell.FlyoutBehavior=\"Disabled\"\r\n    Title=\"TestGallery\">\r\n\r\n    <ShellContent\r\n        Title=\"Home\"\r\n        ContentTemplate=\"{DataTemplate local:MainPage}\"\r\n        Route=\"MainPage\" />\r\n\r\n</Shell>\r\n";
+    //    using var writer = new StreamWriter(filePath);
+    //    await writer.WriteLineAsync(text);
+    //}
     static async Task ModifyFileAppShellXamlAsync()
     {
         var filePath = GetFilePath(TestGalleryPath, "AppShell.xaml");
-        var text = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<Shell\r\n    x:Class=\"TestGallery.AppShell\"\r\n    xmlns=\"http://schemas.microsoft.com/dotnet/2021/maui\"\r\n    xmlns:x=\"http://schemas.microsoft.com/winfx/2009/xaml\"\r\n    xmlns:local=\"clr-namespace:TestGallery\"\r\n    Title=\"TestGallery\">\r\n\r\n    <ShellContent\r\n        Title=\"Home\"\r\n        ContentTemplate=\"{DataTemplate local:MainPage}\"\r\n        Route=\"MainPage\" />\r\n\r\n</Shell>\r\n";
-        using var writer = new StreamWriter(filePath);
-        await writer.WriteLineAsync(text);
+        var document = XDocument.Load(filePath);
+
+        var shellElement = document.Root;
+        if (shellElement is not null)
+        {
+            XNamespace mauiNamespace = "http://schemas.microsoft.com/dotnet/2021/maui";
+            var flyoutBehaviorAttribute = shellElement.Attribute(mauiNamespace + "FlyoutBehavior");
+            if (flyoutBehaviorAttribute is not null)
+            {
+                flyoutBehaviorAttribute.Value = "Disabled";
+            }
+        }
+
+        using FileStream outputStream = File.Create(filePath);
+        await document.SaveAsync(outputStream, SaveOptions.None, CancellationToken.None);
     }
 
     static async Task ModifyFileMainPageCsAsync()

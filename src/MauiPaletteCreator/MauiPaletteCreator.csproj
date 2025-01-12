@@ -72,6 +72,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\MAUIProjectManagerLib\MAUIProjectManagerLib\MAUIProjectManagerLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\PgColors.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
 
@@ -7,6 +8,13 @@ namespace MauiPaletteCreator.ViewModels;
 
 public partial class PgProjectViewModel : ObservableObject
 {
+    readonly IExternalProjectService externalProjectServ; 
+
+    public PgProjectViewModel(IExternalProjectService externalProjectService)
+    {
+        externalProjectServ = externalProjectService;
+    }
+
     [ObservableProperty]
     string? projectFilePath;
 
@@ -15,19 +23,12 @@ public partial class PgProjectViewModel : ObservableObject
     {
         ProjectFilePath = null;
         string filePath = await FileHelper.LoadProjectFile();
-        if (string.IsNullOrEmpty(filePath)) return;
 
         token.ThrowIfCancellationRequested();
-        var isMauiApp = await ProjectAnalyzerHelper.IsApplicationMauiAsync(filePath);
-        if (isMauiApp)
+        await externalProjectServ.LoadProjectAsync(filePath);
+        if (externalProjectServ.IsLoaded)
         {
-            FileHelper.FilesToBeModified = await ProjectAnalyzerHelper.GetFilesToBeModifiedAsync(filePath);
-            FileHelper.TargetPlatforms = await ProjectAnalyzerHelper.GetTargetPlatformsAsync(filePath);
-            
-            if (FileHelper.FilesToBeModified.Count > 0 && FileHelper.TargetPlatforms.Count > 0)
-            {
-                ProjectFilePath = filePath;
-            }
+            ProjectFilePath = filePath;
         }
     }
 

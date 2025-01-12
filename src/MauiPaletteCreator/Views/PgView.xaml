@@ -3,6 +3,7 @@
     x:Class="MauiPaletteCreator.Views.PgView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
     Title="View"
     x:DataType="vm:PgViewViewModel"
@@ -52,10 +53,20 @@
                         FontSize="32"
                         HorizontalTextAlignment="Center"
                         Text="Seleccione una plataforma para visualizar" />
-                    <Label
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        Text="Cree hermosos temas de colores para .NET MAUI" />
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Label
+                            FontSize="16"
+                            Text="Plataformas:"
+                            VerticalOptions="Center" />
+                        <Picker
+                            ItemsSource="{Binding Platforms}"
+                            SelectedItem="{Binding SelectedPlatform}"
+                            WidthRequest="250" />
+                        <Button
+                            Command="{Binding PreviewCommand}"
+                            IsEnabled="{Binding SelectedPlatform, Converter={ctk:IsNotNullConverter}}"
+                            Text="Visualizar" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
