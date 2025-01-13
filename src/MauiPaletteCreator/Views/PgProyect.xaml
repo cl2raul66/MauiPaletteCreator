@@ -53,19 +53,24 @@
                         FontSize="32"
                         HorizontalTextAlignment="Center"
                         Text="Seleccione un proyecto local .NET MAUI" />
+                    <Button
+                        Command="{Binding LoadProjectCommand}"
+                        HorizontalOptions="Center"
+                        Text="Cargar proyecto" />
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
-                        <ActivityIndicator IsRunning="{Binding IsLoadProject}" IsVisible="{Binding IsLoadProject}" />
-                        <Button
-                            Command="{Binding LoadProjectCommand}"
-                            HorizontalOptions="Center"
-                            Text="Cargar proyecto" />
+                        <ActivityIndicator
+                            HeightRequest="16"
+                            IsRunning="{Binding IsLoadProject}"
+                            IsVisible="{Binding IsLoadProject}"
+                            WidthRequest="16" />
+                        <Label
+                            FontSize="16"
+                            LineBreakMode="TailTruncation"
+                            MaximumWidthRequest="400"
+                            Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
+                            VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
-                    <Label
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        LineBreakMode="TailTruncation"
-                        Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
-                        WidthRequest="400" />
+
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"

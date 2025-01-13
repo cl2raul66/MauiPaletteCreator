@@ -24,10 +24,15 @@ public partial class PgProjectViewModel : ObservableObject
     [RelayCommand]
     async Task LoadProject()
     {
+        ProjectFilePath = "Cargando...";
         IsLoadProject = true;
-        ProjectFilePath = null;
         string filePath = await FileHelper.LoadProjectFile();
-
+        if (string.IsNullOrEmpty(filePath))
+        {
+            ProjectFilePath = null;
+            IsLoadProject = false;
+            return;
+        }
         await externalProjectServ.LoadProjectAsync(filePath);
         if (externalProjectServ.IsLoaded)
         {
@@ -41,4 +46,9 @@ public partial class PgProjectViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync(nameof(PgColors), true);
     }
+
+    //partial void OnIsLoadProjectChanged(bool value)
+    //{
+    //    ProjectFilePath = value ? "Cargando..." : ProjectFilePath;
+    //}
 }

@@ -27,7 +27,6 @@ public class ExternalProjectService : IExternalProjectService
     public async Task LoadProjectAsync(string projectPath)
     {
         await projectManagerServ.SetProjectDirectory(projectPath);
-        await projectManagerServ.RestoreAsync();
         await projectManagerServ.BuildAsync();
 
         IsLoaded = !string.IsNullOrEmpty(projectManagerServ.ProjectPath);

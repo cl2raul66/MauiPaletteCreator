@@ -32,11 +32,9 @@ public class TestProjectService : ITestProjectService
     {
         await projectManagerServ.SetProjectDirectory(projectPath);
         await projectManagerServ.CreateAsync();
-        await projectManagerServ.RestoreAsync();
         await projectManagerServ.BuildAsync();
-        TargetPlatforms = await projectManagerServ.GetTargetPlatformsAsync();
 
-        if (TargetPlatforms.Count > 0)
+        if (!string.IsNullOrEmpty(projectManagerServ.ProjectPath))
         {
             IsCreated = true;
             await ModifyFileAppShellXamlAsync();
@@ -44,6 +42,7 @@ public class TestProjectService : ITestProjectService
             await ModifyFileMainPageXamlAsync();
             await projectManagerServ.RestoreAsync();
             await projectManagerServ.BuildAsync();
+            TargetPlatforms = await projectManagerServ.GetTargetPlatformsAsync();
         }
     }
 
