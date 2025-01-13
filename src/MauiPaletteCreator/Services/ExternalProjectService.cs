@@ -1,4 +1,7 @@
-﻿namespace MauiPaletteCreator.Services;
+﻿
+using MAUIProjectManagerLib;
+
+namespace MauiPaletteCreator.Services;
 
 public interface IExternalProjectService
 {
@@ -14,9 +17,9 @@ public class ExternalProjectService : IExternalProjectService
 
     public Dictionary<string, string[]>? FilesToBeModified { get; set; }
 
-    public ExternalProjectService(IProjectManager projectManager)
+    public ExternalProjectService()
     {
-        projectManagerServ = projectManager;
+        projectManagerServ = new ProjectManager();
     }
 
     public bool IsLoaded { get; private set; }
@@ -26,5 +29,7 @@ public class ExternalProjectService : IExternalProjectService
         await projectManagerServ.SetProjectDirectory(projectPath);
         await projectManagerServ.RestoreAsync();
         await projectManagerServ.BuildAsync();
+
+        IsLoaded = !string.IsNullOrEmpty(projectManagerServ.ProjectPath);
     }
 }

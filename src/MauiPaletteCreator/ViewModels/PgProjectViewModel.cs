@@ -18,18 +18,22 @@ public partial class PgProjectViewModel : ObservableObject
     [ObservableProperty]
     string? projectFilePath;
 
-    [RelayCommand(IncludeCancelCommand = true)]
-    async Task LoadProject(CancellationToken token)
+    [ObservableProperty]
+    bool isLoadProject;
+
+    [RelayCommand]
+    async Task LoadProject()
     {
+        IsLoadProject = true;
         ProjectFilePath = null;
         string filePath = await FileHelper.LoadProjectFile();
 
-        token.ThrowIfCancellationRequested();
         await externalProjectServ.LoadProjectAsync(filePath);
         if (externalProjectServ.IsLoaded)
         {
             ProjectFilePath = filePath;
         }
+        IsLoadProject = false;
     }
 
     [RelayCommand]

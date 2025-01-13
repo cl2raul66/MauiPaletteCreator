@@ -53,11 +53,13 @@
                         FontSize="32"
                         HorizontalTextAlignment="Center"
                         Text="Seleccione un proyecto local .NET MAUI" />
-                    <Button
-                        Grid.Column="1"
-                        Command="{Binding LoadProjectCommand}"
-                        HorizontalOptions="Center"
-                        Text="Cargar proyecto" />
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <ActivityIndicator IsRunning="{Binding IsLoadProject}" IsVisible="{Binding IsLoadProject}" />
+                        <Button
+                            Command="{Binding LoadProjectCommand}"
+                            HorizontalOptions="Center"
+                            Text="Cargar proyecto" />
+                    </HorizontalStackLayout>
                     <Label
                         FontSize="16"
                         HorizontalTextAlignment="Center"
