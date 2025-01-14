@@ -7,6 +7,7 @@ public interface ITestProjectService
 {
     Dictionary<string, string[]> FilesToBeModified { get; set; }
     bool IsCreated { get; }
+    string ProjectPath { get; }
     Dictionary<string, string> TargetPlatforms { get; }
 
     Task CreateProjectAsync(string projectPath);
@@ -16,6 +17,8 @@ public interface ITestProjectService
 public class TestProjectService : ITestProjectService
 {
     readonly IProjectManager projectManagerServ;
+
+    public string ProjectPath { get; private set; }
 
     public Dictionary<string, string> TargetPlatforms { get; private set; } = [];
 
@@ -32,11 +35,12 @@ public class TestProjectService : ITestProjectService
     {
         await projectManagerServ.SetProjectDirectory(projectPath);
         await projectManagerServ.CreateAsync();
-        await projectManagerServ.BuildAsync();
+        //await projectManagerServ.BuildAsync();
 
         if (!string.IsNullOrEmpty(projectManagerServ.ProjectPath))
         {
             IsCreated = true;
+            ProjectPath = projectManagerServ.ProjectPath;
             await ModifyFileAppShellXamlAsync();
             await ModifyFileMainPageCsAsync();
             await ModifyFileMainPageXamlAsync();
