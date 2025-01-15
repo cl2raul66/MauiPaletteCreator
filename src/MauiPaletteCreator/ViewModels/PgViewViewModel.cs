@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiPaletteCreator.Services;
+using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
 using System.Collections.ObjectModel;
 
@@ -25,6 +26,8 @@ public partial class PgViewViewModel : ObservableObject
     [RelayCommand]
     async Task Preview()
     {
+        FileHelper.SetFilesToBeModified(testProjectServ.ProjectPath, testProjectServ.FilesToBeModified);
+        await FileHelper.ApplyModificationsAsync(testProjectServ.FilesToBeModified!);
         await testProjectServ.RunProjectAsync(SelectedPlatform!);
     }
 

@@ -130,8 +130,6 @@ public partial class PgColorsViewModel : ObservableObject
         await testProjectServ.CreateProjectAsync(testProjectPath);
         if (testProjectServ.IsCreated)
         {
-            FileHelper.SetFilesToBeModified(testProjectServ.ProjectPath, testProjectServ.FilesToBeModified);
-            //await FileHelper.ApplyModificationsAsync(testProjectServ.FilesToBeModified!);
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
 
