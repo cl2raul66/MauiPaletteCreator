@@ -6,6 +6,7 @@ using MauiPaletteCreator.Models;
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
+using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
@@ -64,6 +65,9 @@ public partial class PgColorsViewModel : ObservableObject
     [ObservableProperty]
     Color? selectedDefaultColor;
 
+    [ObservableProperty]
+    string? statusInformationText;
+
     [RelayCommand]
     void SetSelectedDefaultColor()
     {
@@ -92,6 +96,7 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task Generate()
     {
+        StatusInformationText = "Generando colores, espere por favor.";
         if (IsSelectDarkTheme)
         {
             SelectedDarkColorStyle = null;
@@ -120,12 +125,15 @@ public partial class PgColorsViewModel : ObservableObject
         {
             await GenerateForNEUTRAL();
         }
+        StatusInformationText = null;
     }
 
     [RelayCommand]
     async Task GoToNext()
     {
-        await GenerateFilesToBeModified();
+        StatusInformationText = "Generando ficheros modificadores...";
+        await GenerateModifierFiles();
+        StatusInformationText = "Creando el proyecto TestGallery para la visualización...";
         var testProjectPath = Path.Combine(FileHelper.CachePath, "TestGallery");
         await testProjectServ.CreateProjectAsync(testProjectPath);
         if (testProjectServ.IsCreated)
@@ -139,12 +147,13 @@ public partial class PgColorsViewModel : ObservableObject
         //    await FileHelper.ApplyModificationsAsync(ProjectFilesHelper.FilesToBeModified);
         //    await Shell.Current.GoToAsync(nameof(PgView), true);
         //}
+        StatusInformationText = null;
     }
 
     [RelayCommand]
     async Task GoToEnd()
     {
-        await GenerateFilesToBeModified();
+        await GenerateModifierFiles();
         if (externalProjectServ.IsLoaded)
         {
             await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
@@ -344,7 +353,7 @@ public partial class PgColorsViewModel : ObservableObject
         }
     }
 
-    async Task GenerateFilesToBeModified()
+    async Task GenerateModifierFiles()
     {
         await styleTemplateServ.GenerateFilesToBeModifiedAsync(
             LightColorStyles!.SelectMany(x => x).ToArray(),

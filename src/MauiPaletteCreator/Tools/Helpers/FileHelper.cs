@@ -1,4 +1,6 @@
-﻿namespace MauiPaletteCreator.Tools;
+﻿// Ignore Spelling: csproj
+
+namespace MauiPaletteCreator.Tools;
 
 public partial class FileHelper
 {
@@ -16,9 +18,9 @@ public partial class FileHelper
         return string.Empty;
     }
 
-    public static void SetFilesToBeModified(string csprojPath, Dictionary<string, string[]> filesToBeModified)
+    public static void SetFilesToBeModified(string projectPath, Dictionary<string, string[]> filesToBeModified)
     {
-        var projectDirectory = Path.GetDirectoryName(csprojPath);
+        var projectDirectory = Path.GetDirectoryName(projectPath);
         if (projectDirectory is not null)
         {
             var mauiFiles = new[]
@@ -44,11 +46,13 @@ public partial class FileHelper
         }
     }
 
+
+    // aquí esta el problema
     public static async Task ApplyModificationsAsync(Dictionary<string, string[]> filesToBeModified)
     {
         foreach (var group in ModifiedFiles)
         {
-            if (filesToBeModified.TryGetValue(group.Key, out var modifiedFiles))
+            if (ModifiedFiles.TryGetValue(group.Key, out var modifiedFiles))
             {
                 var filesToBeModifiedValues = group.Value;
                 for (int i = 0; i < filesToBeModifiedValues.Length; i++)
