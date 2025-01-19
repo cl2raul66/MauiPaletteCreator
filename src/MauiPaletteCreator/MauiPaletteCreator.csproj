@@ -72,6 +72,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Include="Resources\Raw\AppShell.xaml.txt" />
+	  <MauiXaml Include="Resources\Raw\Styles8.xaml.txt" />
+	  <MauiXaml Include="Resources\Raw\Styles9.xaml.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\..\MAUIProjectManagerLib\MAUIProjectManagerLib\MAUIProjectManagerLib.csproj" />
 	</ItemGroup>
 

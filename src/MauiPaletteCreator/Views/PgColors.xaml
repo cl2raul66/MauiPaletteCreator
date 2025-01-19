@@ -270,8 +270,8 @@
                 <Grid
                     Grid.Row="1"
                     ColumnDefinitions="*,auto"
-                    ColumnSpacing="8">
-                    <HorizontalStackLayout>
+                    ColumnSpacing="16">
+                    <HorizontalStackLayout Spacing="8">
                         <ActivityIndicator IsRunning="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" IsVisible="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" />
                         <Label
                             FontSize="14"

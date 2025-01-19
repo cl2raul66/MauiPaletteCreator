@@ -130,14 +130,15 @@ public partial class PgColorsViewModel : ObservableObject
 
     [RelayCommand]
     async Task GoToNext()
-    {
-        StatusInformationText = "Generando ficheros modificadores...";
-        await GenerateModifierFiles();
-        StatusInformationText = "Creando el proyecto TestGallery para la visualización...";
+    {        
+        StatusInformationText = "Creando el proyecto TestGallery para la visualización. Puede tardar un tiempo...";
         var testProjectPath = Path.Combine(FileHelper.CachePath, "TestGallery");
         await testProjectServ.CreateProjectAsync(testProjectPath);
         if (testProjectServ.IsCreated)
         {
+            StatusInformationText = "Generando ficheros modificadores...";
+            var frameworkVersion = testProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
+            await GenerateModifierFiles(frameworkVersion);
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
 
@@ -153,7 +154,9 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task GoToEnd()
     {
-        await GenerateModifierFiles();
+        StatusInformationText = "Generando ficheros modificadores...";
+        var frameworkVersion = testProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
+        await GenerateModifierFiles(frameworkVersion);
         if (externalProjectServ.IsLoaded)
         {
             await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
@@ -353,11 +356,17 @@ public partial class PgColorsViewModel : ObservableObject
         }
     }
 
-    async Task GenerateModifierFiles()
+    async Task GenerateModifierFiles(string? frameworkVersion)
     {
+        if (string.IsNullOrEmpty(frameworkVersion))
+        {
+            return;
+        }
+
         await styleTemplateServ.GenerateFilesToBeModifiedAsync(
             LightColorStyles!.SelectMany(x => x).ToArray(),
-            DarkColorStyles!.SelectMany(x => x).ToArray()
+            DarkColorStyles!.SelectMany(x => x).ToArray(),
+            frameworkVersion
         );
     }
     #endregion

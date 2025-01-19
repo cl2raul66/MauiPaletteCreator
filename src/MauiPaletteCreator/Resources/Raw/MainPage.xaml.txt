@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TestGallery.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BrFrame" TargetType="Border">
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Padding" Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="16"
+            HorizontalOptions="Center"
+            Spacing="16">
+            <Label
+                FontSize="Title"
+                HorizontalTextAlignment="Center"
+                Text="MAUI Gallery" />
+            <Label
+                FontSize="Subtitle"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="WordWrap"
+                Text="Welcome to the .NET Multi-platform App UI gallery"
+                WidthRequest="400" />
+
+            <!--  Controles de Entrada  -->
+            <Border Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Entry Controls"
+                        TextTransform="Uppercase" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Button:" />
+                        <Button Text="Button" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="CheckBox:" />
+                        <CheckBox />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="DatePicker:" />
+                        <DatePicker />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Editor:" />
+                        <Editor HeightRequest="100" Placeholder="Editor placeholder" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Entry:" />
+                        <Entry Placeholder="Entry placeholder" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Picker:" />
+                        <Picker>
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="RadioButton:" />
+                        <RadioButton Content="Option 1" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="SearchBar:" />
+                        <SearchBar Placeholder="Search..." />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Slider:" />
+                        <Slider
+                            Maximum="100"
+                            Minimum="0"
+                            Value="50" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Switch:" />
+                        <Switch />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="TimePicker:" />
+                        <TimePicker />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Controles de Visualización  -->
+            <Border Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Display Controls"
+                        TextTransform="Uppercase" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="ActivityIndicator:" />
+                        <ActivityIndicator IsRunning="True" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="IndicatorView:" />
+                        <IndicatorView Count="3" Position="1" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Label:" />
+                        <Label Text="Este es un Label de ejemplo" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="ProgressBar:" />
+                        <ProgressBar Progress="0.7" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Controles de Contenedor  -->
+            <Border Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Container Controls"
+                        TextTransform="Uppercase" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Border:" />
+                        <Border>
+                            <Label Padding="10" Text="Contenido dentro de Border" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="ListView:" />
+                        <ListView HeightRequest="100">
+                            <ListView.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                </x:Array>
+                            </ListView.ItemsSource>
+                        </ListView>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Stepper:" />
+                        <Stepper />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Controles de Imagen  -->
+            <Border Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Image Controls"
+                        TextTransform="Uppercase" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="ImageButton:" />
+                        <ImageButton HeightRequest="50" Source="dotnet_bot.png" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

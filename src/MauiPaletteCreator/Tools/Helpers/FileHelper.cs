@@ -46,23 +46,28 @@ public partial class FileHelper
         }
     }
 
-
-    // aquí esta el problema
     public static async Task ApplyModificationsAsync(Dictionary<string, string[]> filesToBeModified)
     {
-        foreach (var group in ModifiedFiles)
+        foreach (var group in filesToBeModified) // Iteramos sobre los archivos a modificar
         {
-            if (ModifiedFiles.TryGetValue(group.Key, out var modifiedFiles))
+            if (ModifiedFiles.TryGetValue(group.Key, out var modifiedFiles)) // Verificamos si existe la clave en ModifiedFiles
             {
-                var filesToBeModifiedValues = group.Value;
-                for (int i = 0; i < filesToBeModifiedValues.Length; i++)
+                var filesToModify = group.Value;
+
+                // Verificamos que ambos arrays tengan la misma longitud
+                if (filesToModify.Length != modifiedFiles.Length)
                 {
-                    var fileToBeModified = filesToBeModifiedValues[i];
+                    return;
+                }
+
+                for (int i = 0; i < filesToModify.Length; i++)
+                {
+                    var fileToBeModified = filesToModify[i];
                     var modifiedFile = modifiedFiles[i];
 
                     if (Path.GetFileName(fileToBeModified) == Path.GetFileName(modifiedFile))
                     {
-                        // Crear copia de seguridad
+                        // Opcional: crear copia de seguridad
                         //var backupFile = Path.Combine(CachePath, "Backup", fileToBeModified + ".bak");
                         //File.Copy(fileToBeModified, backupFile, true);
 
