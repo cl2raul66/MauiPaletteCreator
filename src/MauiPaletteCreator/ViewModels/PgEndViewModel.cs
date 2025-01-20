@@ -15,12 +15,21 @@ public partial class PgEndViewModel : ObservableObject
         externalProjectServ = externalProjectService;
     }
 
+    [ObservableProperty]
+    string? statusInformationText;
+
     [RelayCommand]
     async Task Apply()
     {
         if (externalProjectServ.IsLoaded)
         {
+            StatusInformationText = "Obteniendo los ficheros a modificar.";
+            FileHelper.SetFilesToBeModified(externalProjectServ.ProjectPath, externalProjectServ.FilesToBeModified);
+            StatusInformationText = "Aplicando colores y estilos.";
             await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
+            StatusInformationText = $"Colores y estilos aplicado al proyecto {Path.GetFileNameWithoutExtension(externalProjectServ.ProjectPath)}";
+            await Task.Delay(3000);
+            StatusInformationText = null;
         }
     }
 

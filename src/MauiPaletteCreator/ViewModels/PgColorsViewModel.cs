@@ -6,13 +6,10 @@ using MauiPaletteCreator.Models;
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
-using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace MauiPaletteCreator.ViewModels;
-
-// nota: para obtener los colores semántico desde la api de ColorMind, se envía un array de 5 elementos, el segundo elemento es amarillo, el cuarto es verde y el resto null, el array de 5 elementos resultante tomamos el primer elemento para ErrorCL, el tercer para WarningCL y el quinto para SuccessCL 
 
 public partial class PgColorsViewModel : ObservableObject
 {
@@ -130,10 +127,14 @@ public partial class PgColorsViewModel : ObservableObject
 
     [RelayCommand]
     async Task GoToNext()
-    {        
-        StatusInformationText = "Creando el proyecto TestGallery para la visualización. Puede tardar un tiempo...";
+    {
         var testProjectPath = Path.Combine(FileHelper.CachePath, "TestGallery");
-        await testProjectServ.CreateProjectAsync(testProjectPath);
+        if (!testProjectServ.IsCreated || !Directory.Exists(testProjectPath))
+        {
+            StatusInformationText = "Creando el proyecto TestGallery para la visualización. Puede tardar un tiempo...";
+            await testProjectServ.CreateProjectAsync(testProjectPath);
+        }
+
         if (testProjectServ.IsCreated)
         {
             StatusInformationText = "Generando ficheros modificadores...";
@@ -141,13 +142,6 @@ public partial class PgColorsViewModel : ObservableObject
             await GenerateModifierFiles(frameworkVersion);
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
-
-        //bool result = await ProjectFilesHelper.GeneratedTestGalleryAsync();
-        //if (result)
-        //{
-        //    await FileHelper.ApplyModificationsAsync(ProjectFilesHelper.FilesToBeModified);
-        //    await Shell.Current.GoToAsync(nameof(PgView), true);
-        //}
         StatusInformationText = null;
     }
 
@@ -155,11 +149,10 @@ public partial class PgColorsViewModel : ObservableObject
     async Task GoToEnd()
     {
         StatusInformationText = "Generando ficheros modificadores...";
-        var frameworkVersion = testProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
+        var frameworkVersion = externalProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
         await GenerateModifierFiles(frameworkVersion);
         if (externalProjectServ.IsLoaded)
-        {
-            await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
+        {           
             await Shell.Current.GoToAsync(nameof(PgEnd), true);
         }
     }
@@ -230,8 +223,8 @@ public partial class PgColorsViewModel : ObservableObject
         var randomColors = await colormindApiServ.GetPaletteAsync("ui");
 
         var inputColors = new Color?[5];
-        inputColors[0] = randomColors[0]; // Foreground
-        inputColors[4] = randomColors[4]; // Background
+        inputColors[0] = randomColors[0]; 
+        inputColors[4] = randomColors[4]; 
 
         var randomColors2 = await colormindApiServ.GetPaletteWithInputAsync(inputColors, "ui");
 
@@ -247,8 +240,8 @@ public partial class PgColorsViewModel : ObservableObject
         var neutralGroup = copyColorStyles!.FirstOrDefault(g => g.Key == "NEUTRAL");
         if (neutralGroup is not null)
         {
-            neutralGroup[0].Value = randomColors[0];
-            neutralGroup[1].Value = randomColors[4];
+            neutralGroup[0].Value = randomColors[4]; // Foreground
+            neutralGroup[1].Value = randomColors[0]; // Background
             for (int i = 2; i < 5; i++)
             {
                 neutralGroup[i].Value = randomColors2[i - 1]; // Complementary1Cl, Complementary2Cl, Complementary3Cl
@@ -332,8 +325,8 @@ public partial class PgColorsViewModel : ObservableObject
         if (neutralGroup is not null)
         {
             var randomColors = await colormindApiServ.GetPaletteAsync("ui");
-            neutralGroup[0].Value = randomColors[0]; // Foreground
-            neutralGroup[1].Value = randomColors[4]; // Background
+            neutralGroup[0].Value = randomColors[4]; // Foreground
+            neutralGroup[1].Value = randomColors[0]; // Background
 
             var inputColors = new Color?[5];
             inputColors[0] = randomColors[0];

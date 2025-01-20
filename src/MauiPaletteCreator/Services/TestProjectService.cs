@@ -1,5 +1,4 @@
 ﻿using MAUIProjectManagerLib;
-using System.Xml.Linq;
 
 namespace MauiPaletteCreator.Services;
 
@@ -20,13 +19,16 @@ public class TestProjectService : ITestProjectService
 
     public string ProjectPath { get; private set; }
 
-    public Dictionary<string, string> TargetPlatforms { get; private set; } = [];
+    public Dictionary<string, string> TargetPlatforms { get; private set; }
 
-    public Dictionary<string, string[]> FilesToBeModified { get; set; } = [];
+    public Dictionary<string, string[]> FilesToBeModified { get; set; }
 
     public TestProjectService()
     {
         projectManagerServ = new ProjectManager();
+        ProjectPath = string.Empty;
+        TargetPlatforms = [];
+        FilesToBeModified = [];
     }
 
     public bool IsCreated { get; private set; }
@@ -54,6 +56,11 @@ public class TestProjectService : ITestProjectService
     {
         string targetFramework = TargetPlatforms[platform];
         await projectManagerServ.RunAsync(targetFramework);
+    }
+
+    public async Task DeletedProjectAsync()
+    {
+
     }
 
     #region EXTRA
@@ -85,7 +92,7 @@ public class TestProjectService : ITestProjectService
         using var reader = new StreamReader(stream);
         var contents = await reader.ReadToEndAsync();
 
-        var filePath = GetFilePath("MainPage.xaml");       
+        var filePath = GetFilePath("MainPage.xaml");
         using var writer = new StreamWriter(filePath);
         await writer.WriteLineAsync(contents);
     }
