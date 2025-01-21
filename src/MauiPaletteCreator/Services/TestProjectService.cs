@@ -10,6 +10,7 @@ public interface ITestProjectService
     Dictionary<string, string> TargetPlatforms { get; }
 
     Task CreateProjectAsync(string projectPath);
+    Task DeletedProjectAsync();
     Task RunProjectAsync(string platform);
 }
 
@@ -60,7 +61,9 @@ public class TestProjectService : ITestProjectService
 
     public async Task DeletedProjectAsync()
     {
-
+        await projectManagerServ.Deleted();
+        ProjectPath = projectManagerServ.ProjectPath ?? string.Empty;
+        IsCreated = !string.IsNullOrEmpty(ProjectPath);
     }
 
     #region EXTRA

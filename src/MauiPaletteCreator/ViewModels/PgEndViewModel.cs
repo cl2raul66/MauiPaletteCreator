@@ -9,14 +9,19 @@ namespace MauiPaletteCreator.ViewModels;
 public partial class PgEndViewModel : ObservableObject
 {
     readonly IExternalProjectService externalProjectServ;
+    readonly ITestProjectService testProjectServ;
 
-    public PgEndViewModel(IExternalProjectService externalProjectService)
+    public PgEndViewModel(IExternalProjectService externalProjectService, ITestProjectService testProjectService)
     {
         externalProjectServ = externalProjectService;
+        testProjectServ = testProjectService;
     }
 
     [ObservableProperty]
     string? statusInformationText;
+
+    [ObservableProperty]
+    bool isFinished;
 
     [RelayCommand]
     async Task Apply()
@@ -28,8 +33,10 @@ public partial class PgEndViewModel : ObservableObject
             StatusInformationText = "Aplicando colores y estilos.";
             await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
             StatusInformationText = $"Colores y estilos aplicado al proyecto {Path.GetFileNameWithoutExtension(externalProjectServ.ProjectPath)}";
-            await Task.Delay(3000);
-            StatusInformationText = null;
+            await testProjectServ.DeletedProjectAsync();
+            FileHelper.CleanCache();
+            IsFinished = !testProjectServ.IsCreated && string.IsNullOrEmpty(testProjectServ.ProjectPath);
+            StatusInformationText = null;            
         }
     }
 

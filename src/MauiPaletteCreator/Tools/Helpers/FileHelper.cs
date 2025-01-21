@@ -79,4 +79,14 @@ public partial class FileHelper
             }
         }
     }
+
+    public static void CleanCache()
+    {
+        var cacheDirectory = FileSystem.Current.CacheDirectory;
+        var files = Directory.GetFiles(cacheDirectory);
+        foreach (var file in files)
+        {
+            File.Delete(file);
+        }
+    }
 }

@@ -77,7 +77,10 @@
                             VerticalOptions="Center" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Column="1" Spacing="8">
-                        <Button Command="{Binding GoToPgColorsCommand}" Text="Paleta de colores" />
+                        <Button
+                            Command="{Binding GoToPgColorsCommand}"
+                            IsEnabled="{Binding IsFinished, Converter={ctk:InvertedBoolConverter}}"
+                            Text="Paleta de colores" />
                     </HorizontalStackLayout>
                 </Grid>
             </Grid>
