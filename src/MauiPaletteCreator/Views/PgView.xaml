@@ -72,6 +72,13 @@
                     Grid.Row="1"
                     ColumnDefinitions="*,auto"
                     ColumnSpacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <ActivityIndicator IsRunning="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" IsVisible="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding StatusInformationText}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Column="1" Spacing="8">
                         <Button Command="{Binding GoToBackCommand}" Text="Regresar" />
                         <Button Command="{Binding GoToNextCommand}" Text="Siguiente" />

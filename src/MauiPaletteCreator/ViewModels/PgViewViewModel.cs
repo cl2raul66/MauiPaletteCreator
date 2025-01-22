@@ -23,9 +23,13 @@ public partial class PgViewViewModel : ObservableObject
     [ObservableProperty]
     string? selectedPlatform;
 
+    [ObservableProperty]
+    string? statusInformationText;
+
     [RelayCommand]
     async Task Preview()
     {
+        StatusInformationText = $"Ejecutando proyecto TestGallery para {SelectedPlatform}. Puede tardar un tiempo...";
         FileHelper.SetFilesToBeModified(testProjectServ.ProjectPath, testProjectServ.FilesToBeModified);
         await FileHelper.ApplyModificationsAsync(testProjectServ.FilesToBeModified!);
         await testProjectServ.RunProjectAsync(SelectedPlatform!);

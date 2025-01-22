@@ -62,6 +62,7 @@
                         Text="Precione aplicar para proceder a modificar los ficheros pertinentes de su proyecto y comience su desarrollo con sus colores deceados." />
                     <Button
                         Command="{Binding ApplyCommand}"
+                        IsEnabled="{Binding IsFinished, Converter={ctk:InvertedBoolConverter}}"
                         Text="Aplicar"
                         WidthRequest="250" />
                 </VerticalStackLayout>

@@ -57,25 +57,25 @@
                         Command="{Binding LoadProjectCommand}"
                         HorizontalOptions="Center"
                         Text="Cargar proyecto" />
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
-                        <ActivityIndicator
-                            HeightRequest="16"
-                            IsRunning="{Binding IsLoadProject}"
-                            IsVisible="{Binding IsLoadProject}"
-                            WidthRequest="16" />
-                        <Label
-                            FontSize="16"
-                            LineBreakMode="TailTruncation"
-                            MaximumWidthRequest="400"
-                            Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
-                            VerticalTextAlignment="Center" />
-                    </HorizontalStackLayout>
-
+                    <Label
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        LineBreakMode="TailTruncation"
+                        MaximumWidthRequest="400"
+                        Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
+                        VerticalTextAlignment="Center" />
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
                     ColumnDefinitions="*,auto"
                     ColumnSpacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <ActivityIndicator IsRunning="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" IsVisible="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding StatusInformationText}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
                     <Button
                         Grid.Column="1"
                         Command="{Binding GoToNextCommand}"
