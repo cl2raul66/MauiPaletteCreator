@@ -100,17 +100,6 @@ public class TestProjectService : ITestProjectService
         await writer.WriteLineAsync(contents);
     }
 
-    //async Task ModifyFileMauiStylesAsync()
-    //{
-    //    using var stream = await FileSystem.OpenAppPackageFileAsync("MainPage.xaml");
-    //    using var reader = new StreamReader(stream);
-    //    var contents = await reader.ReadToEndAsync();
-
-    //    var filePath = GetFilePath("MainPage.xaml");       
-    //    using var writer = new StreamWriter(filePath);
-    //    await writer.WriteLineAsync(contents);
-    //}
-
     string GetFilePath(string fileName)
     {
         var projectDirectory = Path.GetDirectoryName(projectManagerServ.ProjectPath);

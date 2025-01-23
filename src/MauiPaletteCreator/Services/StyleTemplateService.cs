@@ -6,7 +6,7 @@ namespace MauiPaletteCreator.Services;
 
 public interface IStyleTemplateService
 {
-    Task GenerateFilesToBeModifiedAsync(ColorStyle[] lightColorStyles, ColorStyle[] darkColorStyles, string frameworkVersion);
+    Task GenerateFilesToBeModifiedAsync(ColorStyle[] lightColorStyles, ColorStyle[] darkColorStyles);
     IEnumerable<ColorStyle> GetDefaultDarkColorStyle();
     IEnumerable<ColorStyle> GetDefaultLightColorStyle();
 }
@@ -59,7 +59,7 @@ public class StyleTemplateService : IStyleTemplateService
         return PrincipalDarkColorStyle.Concat(SemanticDarkColorStyle).Concat(NeutralDarkColorStyle);
     }
 
-    public async Task GenerateFilesToBeModifiedAsync(ColorStyle[] lightColorStyles, ColorStyle[] darkColorStyles, string frameworkVersion)
+    public async Task GenerateFilesToBeModifiedAsync(ColorStyle[] lightColorStyles, ColorStyle[] darkColorStyles)
     {
         var mauiFiles = new[]
         {
@@ -69,7 +69,7 @@ public class StyleTemplateService : IStyleTemplateService
         //ModifyFileMauiColors(mauiFiles.First(), lightColorStyles, darkColorStyles);
         //ModifyFileMauiStyles(mauiFiles.Last());
         await ModifyFileMauiColorsAsync(mauiFiles.First(), lightColorStyles, darkColorStyles);
-        await ModifyFileMauiStylesAsync(mauiFiles.Last(), frameworkVersion);
+        await ModifyFileMauiStylesAsync(mauiFiles.Last());
 
         var androidFiles = new[]
         {
@@ -157,21 +157,9 @@ public class StyleTemplateService : IStyleTemplateService
         await xDocument.SaveAsync(outputStream, SaveOptions.None, CancellationToken.None);
     }
 
-    async Task ModifyFileMauiStylesAsync(string filePath, string frameworkVersion)
+    async Task ModifyFileMauiStylesAsync(string filePath)
     {
-        string stylesFile = frameworkVersion switch
-        {
-            "net8.0" => "Styles8.xaml.txt",
-            "net9.0" => "Styles9.xaml.txt",
-            _ => string.Empty
-        };
-
-        if (string.IsNullOrEmpty(stylesFile))
-        {
-            return;
-        }
-
-        using var stream = await FileSystem.OpenAppPackageFileAsync(stylesFile);
+        using var stream = await FileSystem.OpenAppPackageFileAsync("Styles.xaml.txt");
         using var reader = new StreamReader(stream);
         var contents = await reader.ReadToEndAsync();
 

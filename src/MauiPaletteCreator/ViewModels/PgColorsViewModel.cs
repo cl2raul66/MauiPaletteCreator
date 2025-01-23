@@ -138,8 +138,7 @@ public partial class PgColorsViewModel : ObservableObject
         if (testProjectServ.IsCreated)
         {
             StatusInformationText = "Generando ficheros modificadores...";
-            var frameworkVersion = testProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
-            await GenerateModifierFiles(frameworkVersion);
+            await GenerateModifierFiles();
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
         StatusInformationText = null;
@@ -149,8 +148,7 @@ public partial class PgColorsViewModel : ObservableObject
     async Task GoToEnd()
     {
         StatusInformationText = "Generando ficheros modificadores...";
-        var frameworkVersion = externalProjectServ.TargetPlatforms.FirstOrDefault().Value.Split('-')[0];
-        await GenerateModifierFiles(frameworkVersion);
+        await GenerateModifierFiles();
         if (externalProjectServ.IsLoaded)
         {           
             await Shell.Current.GoToAsync(nameof(PgEnd), true);
@@ -349,17 +347,11 @@ public partial class PgColorsViewModel : ObservableObject
         }
     }
 
-    async Task GenerateModifierFiles(string? frameworkVersion)
+    async Task GenerateModifierFiles()
     {
-        if (string.IsNullOrEmpty(frameworkVersion))
-        {
-            return;
-        }
-
         await styleTemplateServ.GenerateFilesToBeModifiedAsync(
             LightColorStyles!.SelectMany(x => x).ToArray(),
-            DarkColorStyles!.SelectMany(x => x).ToArray(),
-            frameworkVersion
+            DarkColorStyles!.SelectMany(x => x).ToArray()
         );
     }
     #endregion
