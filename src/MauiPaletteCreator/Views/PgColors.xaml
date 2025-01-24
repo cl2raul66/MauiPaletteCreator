@@ -261,7 +261,27 @@
                                 IsChecked="{Binding IsSelectNEUTRAL}"
                                 MinimumHeightRequest="32"
                                 MinimumWidthRequest="32" />
-                            <Button Command="{Binding GenerateCommand}" Text="Generar colores" />
+                            <Label
+                                FontSize="16"
+                                Text="Generar colores:"
+                                TextTransform="Uppercase" />
+                            <Button Command="{Binding GenerateWithBaseCommand}">
+                                <Button.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding IsSelectDarkTheme}"
+                                        TargetType="Button"
+                                        Value="false">
+                                        <Setter Property="Text" Value="Basado en Oscuro" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding IsSelectDarkTheme}"
+                                        TargetType="Button"
+                                        Value="true">
+                                        <Setter Property="Text" Value="Basado en Claro" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                            <Button Command="{Binding GenerateByColormindCommand}" Text="Por Colormind" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
                     <!--#endregion-->
