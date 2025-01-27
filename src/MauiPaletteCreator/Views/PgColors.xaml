@@ -191,44 +191,121 @@
                         Grid.Column="1"
                         HorizontalOptions="End"
                         Spacing="8">
-                        <VerticalStackLayout Spacing="8" WidthRequest="250">
+                        <Grid
+                            RowDefinitions="auto,*,auto"
+                            RowSpacing="8"
+                            WidthRequest="250">
                             <Label
                                 FontSize="16"
                                 HorizontalOptions="CenterAndExpand"
                                 Text="Colores de .NET MAUI"
                                 TextTransform="Uppercase" />
-                            <ScrollView HeightRequest="310">
-                                <CollectionView
-                                    ItemsSource="{Binding DefaultPalette}"
-                                    SelectedItem="{Binding SelectedDefaultColor}"
-                                    SelectionMode="Single">
-                                    <CollectionView.ItemsLayout>
-                                        <GridItemsLayout
-                                            HorizontalItemSpacing="2"
-                                            Orientation="Vertical"
-                                            Span="5"
-                                            VerticalItemSpacing="4" />
-                                    </CollectionView.ItemsLayout>
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="Color">
-                                            <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
+                            <ScrollView Grid.Row="1">
+                                <VerticalStackLayout Spacing="8">
+                                    <Grid RowDefinitions="auto,*">
+                                        <Label FontSize="16" Text="Claro" />
+                                        <CollectionView
+                                            Grid.Row="1"
+                                            ItemsSource="{Binding MauiLightPalette}"
+                                            SelectedItem="{Binding SelectedMauiLightPalette}"
+                                            SelectionMode="Single">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout
+                                                    HorizontalItemSpacing="2"
+                                                    Orientation="Vertical"
+                                                    Span="5"
+                                                    VerticalItemSpacing="4" />
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="Color">
+                                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Grid>
+                                    <Grid RowDefinitions="auto,*">
+                                        <Label FontSize="16" Text="Normal" />
+                                        <CollectionView
+                                            Grid.Row="1"
+                                            ItemsSource="{Binding MauiNormalPalette}"
+                                            SelectedItem="{Binding SelectedMauiNormalColor}"
+                                            SelectionMode="Single">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout
+                                                    HorizontalItemSpacing="2"
+                                                    Orientation="Vertical"
+                                                    Span="5"
+                                                    VerticalItemSpacing="4" />
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="Color">
+                                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Grid>
+                                    <Grid RowDefinitions="auto,*">
+                                        <Label FontSize="16" Text="Oscuro" />
+                                        <CollectionView
+                                            Grid.Row="1"
+                                            ItemsSource="{Binding MauiDarkPalette}"
+                                            SelectedItem="{Binding SelectedMauiDarkPalette}"
+                                            SelectionMode="Single">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout
+                                                    HorizontalItemSpacing="2"
+                                                    Orientation="Vertical"
+                                                    Span="5"
+                                                    VerticalItemSpacing="4" />
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="Color">
+                                                    <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Grid>
+                                </VerticalStackLayout>
                             </ScrollView>
-                            <Button Command="{Binding SetSelectedDefaultColorCommand}" Text="Establecer color">
-                                <Button.IsEnabled>
-                                    <MultiBinding>
-                                        <MultiBinding.Converter>
-                                            <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
-                                        </MultiBinding.Converter>
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDefaultColor" />
-                                    </MultiBinding>
-                                </Button.IsEnabled>
-                            </Button>
-                        </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Row="2" Spacing="8">
+                                <Button Command="{Binding SetSelectedMauiLightPaletteCommand}" Text="Establecer color claro">
+                                    <Button.IsEnabled>
+                                        <MultiBinding>
+                                            <MultiBinding.Converter>
+                                                <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                            </MultiBinding.Converter>
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedMauiLightPalette" />
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                </Button>
+                                <Button Command="{Binding SetSelectedMauiNormalColorCommand}" Text="Establecer color normal">
+                                    <Button.IsEnabled>
+                                        <MultiBinding>
+                                            <MultiBinding.Converter>
+                                                <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                            </MultiBinding.Converter>
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedMauiNormalColor" />
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                </Button>
+                                <Button Command="{Binding SetSelectedMauiDarkPaletteCommand}" Text="Establecer color oscuro">
+                                    <Button.IsEnabled>
+                                        <MultiBinding>
+                                            <MultiBinding.Converter>
+                                                <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                            </MultiBinding.Converter>
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                            <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedMauiDarkPalette" />
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                </Button>
+                            </VerticalStackLayout>
+                        </Grid>
                         <VerticalStackLayout Spacing="8" WidthRequest="250">
                             <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
                                 <Label

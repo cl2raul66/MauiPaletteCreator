@@ -22,7 +22,7 @@ public partial class PgColorsViewModel : ObservableObject
     {
         styleTemplateServ = styleTemplateService;
         colormindApiServ = colormindApiService;
-        LoadCustomPalette();
+        LoadMauiPalette();
         LoadLightColorStyle();
         LoadDarkColorStyle();
         externalProjectServ = externalProjectService;
@@ -57,16 +57,28 @@ public partial class PgColorsViewModel : ObservableObject
     ColorStyle? selectedDarkColorStyle;
 
     [ObservableProperty]
-    ObservableCollection<Color>? defaultPalette;
+    ObservableCollection<Color>? mauiNormalPalette;
 
     [ObservableProperty]
-    Color? selectedDefaultColor;
+    Color? selectedMauiNormalColor;
+
+    [ObservableProperty]
+    ObservableCollection<Color>? mauiLightPalette;
+
+    [ObservableProperty]
+    Color? selectedMauiLightPalette;
+
+    [ObservableProperty]
+    ObservableCollection<Color>? mauiDarkPalette;
+
+    [ObservableProperty]
+    Color? selectedMauiDarkPalette;
 
     [ObservableProperty]
     string? statusInformationText;
 
     [RelayCommand]
-    void SetSelectedDefaultColor()
+    void SetSelectedMauiNormalColor()
     {
         if (IsSelectDarkTheme)
         {
@@ -75,7 +87,7 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedDefaultColor;
+            element.Value = SelectedMauiNormalColor;
             DarkColorStyles = [.. copy];
         }
         else
@@ -85,7 +97,57 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedDefaultColor;
+            element.Value = SelectedMauiNormalColor;
+            LightColorStyles = [.. copy];
+        }
+    }
+
+    [RelayCommand]
+    void SetSelectedMauiLightPalette()
+    {
+        if (IsSelectDarkTheme)
+        {
+            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedMauiLightPalette;
+            DarkColorStyles = [.. copy];
+        }
+        else
+        {
+            List<ColorStyleGroup> copy = [.. LightColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedMauiLightPalette;
+            LightColorStyles = [.. copy];
+        }
+    }
+
+    [RelayCommand]
+    void SetSelectedMauiDarkPalette()
+    {
+        if (IsSelectDarkTheme)
+        {
+            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedMauiDarkPalette;
+            DarkColorStyles = [.. copy];
+        }
+        else
+        {
+            List<ColorStyleGroup> copy = [.. LightColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedMauiDarkPalette;
             LightColorStyles = [.. copy];
         }
     }
@@ -251,21 +313,55 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     #region EXTRA
-    void LoadCustomPalette()
-    {
-        HashSet<Color> allColors = [];
-        var colorType = typeof(Colors);
+    //void LoadMauiPalette()
+    //{
+    //    HashSet<Color> allColors = [];
+    //    var colorType = typeof(Colors);
 
+    //    foreach (var field in colorType.GetFields(BindingFlags.Public | BindingFlags.Static))
+    //    {
+    //        if (field.FieldType == typeof(Color))
+    //        {
+    //            var color = (Color)field.GetValue(null)!;
+    //            allColors.Add(color);
+    //        }
+    //    }
+
+    //    MauiPalette = new ObservableCollection<Color>(allColors);
+    //}
+
+    void LoadMauiPalette()
+    {
+        HashSet<Color> darkColors = [];
+        HashSet<Color> lightColors = [];
+        HashSet<Color> normalColors = [];
+
+        var colorType = typeof(Colors);
         foreach (var field in colorType.GetFields(BindingFlags.Public | BindingFlags.Static))
         {
             if (field.FieldType == typeof(Color))
             {
                 var color = (Color)field.GetValue(null)!;
-                allColors.Add(color);
+                var colorName = field.Name;
+
+                if (colorName.Contains("Dark"))
+                {
+                    darkColors.Add(color);
+                }
+                else if (colorName.Contains("Light"))
+                {
+                    lightColors.Add(color);
+                }
+                else
+                {
+                    normalColors.Add(color);
+                }
             }
         }
 
-        DefaultPalette = [.. allColors];
+        MauiDarkPalette = new ObservableCollection<Color>(darkColors);
+        MauiLightPalette = new ObservableCollection<Color>(lightColors);
+        MauiNormalPalette = new ObservableCollection<Color>(normalColors);
     }
 
     void LoadLightColorStyle()
