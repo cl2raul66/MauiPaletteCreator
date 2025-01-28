@@ -57,28 +57,22 @@ public partial class PgColorsViewModel : ObservableObject
     ColorStyle? selectedDarkColorStyle;
 
     [ObservableProperty]
-    ObservableCollection<Color>? mauiNormalPalette;
+    ObservableCollection<Color>? mauiPalette;
 
     [ObservableProperty]
-    Color? selectedMauiNormalColor;
+    Color? selectedMauiColor;
 
-    [ObservableProperty]
-    ObservableCollection<Color>? mauiLightPalette;
+    //[ObservableProperty]
+    //ObservableCollection<Color>? mauiLightPalette;
 
-    [ObservableProperty]
-    Color? selectedMauiLightPalette;
-
-    [ObservableProperty]
-    ObservableCollection<Color>? mauiDarkPalette;
-
-    [ObservableProperty]
-    Color? selectedMauiDarkPalette;
+    //[ObservableProperty]
+    //Color? selectedMauiLightPalette;
 
     [ObservableProperty]
     string? statusInformationText;
 
     [RelayCommand]
-    void SetSelectedMauiNormalColor()
+    void SetSelectedMauiColor()
     {
         if (IsSelectDarkTheme)
         {
@@ -87,7 +81,7 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedMauiNormalColor;
+            element.Value = SelectedMauiColor;
             DarkColorStyles = [.. copy];
         }
         else
@@ -97,57 +91,7 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedMauiNormalColor;
-            LightColorStyles = [.. copy];
-        }
-    }
-
-    [RelayCommand]
-    void SetSelectedMauiLightPalette()
-    {
-        if (IsSelectDarkTheme)
-        {
-            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
-            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
-            if (group is null) return;
-            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
-            if (element is null) return;
-            element.Value = SelectedMauiLightPalette;
-            DarkColorStyles = [.. copy];
-        }
-        else
-        {
-            List<ColorStyleGroup> copy = [.. LightColorStyles!];
-            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
-            if (group is null) return;
-            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
-            if (element is null) return;
-            element.Value = SelectedMauiLightPalette;
-            LightColorStyles = [.. copy];
-        }
-    }
-
-    [RelayCommand]
-    void SetSelectedMauiDarkPalette()
-    {
-        if (IsSelectDarkTheme)
-        {
-            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
-            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
-            if (group is null) return;
-            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
-            if (element is null) return;
-            element.Value = SelectedMauiDarkPalette;
-            DarkColorStyles = [.. copy];
-        }
-        else
-        {
-            List<ColorStyleGroup> copy = [.. LightColorStyles!];
-            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
-            if (group is null) return;
-            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
-            if (element is null) return;
-            element.Value = SelectedMauiDarkPalette;
+            element.Value = SelectedMauiColor;
             LightColorStyles = [.. copy];
         }
     }
@@ -365,16 +309,11 @@ public partial class PgColorsViewModel : ObservableObject
             return l;
         };
 
-        MauiDarkPalette = new ObservableCollection<Color>(darkColors.OrderBy(getColorTemperature));
-        MauiLightPalette = new ObservableCollection<Color>(lightColors.OrderBy(getColorTemperature));
-        MauiNormalPalette = new ObservableCollection<Color>(normalColors.OrderBy(getColorTemperature));
-    }
+        var result = lightColors.OrderBy(getColorTemperature)
+            .Concat(darkColors.OrderBy(getColorTemperature))
+            .Concat(normalColors.OrderBy(getColorTemperature));
 
-    double GetColorTemperature(Color color)
-    {
-        // Convertir el color a HSL y usar el valor de Hue para determinar la temperatura
-        color.ToHsl(out float h, out float s, out float l);
-        return h;
+        MauiPalette = new ObservableCollection<Color>(result);
     }
 
     void LoadLightColorStyle()
