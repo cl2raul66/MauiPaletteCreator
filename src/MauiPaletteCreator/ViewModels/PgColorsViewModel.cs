@@ -359,9 +359,22 @@ public partial class PgColorsViewModel : ObservableObject
             }
         }
 
-        MauiDarkPalette = new ObservableCollection<Color>(darkColors);
-        MauiLightPalette = new ObservableCollection<Color>(lightColors);
-        MauiNormalPalette = new ObservableCollection<Color>(normalColors);
+        Func<Color, double> getColorTemperature = color =>
+        {
+            color.ToHsl(out float h, out float s, out float l);
+            return l;
+        };
+
+        MauiDarkPalette = new ObservableCollection<Color>(darkColors.OrderBy(getColorTemperature));
+        MauiLightPalette = new ObservableCollection<Color>(lightColors.OrderBy(getColorTemperature));
+        MauiNormalPalette = new ObservableCollection<Color>(normalColors.OrderBy(getColorTemperature));
+    }
+
+    double GetColorTemperature(Color color)
+    {
+        // Convertir el color a HSL y usar el valor de Hue para determinar la temperatura
+        color.ToHsl(out float h, out float s, out float l);
+        return h;
     }
 
     void LoadLightColorStyle()
