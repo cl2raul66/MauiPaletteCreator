@@ -1,4 +1,4 @@
-﻿namespace MauiPaletteCreator.Models;
+﻿namespace MauiPaletteCreator.Models.ColormindApi;
 
 public class ColorPalette
 {

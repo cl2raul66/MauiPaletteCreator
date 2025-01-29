@@ -1,4 +1,4 @@
-﻿namespace MauiPaletteCreator.Models;
+﻿namespace MauiPaletteCreator.Models.LocalData;
 
 public class TemplateItem
 {

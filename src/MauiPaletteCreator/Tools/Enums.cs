@@ -1,3 +1,3 @@
 ﻿namespace MauiPaletteCreator.Tools;
 
-public enum ColorScheme { Light, Dark }
+public enum ColorScheme { Light, Dark, Normal }

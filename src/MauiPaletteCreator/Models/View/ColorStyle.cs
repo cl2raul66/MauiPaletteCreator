@@ -1,6 +1,6 @@
 ﻿using MauiPaletteCreator.Tools;
 
-namespace MauiPaletteCreator.Models;
+namespace MauiPaletteCreator.Models.View;
 
 public class ColorStyle
 {

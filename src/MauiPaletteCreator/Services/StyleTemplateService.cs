@@ -1,4 +1,4 @@
-﻿using MauiPaletteCreator.Models;
+﻿using MauiPaletteCreator.Models.View;
 using MauiPaletteCreator.Tools;
 using System.Xml.Linq;
 

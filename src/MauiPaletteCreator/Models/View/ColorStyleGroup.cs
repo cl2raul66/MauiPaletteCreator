@@ -1,4 +1,4 @@
-﻿namespace MauiPaletteCreator.Models;
+﻿namespace MauiPaletteCreator.Models.View;
 
 public class ColorStyleGroup : List<ColorStyle>
 {

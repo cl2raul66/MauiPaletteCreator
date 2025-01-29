@@ -2,7 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MauiPaletteCreator.Models;
+using MauiPaletteCreator.Models.View;
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
@@ -22,7 +22,7 @@ public partial class PgColorsViewModel : ObservableObject
     {
         styleTemplateServ = styleTemplateService;
         colormindApiServ = colormindApiService;
-        LoadMauiPalette();
+        LoadDefaultPalettes();
         LoadLightColorStyle();
         LoadDarkColorStyle();
         externalProjectServ = externalProjectService;
@@ -62,11 +62,17 @@ public partial class PgColorsViewModel : ObservableObject
     [ObservableProperty]
     Color? selectedMauiColor;
 
-    //[ObservableProperty]
-    //ObservableCollection<Color>? mauiLightPalette;
+    [ObservableProperty]
+    ObservableCollection<ColorPalette>? fluentLightPalette;
 
-    //[ObservableProperty]
-    //Color? selectedMauiLightPalette;
+    [ObservableProperty]
+    ColorPalette? selectedFluentLightColor;
+
+    [ObservableProperty]
+    ObservableCollection<ColorPalette>? fluentDarkPalette;
+
+    [ObservableProperty]
+    ColorPalette? selectedFluentDarkColor;
 
     [ObservableProperty]
     string? statusInformationText;
@@ -132,86 +138,9 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task GenerateWithBase()
+    async Task SetReplicate()
     {
-        StatusInformationText = "Generando colores, espere por favor.";
 
-        // Obtener las paletas base de los estilos de color
-        var basePalette = IsSelectDarkTheme
-            ? LightColorStyles?.SelectMany(group => group.Select(style => new { style.Name, style.Value })).Where(x => x.Value is not null).ToArray()
-            : DarkColorStyles?.SelectMany(group => group.Select(style => new { style.Name, style.Value })).Where(x => x.Value is not null).ToArray();
-
-        if (basePalette is null || basePalette.Length == 0)
-        {
-            StatusInformationText = "No hay colores base disponibles.";
-            return;
-        }
-
-        // Clasificar los colores según su nombre
-        var backgroundColors = new List<Color>();
-        var foregroundColors = new List<Color>();
-        var otherColors = new List<Color>();
-
-        foreach (var item in basePalette)
-        {
-            if (item.Name.Contains("Background"))
-            {
-                backgroundColors.Add(item.Value);
-            }
-            else if (item.Name.Contains("Foreground"))
-            {
-                foregroundColors.Add(item.Value);
-            }
-            else
-            {
-                otherColors.Add(item.Value);
-            }
-        }
-
-        // Ajustar la luminosidad de manera específica
-        var adjustedBackgroundColors = ColorTransformer.GeneratePalette(backgroundColors.ToArray(), IsSelectDarkTheme ? -0.4f : 0.4f);
-        var adjustedForegroundColors = ColorTransformer.GeneratePalette(foregroundColors.ToArray(), IsSelectDarkTheme ? 0.4f : -0.4f);
-        var adjustedOtherColors = ColorTransformer.GeneratePalette(otherColors.ToArray(), IsSelectDarkTheme ? 0.4f : -0.4f);
-
-        // Asignar los colores ajustados a los estilos de color
-        var targetColorStyles = IsSelectDarkTheme ? DarkColorStyles : LightColorStyles;
-
-        foreach (var group in targetColorStyles!)
-        {
-            foreach (var colorStyle in group)
-            {
-                if (colorStyle.Value is not null)
-                {
-                    if (colorStyle.Name.Contains("Background") && adjustedBackgroundColors.Length > 0)
-                    {
-                        colorStyle.Value = adjustedBackgroundColors[0];
-                        adjustedBackgroundColors = adjustedBackgroundColors.Skip(1).ToArray();
-                    }
-                    else if (colorStyle.Name.Contains("Foreground") && adjustedForegroundColors.Length > 0)
-                    {
-                        colorStyle.Value = adjustedForegroundColors[0];
-                        adjustedForegroundColors = adjustedForegroundColors.Skip(1).ToArray();
-                    }
-                    else if (adjustedOtherColors.Length > 0)
-                    {
-                        colorStyle.Value = adjustedOtherColors[0];
-                        adjustedOtherColors = adjustedOtherColors.Skip(1).ToArray();
-                    }
-                }
-            }
-        }
-
-        if (IsSelectDarkTheme)
-        {
-            DarkColorStyles = [.. targetColorStyles];
-        }
-        else
-        {
-            LightColorStyles = [.. targetColorStyles];
-        }
-
-        StatusInformationText = null;
-        await Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -309,11 +238,47 @@ public partial class PgColorsViewModel : ObservableObject
             return l;
         };
 
-        var result = lightColors.OrderBy(getColorTemperature)
-            .Concat(darkColors.OrderBy(getColorTemperature))
-            .Concat(normalColors.OrderBy(getColorTemperature));
+        var result = lightColors.OrderBy(getColorTemperature).Reverse()
+            .Concat(darkColors.OrderBy(getColorTemperature).Reverse())
+            .Concat(normalColors.OrderBy(getColorTemperature).Reverse());
 
         MauiPalette = new ObservableCollection<Color>(result);
+    }
+
+    async Task LoadFluentPaletteFromCsv()
+    {
+        using var stream = await FileSystem.OpenAppPackageFileAsync("fuentuicolors.csv");
+        using var reader = new StreamReader(stream);
+        var contents = await reader.ReadToEndAsync();
+
+        var lightColors = new List<ColorPalette>();
+        var darkColors = new List<ColorPalette>();
+        var lines = contents.Split('\n').Skip(1);
+
+        foreach (var line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            var columns = line.Trim().Split(',');
+            if (columns.Length < 3) continue;
+
+            var name = columns[0];
+            var lightColor = Color.FromRgba(columns[1]);
+            var darkColor = Color.FromRgba(columns[2]);
+
+            lightColors.Add(new ColorPalette(name, lightColor, ColorScheme.Light));
+            darkColors.Add(new ColorPalette(name, darkColor, ColorScheme.Dark));
+        }
+
+        FluentLightPalette = new ObservableCollection<ColorPalette>(lightColors.OrderBy(x => x.Name).Reverse());
+        FluentDarkPalette = new ObservableCollection<ColorPalette>(darkColors.OrderBy(x => x.Name).Reverse());
+    }
+
+
+    void LoadDefaultPalettes()
+    {
+        LoadMauiPalette();
+        _ = LoadFluentPaletteFromCsv();
     }
 
     void LoadLightColorStyle()
