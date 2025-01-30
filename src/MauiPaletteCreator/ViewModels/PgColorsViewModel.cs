@@ -6,6 +6,7 @@ using MauiPaletteCreator.Models.View;
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
+using Microsoft.Maui.Graphics;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
@@ -57,22 +58,16 @@ public partial class PgColorsViewModel : ObservableObject
     ColorStyle? selectedDarkColorStyle;
 
     [ObservableProperty]
-    ObservableCollection<Color>? mauiPalette;
+    ObservableCollection<ColorPaletteGroup>? mauiPalette;
 
     [ObservableProperty]
-    Color? selectedMauiColor;
+    ColorPalette? selectedMauiColor;
 
     [ObservableProperty]
-    ObservableCollection<ColorPalette>? fluentLightPalette;
+    ObservableCollection<ColorPaletteGroup>? fluentPalette;
 
     [ObservableProperty]
-    ColorPalette? selectedFluentLightColor;
-
-    [ObservableProperty]
-    ObservableCollection<ColorPalette>? fluentDarkPalette;
-
-    [ObservableProperty]
-    ColorPalette? selectedFluentDarkColor;
+    ColorPalette? selectedFluentColor;
 
     [ObservableProperty]
     string? statusInformationText;
@@ -87,7 +82,7 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedMauiColor;
+            element.Value = SelectedMauiColor!.Value;
             DarkColorStyles = [.. copy];
         }
         else
@@ -97,7 +92,7 @@ public partial class PgColorsViewModel : ObservableObject
             if (group is null) return;
             var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
             if (element is null) return;
-            element.Value = SelectedMauiColor;
+            element.Value = SelectedMauiColor!.Value;
             LightColorStyles = [.. copy];
         }
     }
@@ -138,9 +133,106 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task SetReplicate()
+    void SetReplica()
     {
+        StatusInformationText = "Generando colores, espere por favor.";
+        if (IsSelectDarkTheme)
+        {
+            SelectedDarkColorStyle = null;
+        }
+        else
+        {
+            SelectedLightColorStyle = null;
+        }
 
+        List<ColorStyleGroup> copyColorStyles = IsSelectDarkTheme ? [.. DarkColorStyles!] : [.. LightColorStyles!];
+        List<ColorStyleGroup> colorStyleReplica = IsSelectDarkTheme ? [.. LightColorStyles!] : [.. DarkColorStyles!];
+
+        if (IsSelectAll)
+        {
+            foreach (var group in copyColorStyles)
+            {
+                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
+                if (replicaGroup is not null)
+                {
+                    foreach (var style in group)
+                    {
+                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
+                        if (replicaStyle is not null)
+                        {
+                            style.Value = replicaStyle.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (IsSelectPRINCIPAL)
+        {
+            foreach (var group in copyColorStyles.Where(g => g.Key == "PRINCIPAL"))
+            {
+                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
+                if (replicaGroup is not null)
+                {
+                    foreach (var style in group)
+                    {
+                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
+                        if (replicaStyle is not null)
+                        {
+                            style.Value = replicaStyle.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (IsSelectSEMANTIC)
+        {
+            foreach (var group in copyColorStyles.Where(g => g.Key == "SEMANTIC"))
+            {
+                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
+                if (replicaGroup is not null)
+                {
+                    foreach (var style in group)
+                    {
+                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
+                        if (replicaStyle is not null)
+                        {
+                            style.Value = replicaStyle.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (IsSelectNEUTRAL)
+        {
+            foreach (var group in copyColorStyles.Where(g => g.Key == "NEUTRAL"))
+            {
+                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
+                if (replicaGroup is not null)
+                {
+                    foreach (var style in group)
+                    {
+                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
+                        if (replicaStyle is not null)
+                        {
+                            style.Value = replicaStyle.Value;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (IsSelectDarkTheme)
+        {
+            DarkColorStyles = [.. copyColorStyles];
+        }
+        else
+        {
+            LightColorStyles = [.. copyColorStyles];
+        }
+        StatusInformationText = null;
     }
 
     [RelayCommand]
@@ -186,63 +278,33 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     #region EXTRA
-    //void LoadMauiPalette()
-    //{
-    //    HashSet<Color> allColors = [];
-    //    var colorType = typeof(Colors);
-
-    //    foreach (var field in colorType.GetFields(BindingFlags.Public | BindingFlags.Static))
-    //    {
-    //        if (field.FieldType == typeof(Color))
-    //        {
-    //            var color = (Color)field.GetValue(null)!;
-    //            allColors.Add(color);
-    //        }
-    //    }
-
-    //    MauiPalette = new ObservableCollection<Color>(allColors);
-    //}
-
     void LoadMauiPalette()
     {
-        HashSet<Color> darkColors = [];
-        HashSet<Color> lightColors = [];
-        HashSet<Color> normalColors = [];
-
         var colorType = typeof(Colors);
-        foreach (var field in colorType.GetFields(BindingFlags.Public | BindingFlags.Static))
-        {
-            if (field.FieldType == typeof(Color))
-            {
-                var color = (Color)field.GetValue(null)!;
-                var colorName = field.Name;
+        var colors = colorType.GetFields(BindingFlags.Public | BindingFlags.Static)
+            .Where(x => x.FieldType == typeof(Color))
+            .Select(x => new ColorPalette(x.Name, (Color)x.GetValue(null)!, GetColorScheme(x.Name)));
 
-                if (colorName.Contains("Dark"))
-                {
-                    darkColors.Add(color);
-                }
-                else if (colorName.Contains("Light"))
-                {
-                    lightColors.Add(color);
-                }
-                else
-                {
-                    normalColors.Add(color);
-                }
-            }
-        }
+        var groups = colors
+            .GroupBy(x => x.Scheme)
+            .Select(x => new ColorPaletteGroup(x.Key.ToString()!, x.OrderByDescending(c => GetColorLuminosity(c)).ToArray()));
 
-        Func<Color, double> getColorTemperature = color =>
-        {
-            color.ToHsl(out float h, out float s, out float l);
-            return l;
-        };
+        MauiPalette = new ObservableCollection<ColorPaletteGroup>(groups);
+    }
 
-        var result = lightColors.OrderBy(getColorTemperature).Reverse()
-            .Concat(darkColors.OrderBy(getColorTemperature).Reverse())
-            .Concat(normalColors.OrderBy(getColorTemperature).Reverse());
+    ColorScheme GetColorScheme(string colorName)
+    {
+        if (colorName.Contains("Dark"))
+            return ColorScheme.Dark;
+        if (colorName.Contains("Light"))
+            return ColorScheme.Light;
+        return ColorScheme.Normal;
+    }
 
-        MauiPalette = new ObservableCollection<Color>(result);
+    double GetColorLuminosity(ColorPalette color)
+    {
+        color.Value.ToHsl(out float h, out float s, out float l);
+        return l;
     }
 
     async Task LoadFluentPaletteFromCsv()
@@ -251,8 +313,7 @@ public partial class PgColorsViewModel : ObservableObject
         using var reader = new StreamReader(stream);
         var contents = await reader.ReadToEndAsync();
 
-        var lightColors = new List<ColorPalette>();
-        var darkColors = new List<ColorPalette>();
+        var colors = new List<ColorPalette>();
         var lines = contents.Split('\n').Skip(1);
 
         foreach (var line in lines)
@@ -266,19 +327,25 @@ public partial class PgColorsViewModel : ObservableObject
             var lightColor = Color.FromRgba(columns[1]);
             var darkColor = Color.FromRgba(columns[2]);
 
-            lightColors.Add(new ColorPalette(name, lightColor, ColorScheme.Light));
-            darkColors.Add(new ColorPalette(name, darkColor, ColorScheme.Dark));
+            colors.Add(new ColorPalette(name, lightColor, ColorScheme.Light));
+            colors.Add(new ColorPalette(name, darkColor, ColorScheme.Dark));
         }
 
-        FluentLightPalette = new ObservableCollection<ColorPalette>(lightColors.OrderBy(x => x.Name).Reverse());
-        FluentDarkPalette = new ObservableCollection<ColorPalette>(darkColors.OrderBy(x => x.Name).Reverse());
+        var groups = colors
+            .OrderBy(x => x.Name)
+            .GroupBy(x => x.Scheme)
+            .Select(g => new ColorPaletteGroup(g.Key.ToString()!, g.ToArray()));
+
+        FluentPalette = new ObservableCollection<ColorPaletteGroup>(groups);
     }
 
 
-    void LoadDefaultPalettes()
+    async void LoadDefaultPalettes()
     {
-        LoadMauiPalette();
-        _ = LoadFluentPaletteFromCsv();
+        var loadFluentPaletteTask = LoadFluentPaletteFromCsv();
+        var loadMauiPaletteTask = Task.Run(() => LoadMauiPalette());
+
+        await Task.WhenAll(loadFluentPaletteTask, loadMauiPaletteTask);
     }
 
     void LoadLightColorStyle()

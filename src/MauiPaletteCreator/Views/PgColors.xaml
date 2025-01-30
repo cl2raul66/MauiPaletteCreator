@@ -68,6 +68,12 @@
             x:Key="ItemColorLayout"
             ItemSpacing="4"
             Orientation="Vertical" />
+        <DataTemplate x:Key="ColorPaletteGroupHeaderTemplate" x:DataType="model:ColorPaletteGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding NameGroup}"
+                TextTransform="Uppercase" />
+        </DataTemplate>
         <Style x:Key="colorItemPaletteBorder" TargetType="Border">
             <Setter Property="Padding" Value="0" />
             <Setter Property="Margin" Value="0" />
@@ -201,63 +207,29 @@
                                 Text="Colores de Fluent UI"
                                 TextTransform="Uppercase" />
                             <ScrollView Grid.Row="1" Padding="0,0,2,0">
-                                <VerticalStackLayout Spacing="8">
-                                    <Grid RowDefinitions="auto,*">
-                                        <Label
-                                            FontSize="16"
-                                            Text="Claro:"
-                                            TextTransform="Uppercase" />
-                                        <CollectionView
-                                            Grid.Row="1"
-                                            ItemsSource="{Binding FluentLightPalette}"
-                                            SelectedItem="{Binding SelectedFluentLightColor}"
-                                            SelectionMode="Single">
-                                            <CollectionView.ItemsLayout>
-                                                <GridItemsLayout
-                                                    HorizontalItemSpacing="2"
-                                                    Orientation="Vertical"
-                                                    Span="5"
-                                                    VerticalItemSpacing="4" />
-                                            </CollectionView.ItemsLayout>
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate x:DataType="model:ColorStyle">
-                                                    <Border
-                                                        BackgroundColor="{Binding Value}"
-                                                        Style="{StaticResource colorItemPaletteBorder}"
-                                                        ToolTipProperties.Text="{Binding Name}" />
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                    </Grid>
-                                    <Grid RowDefinitions="auto,*">
-                                        <Label
-                                            FontSize="16"
-                                            Text="Oscuro:"
-                                            TextTransform="Uppercase" />
-                                        <CollectionView
-                                            Grid.Row="1"
-                                            ItemsSource="{Binding FluentDarkPalette}"
-                                            SelectedItem="{Binding SelectedFluentDarkColor}"
-                                            SelectionMode="Single">
-                                            <CollectionView.ItemsLayout>
-                                                <GridItemsLayout
-                                                    HorizontalItemSpacing="2"
-                                                    Orientation="Vertical"
-                                                    Span="5"
-                                                    VerticalItemSpacing="4" />
-                                            </CollectionView.ItemsLayout>
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate x:DataType="model:ColorStyle">
-                                                    <Border
-                                                        BackgroundColor="{Binding Value}"
-                                                        Style="{StaticResource colorItemPaletteBorder}"
-                                                        ToolTipProperties.Text="{Binding Name}" />
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                    </Grid>
-
-                                </VerticalStackLayout>
+                                <CollectionView
+                                    GroupHeaderTemplate="{StaticResource ColorPaletteGroupHeaderTemplate}"
+                                    IsGrouped="True"
+                                    ItemsSource="{Binding FluentPalette}"
+                                    SelectedItem="{Binding SelectedFluentColor}"
+                                    SelectionChanged="CollectionView_SelectionChanged"
+                                    SelectionMode="Single">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout
+                                            HorizontalItemSpacing="2"
+                                            Orientation="Vertical"
+                                            Span="5"
+                                            VerticalItemSpacing="4" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:ColorPalette">
+                                            <Border
+                                                BackgroundColor="{Binding Value}"
+                                                Style="{StaticResource colorItemPaletteBorder}"
+                                                ToolTipProperties.Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </ScrollView>
                             <Button
                                 Grid.Row="2"
@@ -270,7 +242,7 @@
                                         </MultiBinding.Converter>
                                         <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
                                         <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
-                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedMauiColor" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedFluentColor" />
                                     </MultiBinding>
                                 </Button.IsEnabled>
                             </Button>
@@ -286,6 +258,8 @@
                                 TextTransform="Uppercase" />
                             <ScrollView Grid.Row="1" Padding="0,0,2,0">
                                 <CollectionView
+                                    GroupHeaderTemplate="{StaticResource ColorPaletteGroupHeaderTemplate}"
+                                    IsGrouped="True"
                                     ItemsSource="{Binding MauiPalette}"
                                     SelectedItem="{Binding SelectedMauiColor}"
                                     SelectionMode="Single">
@@ -297,8 +271,11 @@
                                             VerticalItemSpacing="4" />
                                     </CollectionView.ItemsLayout>
                                     <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="Color">
-                                            <Border BackgroundColor="{Binding .}" Style="{StaticResource colorItemPaletteBorder}" />
+                                        <DataTemplate x:DataType="model:ColorPalette">
+                                            <Border
+                                                BackgroundColor="{Binding Value}"
+                                                Style="{StaticResource colorItemPaletteBorder}"
+                                                ToolTipProperties.Text="{Binding Name}" />
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
@@ -357,7 +334,7 @@
                             FontSize="16"
                             Text="Generar colores:"
                             TextTransform="Uppercase" />
-                        <Button Command="{Binding SetReplicateCommand}">
+                        <Button Command="{Binding SetReplicaCommand}">
                             <Button.Triggers>
                                 <DataTrigger
                                     Binding="{Binding IsSelectDarkTheme}"
