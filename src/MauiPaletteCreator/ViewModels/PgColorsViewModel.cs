@@ -6,7 +6,6 @@ using MauiPaletteCreator.Models.View;
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.Tools;
 using MauiPaletteCreator.Views;
-using Microsoft.Maui.Graphics;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
@@ -71,6 +70,9 @@ public partial class PgColorsViewModel : ObservableObject
 
     [ObservableProperty]
     string? statusInformationText;
+    
+    [ObservableProperty]
+    bool isBusy;
 
     [RelayCommand]
     void SetSelectedMauiColor()
@@ -145,92 +147,80 @@ public partial class PgColorsViewModel : ObservableObject
             SelectedLightColorStyle = null;
         }
 
-        List<ColorStyleGroup> copyColorStyles = IsSelectDarkTheme ? [.. DarkColorStyles!] : [.. LightColorStyles!];
-        List<ColorStyleGroup> colorStyleReplica = IsSelectDarkTheme ? [.. LightColorStyles!] : [.. DarkColorStyles!];
+        var sourceCollection = IsSelectDarkTheme ? LightColorStyles : DarkColorStyles;
+        var targetCollection = IsSelectDarkTheme ? DarkColorStyles : LightColorStyles;
+
+        var updatedGroups = new List<ColorStyleGroup>();
+
+        string? searchByTag = null;
 
         if (IsSelectAll)
         {
-            foreach (var group in copyColorStyles)
-            {
-                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
-                if (replicaGroup is not null)
-                {
-                    foreach (var style in group)
-                    {
-                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
-                        if (replicaStyle is not null)
-                        {
-                            style.Value = replicaStyle.Value;
-                        }
-                    }
-                }
-            }
+            searchByTag = string.Empty;
         }
 
         if (IsSelectPRINCIPAL)
         {
-            foreach (var group in copyColorStyles.Where(g => g.Key == "PRINCIPAL"))
-            {
-                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
-                if (replicaGroup is not null)
-                {
-                    foreach (var style in group)
-                    {
-                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
-                        if (replicaStyle is not null)
-                        {
-                            style.Value = replicaStyle.Value;
-                        }
-                    }
-                }
-            }
+            searchByTag = "PRINCIPAL";
         }
 
         if (IsSelectSEMANTIC)
         {
-            foreach (var group in copyColorStyles.Where(g => g.Key == "SEMANTIC"))
-            {
-                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
-                if (replicaGroup is not null)
-                {
-                    foreach (var style in group)
-                    {
-                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
-                        if (replicaStyle is not null)
-                        {
-                            style.Value = replicaStyle.Value;
-                        }
-                    }
-                }
-            }
+            searchByTag = "SEMANTIC";
         }
 
         if (IsSelectNEUTRAL)
         {
-            foreach (var group in copyColorStyles.Where(g => g.Key == "NEUTRAL"))
+            searchByTag = "NEUTRAL";
+        }
+
+        if (string.IsNullOrEmpty(searchByTag))
+        {
+            var colorStylesCollection = sourceCollection!.SelectMany(x => x).Select(x => new ColorStyle()
             {
-                var replicaGroup = colorStyleReplica.FirstOrDefault(x => x.Key == group.Key);
-                if (replicaGroup is not null)
+                Name = IsSelectDarkTheme ? x.Name + "Dark" : x.Name!.Replace("Dark", ""),
+                Value = x.Value,
+                Tag = x.Tag,
+                Scheme = IsSelectDarkTheme ? ColorScheme.Dark : ColorScheme.Light
+            });
+
+            var tagCollection = targetCollection!.Select(x => x.Key);
+
+            foreach (var element in tagCollection)
+            {
+                updatedGroups.Add(new ColorStyleGroup(element!, colorStylesCollection.Where(x => x.Tag == element)));
+            }                        
+        }
+        else
+        {
+            var colorStylesCollection = sourceCollection!.SelectMany(x => x).Where(x => x.Tag == searchByTag).Select(x => new ColorStyle()
+            {
+                Name = IsSelectDarkTheme ? x.Name + "Dark" : x.Name!.Replace("Dark", ""),
+                Value = x.Value,
+                Tag = x.Tag,
+                Scheme = IsSelectDarkTheme ? ColorScheme.Dark : ColorScheme.Light
+            });
+
+            foreach (var element in targetCollection!)
+            {
+                if (element.Key == searchByTag)
                 {
-                    foreach (var style in group)
-                    {
-                        var replicaStyle = replicaGroup.FirstOrDefault(x => x.Name == style.Name);
-                        if (replicaStyle is not null)
-                        {
-                            style.Value = replicaStyle.Value;
-                        }
-                    }
+                    updatedGroups.Add(new ColorStyleGroup(searchByTag, colorStylesCollection.Where(x => x.Tag == searchByTag)));
+                }
+                else
+                {
+                    updatedGroups.Add(element);
                 }
             }
         }
 
         if (IsSelectDarkTheme)
         {
-            DarkColorStyles = [.. copyColorStyles];
+            DarkColorStyles = [.. updatedGroups];
         }
         else
         {
-            LightColorStyles = [.. copyColorStyles];
+            LightColorStyles = [.. updatedGroups];
         }
         StatusInformationText = null;
     }
@@ -342,10 +332,10 @@ public partial class PgColorsViewModel : ObservableObject
 
     async void LoadDefaultPalettes()
     {
-        var loadFluentPaletteTask = LoadFluentPaletteFromCsv();
-        var loadMauiPaletteTask = Task.Run(() => LoadMauiPalette());
-
-        await Task.WhenAll(loadFluentPaletteTask, loadMauiPaletteTask);
+        IsBusy = true;
+        await LoadFluentPaletteFromCsv();
+        await Task.Run(() => LoadMauiPalette());
+        IsBusy = false;
     }
 
     void LoadLightColorStyle()

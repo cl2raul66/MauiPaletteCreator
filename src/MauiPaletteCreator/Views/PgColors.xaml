@@ -132,7 +132,27 @@
         </Grid>
         <!--#endregion-->
         <!--#region CONTENT-->
-        <Frame Grid.Row="1" Margin="8,0,8,8">
+        <Frame
+            Grid.Row="1"
+            Padding="32"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center">
+            <VerticalStackLayout Spacing="16">
+                <ActivityIndicator
+                    HeightRequest="64"
+                    IsRunning="{Binding IsBusy}"
+                    WidthRequest="64" />
+                <Label
+                    FontSize="32"
+                    HorizontalTextAlignment="Center"
+                    Text="Cargando..." />
+            </VerticalStackLayout>
+        </Frame>
+        <Frame
+            Grid.Row="1"
+            Margin="8,0,8,8"
+            IsVisible="{Binding IsBusy, Converter={ctk:InvertedBoolConverter}}">
             <Grid RowDefinitions="*,auto" RowSpacing="8">
                 <Grid ColumnDefinitions="auto,*,250" ColumnSpacing="16">
                     <!--#region NEW PALETTE-->
