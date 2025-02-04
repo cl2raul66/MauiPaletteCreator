@@ -65,6 +65,11 @@
                         IsEnabled="{Binding IsFinished, Converter={ctk:InvertedBoolConverter}}"
                         Text="Aplicar"
                         WidthRequest="250" />
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding IsFinished}"
+                        Text="Ya se establecio una paleta de colores y estilos para su proyecto. Puede cerrar esta app." />
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"

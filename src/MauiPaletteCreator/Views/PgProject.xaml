@@ -22,19 +22,19 @@
                 Spacing="16"
                 ZIndex="10">
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Inicio" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
                 </Border>
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Proyecto" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Colores" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Ver" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Fin" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
                 </Border>
             </HorizontalStackLayout>
             <Border
@@ -52,17 +52,17 @@
                     <Label
                         FontSize="32"
                         HorizontalTextAlignment="Center"
-                        Text="Seleccione un proyecto local .NET MAUI" />
+                        Text="{StaticResource lang:PgProjectLbTitle}" />
                     <Button
                         Command="{Binding LoadProjectCommand}"
                         HorizontalOptions="Center"
-                        Text="Cargar proyecto" />
+                        Text="{StaticResource lang:PgProjectBtnLoad}" />
                     <Label
                         FontSize="16"
                         HorizontalOptions="Center"
                         LineBreakMode="TailTruncation"
-                        MaximumWidthRequest="400"
-                        Text="{Binding ProjectFilePath, StringFormat='Path: {0}', FallbackValue='¡Proyecto no cargado!', TargetNullValue='¡Proyecto no cargado!'}"
+                        MaximumWidthRequest="500"
+                        Text="{Binding ProjectFilePath, StringFormat={StaticResource lang:PgProjectLbProjectFilePathStringFormat}, FallbackValue={StaticResource lang:PgProjectLbProjectFilePathDefault}, TargetNullValue={StaticResource lang:PgProjectLbProjectFilePathDefault}}"
                         VerticalTextAlignment="Center" />
                 </VerticalStackLayout>
                 <Grid
@@ -80,7 +80,7 @@
                         Grid.Column="1"
                         Command="{Binding GoToNextCommand}"
                         IsEnabled="{Binding ProjectFilePath, Converter={ctk:IsStringNotNullOrEmptyConverter}}"
-                        Text="Siguiente" />
+                        Text="{StaticResource lang:PgProjectBtnNavNext}" />
                 </Grid>
             </Grid>
         </Frame>

@@ -68,14 +68,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\Localization\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\..\..\MAUIProjectManagerLib\MAUIProjectManagerLib\MAUIProjectManagerLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\PgProject.xaml.cs">
+	    <DependentUpon>PgProject.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Resources\Localization\Language.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Localization\LanguageEn.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\PgColors.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -85,7 +93,7 @@
 	  <MauiXaml Update="Views\PgMain.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\PgProyect.xaml">
+	  <MauiXaml Update="Views\PgProject.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PgView.xaml">

@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/icofont.xaml" />
+
+                <ResourceDictionary Source="Resources/Localization/Language.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="BrPosition" TargetType="Border">
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryCL}" />

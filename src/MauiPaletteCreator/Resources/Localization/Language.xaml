@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    x:Class="MauiPaletteCreator.Resources.Localization.Language"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <x:String x:Key="lang:LbPositionMain">Inicio</x:String>
+    <x:String x:Key="lang:LbPositionProject">Proyecto</x:String>
+    <x:String x:Key="lang:LbPositionColors">Colores</x:String>
+    <x:String x:Key="lang:LbPositionView">Ver</x:String>
+    <x:String x:Key="lang:LbPositionEnd">Fin</x:String>
+
+    <x:String x:Key="lang:PgMainLbTitle">Bienvenidos a Maui Palette Creator</x:String>
+    <x:String x:Key="lang:PgMainLbSubtitle">Cree hermosos temas de colores para .NET MAUI</x:String>
+    <x:String x:Key="lang:PgMainBtnNavNext">Siguiente</x:String>
+
+    <x:String x:Key="lang:PgProjectLbTitle">Seleccione un proyecto local .NET MAUI</x:String>
+    <x:String x:Key="lang:PgProjectBtnLoad">Cargar proyecto</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathDefault">¡Proyecto no cargado!</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathStatusLoad">Cargando proyecto...</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathStringFormat">Ruta: {0}</x:String>
+    <x:String x:Key="lang:PgProjectBtnNavNext">Siguiente</x:String>
+
+</ResourceDictionary>

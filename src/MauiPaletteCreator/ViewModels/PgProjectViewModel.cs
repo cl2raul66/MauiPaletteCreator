@@ -24,7 +24,7 @@ public partial class PgProjectViewModel : ObservableObject
     [RelayCommand]
     async Task LoadProject()
     {
-        StatusInformationText = "Cargando proyecto...";
+        StatusInformationText = App.Current?.Resources["lang:PgProjectLbProjectFilePathStatusLoad"] as string;
         string filePath = await FileHelper.LoadProjectFile();
         if (string.IsNullOrEmpty(filePath))
         {

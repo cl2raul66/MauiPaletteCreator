@@ -100,6 +100,31 @@ public partial class PgColorsViewModel : ObservableObject
     }
 
     [RelayCommand]
+    void SetSelectedFluentColor()
+    {
+        if (IsSelectDarkTheme)
+        {
+            List<ColorStyleGroup> copy = [.. DarkColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedDarkColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedDarkColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedFluentColor!.Value;
+            DarkColorStyles = [.. copy];
+        }
+        else
+        {
+            List<ColorStyleGroup> copy = [.. LightColorStyles!];
+            var group = copy!.FirstOrDefault(x => x.Key == SelectedLightColorStyle!.Tag);
+            if (group is null) return;
+            var element = group.FirstOrDefault(x => x.Name == SelectedLightColorStyle!.Name);
+            if (element is null) return;
+            element.Value = SelectedFluentColor!.Value;
+            LightColorStyles = [.. copy];
+        }
+    }
+
+    [RelayCommand]
     async Task GenerateByColormind()
     {
         StatusInformationText = "Generando colores, espere por favor.";

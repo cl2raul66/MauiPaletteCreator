@@ -253,7 +253,7 @@
                             </ScrollView>
                             <Button
                                 Grid.Row="2"
-                                Command="{Binding SetSelectedMauiColorCommand}"
+                                Command="{Binding SetSelectedFluentColorCommand}"
                                 Text="Establecer color">
                                 <Button.IsEnabled>
                                     <MultiBinding>

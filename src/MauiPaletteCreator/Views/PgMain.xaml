@@ -12,25 +12,24 @@
         <!--#region HEADER-->
         <Grid>
             <HorizontalStackLayout
-                x:Name="HslOpbects"
                 Padding="8"
                 HorizontalOptions="Center"
                 Spacing="16"
                 ZIndex="10">
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Inicio" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Proyecto" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Colores" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Ver" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Fin" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
                 </Border>
             </HorizontalStackLayout>
             <Border
@@ -48,11 +47,11 @@
                     <Label
                         FontSize="32"
                         HorizontalTextAlignment="Center"
-                        Text="Bienvenidos a Maui Palette Creator" />
+                        Text="{StaticResource lang:PgMainLbTitle}" />
                     <Label
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Cree hermosos temas de colores para .NET MAUI" />
+                        Text="{StaticResource lang:PgMainLbSubtitle}" />
                 </VerticalStackLayout>
                 <Grid
                     Grid.Row="1"
@@ -61,7 +60,7 @@
                     <Button
                         Grid.Column="1"
                         Command="{Binding GoToNextCommand}"
-                        Text="Siguiente" />
+                        Text="{StaticResource lang:PgMainBtnNavNext}" />
                 </Grid>
             </Grid>
         </Frame>
