@@ -22,19 +22,19 @@
                 Spacing="16"
                 ZIndex="10">
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Inicio" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
                 </Border>
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Proyecto" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
                 </Border>
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Colores" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
                 </Border>
                 <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="Ver" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
                 </Border>
                 <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="Fin" />
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
                 </Border>
             </HorizontalStackLayout>
             <Border
@@ -52,11 +52,11 @@
                     <Label
                         FontSize="32"
                         HorizontalTextAlignment="Center"
-                        Text="Seleccione una plataforma para visualizar" />
+                        Text="{StaticResource lang:PgViewLbTitle}" />
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
                         <Label
                             FontSize="16"
-                            Text="Plataformas:"
+                            Text="{StaticResource lang:PgViewLbPlatforms}"
                             VerticalOptions="Center" />
                         <Picker
                             ItemsSource="{Binding Platforms}"
@@ -65,7 +65,7 @@
                         <Button
                             Command="{Binding PreviewCommand}"
                             IsEnabled="{Binding SelectedPlatform, Converter={ctk:IsNotNullConverter}}"
-                            Text="Visualizar" />
+                            Text="{StaticResource lang:PgViewBtnViewt}" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
                 <Grid
@@ -80,8 +80,8 @@
                             VerticalOptions="Center" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Column="1" Spacing="8">
-                        <Button Command="{Binding GoToBackCommand}" Text="Regresar" />
-                        <Button Command="{Binding GoToNextCommand}" Text="Siguiente" />
+                        <Button Command="{Binding GoToBackCommand}" Text="{StaticResource lang:PgViewBtnNavReturn}" />
+                        <Button Command="{Binding GoToNextCommand}" Text="{StaticResource lang:PgViewBtnNavNext}" />
                     </HorizontalStackLayout>
                 </Grid>
             </Grid>

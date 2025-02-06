@@ -4,21 +4,62 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!--  FOR ALL  -->
     <x:String x:Key="lang:LbPositionMain">Inicio</x:String>
     <x:String x:Key="lang:LbPositionProject">Proyecto</x:String>
     <x:String x:Key="lang:LbPositionColors">Colores</x:String>
     <x:String x:Key="lang:LbPositionView">Ver</x:String>
     <x:String x:Key="lang:LbPositionEnd">Fin</x:String>
 
+    <!--  PgMain  -->
     <x:String x:Key="lang:PgMainLbTitle">Bienvenidos a Maui Palette Creator</x:String>
     <x:String x:Key="lang:PgMainLbSubtitle">Cree hermosos temas de colores para .NET MAUI</x:String>
     <x:String x:Key="lang:PgMainBtnNavNext">Siguiente</x:String>
 
+    <!--  PgProject  -->
     <x:String x:Key="lang:PgProjectLbTitle">Seleccione un proyecto local .NET MAUI</x:String>
     <x:String x:Key="lang:PgProjectBtnLoad">Cargar proyecto</x:String>
     <x:String x:Key="lang:PgProjectLbProjectFilePathDefault">¡Proyecto no cargado!</x:String>
     <x:String x:Key="lang:PgProjectLbProjectFilePathStatusLoad">Cargando proyecto...</x:String>
     <x:String x:Key="lang:PgProjectLbProjectFilePathStringFormat">Ruta: {0}</x:String>
     <x:String x:Key="lang:PgProjectBtnNavNext">Siguiente</x:String>
+
+    <!--  PgColors  -->
+    <x:String x:Key="lang:PgColorsLbLoading">Cargando</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleLight">Colores claros</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleDark">Colores oscuros</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleFluentColors">Colores de Fluent UI</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleMAUIColors">Colores de .NET MAUI</x:String>
+    <x:String x:Key="lang:PgColorsBtnColorsSetColor">Establecer color</x:String>
+    <x:String x:Key="lang:PgColorsLbSelectedTheme">Es tema oscuro:</x:String>
+    <x:String x:Key="lang:PgColorsRbContentAll">Todos</x:String>
+    <x:String x:Key="lang:PgColorsRbContentPrincipal">Principal</x:String>
+    <x:String x:Key="lang:PgColorsRbContentSemantic">Semantic</x:String>
+    <x:String x:Key="lang:PgColorsRbContentNeutral">Neutral</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleActionsSection">Generar colores:</x:String>
+    <x:String x:Key="lang:PgColorsBtnSetReplicaByIsSelectDarkThemeFalse">Replicar oscuro</x:String>
+    <x:String x:Key="lang:PgColorsBtnSetReplicaByIsSelectDarkThemeTrue">Replicar claro</x:String>
+    <x:String x:Key="lang:PgColorsBtnGenerateByColormind">Por Colormind</x:String>
+    <x:String x:Key="lang:PgColorsBtnNavEnd">Finalizar</x:String>
+    <x:String x:Key="lang:PgColorsBtnNavNext">Siguiente</x:String>
+
+    <!--  PgView  -->
+    <x:String x:Key="lang:PgViewLbTitle">Seleccione una plataforma para visualizar</x:String>
+    <x:String x:Key="lang:PgViewLbPlatforms">Plataformas:</x:String>
+    <x:String x:Key="lang:PgViewBtnViewt">Visualizar</x:String>
+    <x:String x:Key="lang:PgViewBtnNavReturn">Regresar</x:String>
+    <x:String x:Key="lang:PgViewBtnNavNext">Siguiente</x:String>
+    <x:String x:Key="lang:PgViewLbStatusInformationTextExecute">Ejecutando proyecto TestGallery para {0}. Puede tardar un tiempo...</x:String>
+
+    <!--  PgEnd  -->
+    <x:String x:Key="lang:PgEndLbTitle">Felicitaciones</x:String>
+    <x:String x:Key="lang:PgEndLbSubtitle">Presione aplicar para proceder a modificar los ficheros pertinentes de su proyecto y comience su desarrollo con sus colores deseados</x:String>
+    <x:String x:Key="lang:PgEndBtnApply">Aplicar</x:String>
+    <x:String x:Key="lang:PgEndLbFinished">Ya se estableció una paleta de colores y estilos para su proyecto. Puede cerrar esta app</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationText">Ir a colores</x:String>
+    <x:String x:Key="lang:PgEndBtnGoToPgColors">Ir a colores</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextGetFiles">Obteniendo los ficheros a modificar...</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextApplyColorsStyles">Aplicando colores y estilos...</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextApplyProcessCompleted">Colores y estilos aplicado al proyecto {0}</x:String>
 
 </ResourceDictionary>

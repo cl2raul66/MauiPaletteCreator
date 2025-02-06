@@ -29,10 +29,16 @@ public partial class PgViewViewModel : ObservableObject
     [RelayCommand]
     async Task Preview()
     {
-        StatusInformationText = $"Ejecutando proyecto TestGallery para {SelectedPlatform}. Puede tardar un tiempo...";
+        var pgViewLbProjectStatusExecute = App.Current?.Resources["lang:PgViewLbStatusInformationTextExecute"] as string;
+        if (string.IsNullOrEmpty(pgViewLbProjectStatusExecute))
+        {
+            return;
+        }
+        StatusInformationText = string.Format(pgViewLbProjectStatusExecute, SelectedPlatform);
         FileHelper.SetFilesToBeModified(testProjectServ.ProjectPath, testProjectServ.FilesToBeModified);
         await FileHelper.ApplyModificationsAsync(testProjectServ.FilesToBeModified!);
         await testProjectServ.RunProjectAsync(SelectedPlatform!);
+        StatusInformationText = null;
     }
 
     [RelayCommand]

@@ -28,11 +28,17 @@ public partial class PgEndViewModel : ObservableObject
     {
         if (externalProjectServ.IsLoaded)
         {
-            StatusInformationText = "Obteniendo los ficheros a modificar.";
+            StatusInformationText = App.Current?.Resources["lang:PgEndLbStatusInformationTextGetFiles"] as string;
             FileHelper.SetFilesToBeModified(externalProjectServ.ProjectPath, externalProjectServ.FilesToBeModified);
-            StatusInformationText = "Aplicando colores y estilos.";
+            StatusInformationText = App.Current?.Resources["lang:PgEndLbStatusInformationTextApplyColorsStyles"] as string;
             await FileHelper.ApplyModificationsAsync(externalProjectServ.FilesToBeModified!);
-            StatusInformationText = $"Colores y estilos aplicado al proyecto {Path.GetFileNameWithoutExtension(externalProjectServ.ProjectPath)}";
+            var pgEndLbStatusInformationTextApplyProcessCompleted = App.Current?.Resources["lang:PgEndLbStatusInformationTextApplyColorsStyles"] as string;
+            if (string.IsNullOrEmpty(pgEndLbStatusInformationTextApplyProcessCompleted))
+            {
+                StatusInformationText = null;
+                return;
+            }
+            StatusInformationText = string.Format(pgEndLbStatusInformationTextApplyProcessCompleted, Path.GetFileNameWithoutExtension(externalProjectServ.ProjectPath));
             await testProjectServ.DeletedProjectAsync();
             FileHelper.CleanCache();
             IsFinished = !testProjectServ.IsCreated && string.IsNullOrEmpty(testProjectServ.ProjectPath);
@@ -45,8 +51,4 @@ public partial class PgEndViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync(nameof(PgColors), true);
     }
-
-    #region EXTRA
-
-    #endregion
 }
