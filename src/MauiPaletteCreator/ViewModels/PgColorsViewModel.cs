@@ -127,7 +127,7 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task GenerateByColormind()
     {
-        StatusInformationText = "Generando colores, espere por favor.";
+        StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextGenerateColor"] as string;
         if (IsSelectDarkTheme)
         {
             SelectedDarkColorStyle = null;
@@ -162,7 +162,7 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     void SetReplica()
     {
-        StatusInformationText = "Generando colores, espere por favor.";
+        StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextGenerateColor"] as string;
         if (IsSelectDarkTheme)
         {
             SelectedDarkColorStyle = null;
@@ -256,13 +256,13 @@ public partial class PgColorsViewModel : ObservableObject
         var testProjectPath = Path.Combine(FileHelper.CachePath, "TestGallery");
         if (!testProjectServ.IsCreated || !Directory.Exists(testProjectPath))
         {
-            StatusInformationText = "Creando el proyecto TestGallery para la visualización. Puede tardar un tiempo...";
+            StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextCreateTestGalleryProject"] as string;
             await testProjectServ.CreateProjectAsync(testProjectPath);
         }
 
         if (testProjectServ.IsCreated)
         {
-            StatusInformationText = "Generando ficheros modificadores...";
+            StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextGenerateModifierFiles"] as string;
             await GenerateModifierFiles();
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
@@ -272,12 +272,13 @@ public partial class PgColorsViewModel : ObservableObject
     [RelayCommand]
     async Task GoToEnd()
     {
-        StatusInformationText = "Generando ficheros modificadores...";
+        StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextGenerateModifierFiles"] as string;
         await GenerateModifierFiles();
         if (externalProjectServ.IsLoaded)
         {
             await Shell.Current.GoToAsync(nameof(PgEnd), true);
         }
+        StatusInformationText = null;
     }
 
     partial void OnIsSelectDarkThemeChanged(bool value)

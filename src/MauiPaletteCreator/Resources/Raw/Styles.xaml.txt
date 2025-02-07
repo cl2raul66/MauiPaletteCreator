@@ -340,12 +340,11 @@
     </Style>
 
     <Style TargetType="SwipeItem">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource cl:Background}, Dark={StaticResource cl:BackgroundDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource cl:Primary}, Dark={StaticResource cl:BackgroundDark}}" />
     </Style>
 
     <Style TargetType="Switch">
-        <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource cl:Primary}, Dark={StaticResource cl:PrimaryDark}}" />
-        <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource cl:Primary}, Dark={StaticResource cl:PrimaryDark}}" />
+        <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource cl:Complementary1}, Dark={StaticResource cl:Complementary1Dark}}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -353,12 +352,11 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource cl:Complementary1}, Dark={StaticResource cl:Complementary1Dark}}" />
-                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource cl:Complementary1}, Dark={StaticResource cl:Complementary1Dark}}" />
+                            <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource cl:Complementary3}, Dark={StaticResource cl:Complementary3Dark}}" />
                         </VisualState.Setters>
                     </VisualState>
                     <VisualState x:Name="On">
                         <VisualState.Setters>
-                            <Setter Property="OnColor" Value="{AppThemeBinding Light={StaticResource cl:Primary}, Dark={StaticResource cl:PrimaryDark}}" />
                             <Setter Property="ThumbColor" Value="{AppThemeBinding Light={StaticResource cl:Accent}, Dark={StaticResource cl:AccentDark}}" />
                         </VisualState.Setters>
                     </VisualState>

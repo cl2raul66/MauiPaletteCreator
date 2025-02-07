@@ -110,6 +110,21 @@
                         <Switch />
                         <Switch IsEnabled="False" />
                     </HorizontalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        IsVisible="{OnPlatform WinUI='False',
+                                               Android='True'}"
+                        Text="SwipeItem: (Normal, Disable)" />
+                    <HorizontalStackLayout IsVisible="{OnPlatform WinUI='False', Android='True'}" Spacing="8">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Favorite" />
+                                    <SwipeItem Text="Deleted" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                        </SwipeView>
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Border>
 
@@ -217,9 +232,22 @@
                         HorizontalOptions="Center"
                         Text="Collector Presenters"
                         TextTransform="Uppercase" />
-                    <Label FontAttributes="Bold" Text="IndicatorView:" />
+                    <Label FontAttributes="Bold" Text="ListView:" />
                     <HorizontalStackLayout Spacing="8">
-                        <IndicatorView Count="5" Position="2" />
+                        <ListView
+                            Footer="FOOTER"
+                            Header="HEADER"
+                            SeparatorVisibility="Default">
+                            <ListView.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                    <x:String>Item 4</x:String>
+                                    <x:String>Item 5</x:String>
+                                </x:Array>
+                            </ListView.ItemsSource>
+                        </ListView>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Border>

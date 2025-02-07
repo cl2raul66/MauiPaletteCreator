@@ -42,6 +42,9 @@
     <x:String x:Key="lang:PgColorsBtnGenerateByColormind">Por Colormind</x:String>
     <x:String x:Key="lang:PgColorsBtnNavEnd">Finalizar</x:String>
     <x:String x:Key="lang:PgColorsBtnNavNext">Siguiente</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextGenerateColor">Generando colores, puede tardar un tiempo...</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextCreateTestGalleryProject">Creando el proyecto TestGallery para la visualización. Puede tardar un tiempo...</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextGenerateModifierFiles">Generando ficheros modificadores...</x:String>
 
     <!--  PgView  -->
     <x:String x:Key="lang:PgViewLbTitle">Seleccione una plataforma para visualizar</x:String>
