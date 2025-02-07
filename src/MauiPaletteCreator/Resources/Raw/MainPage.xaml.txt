@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TestGallery.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarHasShadow="True">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BrFrame" TargetType="Border">
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Padding" Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView x:Name="mainScrollView">
+        <VerticalStackLayout
+            Padding="16"
+            HorizontalOptions="Center"
+            Spacing="16"
+            VerticalOptions="Center">
+            <Label
+                FontSize="Title"
+                HorizontalTextAlignment="Center"
+                Text="MAUI Gallery" />
+            <Label
+                FontSize="Subtitle"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="WordWrap"
+                Text="Welcome to the .NET Multi-platform App UI gallery" />
+
+            <!--  Botones  -->
+            <Border x:Name="buttonsSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Buttons"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="Button: (Normal, Accent, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Button Text="Normal" />
+                        <Button BackgroundColor="{StaticResource cl:Accent}" Text="Accent" />
+                        <Button IsEnabled="False" Text="Disable" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="ImageButton: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <ImageButton Source="dotnet_bot.png" />
+                        <ImageButton IsEnabled="False" Source="dotnet_bot.png" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Controles de selección  -->
+            <Border x:Name="selectionSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Selection Controls"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="CheckBox: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox />
+                        <CheckBox IsEnabled="False" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="RadioButton: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <RadioButton />
+                        <RadioButton Content="Normal with Content" />
+                        <RadioButton Content="Disable" IsEnabled="False" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="Picker: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Picker VerticalOptions="End" WidthRequest="120">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Picker Title="Normal with Title" WidthRequest="120">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        <Picker
+                            Title="Disable"
+                            IsEnabled="False"
+                            WidthRequest="120" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="DatePicker: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <DatePicker />
+                        <DatePicker IsEnabled="False" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="TimePicker: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <TimePicker />
+                        <TimePicker IsEnabled="False" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="Switch: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Switch />
+                        <Switch IsEnabled="False" />
+                    </HorizontalStackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        IsVisible="{OnPlatform WinUI='False',
+                                               Android='True'}"
+                        Text="SwipeItem: (Normal, Disable)" />
+                    <HorizontalStackLayout IsVisible="{OnPlatform WinUI='False', Android='True'}" Spacing="8">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Favorite" />
+                                    <SwipeItem Text="Deleted" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                        </SwipeView>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Texto y entrada  -->
+            <Border x:Name="textInputSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Text and input"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="Entry: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Entry ClearButtonVisibility="WhileEditing" WidthRequest="120" />
+                        <Entry
+                            IsPassword="True"
+                            Placeholder="Entry placeholder and Password"
+                            WidthRequest="250" />
+                        <Entry
+                            IsEnabled="False"
+                            Placeholder="Entry disable"
+                            WidthRequest="150" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="Editor: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Editor HeightRequest="75" WidthRequest="150" />
+                        <Editor
+                            HeightRequest="75"
+                            Placeholder="Editor with placeholder"
+                            WidthRequest="150" />
+                        <Editor
+                            HeightRequest="75"
+                            IsEnabled="False"
+                            Placeholder="Editor disable"
+                            WidthRequest="150" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="Label: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Normal" />
+                        <Label IsEnabled="False" Text="Disable" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="SearchBar: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <SearchBar Placeholder="Search..." WidthRequest="150" />
+                        <SearchBar
+                            IsEnabled="False"
+                            Placeholder="Search..."
+                            WidthRequest="150" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Controles de valor  -->
+            <Border x:Name="valueControlsSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Value Controls"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="Slider: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Slider
+                            Maximum="100"
+                            Minimum="0"
+                            WidthRequest="150"
+                            Value="70" />
+                        <Slider IsEnabled="False" WidthRequest="150" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="ProgressBar: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <ProgressBar x:Name="progressBar" WidthRequest="150" />
+                        <ProgressBar
+                            IsEnabled="False"
+                            Progress="0.7"
+                            WidthRequest="150" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="ActivityIndicator:" />
+                    <HorizontalStackLayout Spacing="8">
+                        <ActivityIndicator IsRunning="True" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Indicadores  -->
+            <Border x:Name="indicatorsSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Indicators"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="IndicatorView:" />
+                    <HorizontalStackLayout Spacing="8">
+                        <IndicatorView Count="5" Position="2" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Presentadores de coleccione  -->
+            <Border x:Name="collectorSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Collector Presenters"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="ListView:" />
+                    <HorizontalStackLayout Spacing="8">
+                        <ListView
+                            Footer="FOOTER"
+                            Header="HEADER"
+                            SeparatorVisibility="Default">
+                            <ListView.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Item 1</x:String>
+                                    <x:String>Item 2</x:String>
+                                    <x:String>Item 3</x:String>
+                                    <x:String>Item 4</x:String>
+                                    <x:String>Item 5</x:String>
+                                </x:Array>
+                            </ListView.ItemsSource>
+                        </ListView>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!--  Decorativos y de diseño  -->
+            <Border x:Name="decorativeSection" Style="{StaticResource BrFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        Text="Decorative and Design"
+                        TextTransform="Uppercase" />
+                    <Label FontAttributes="Bold" Text="Border: (Normal, Disable)" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Border>
+                            <Label Padding="10" Text="Label as content" />
+                        </Border>
+                        <Border IsEnabled="False">
+                            <Label Padding="10" Text="Border and its disabled content" />
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="BoxView:" />
+                    <HorizontalStackLayout Spacing="8">
+                        <BoxView HeightRequest="48" WidthRequest="48" />
+                    </HorizontalStackLayout>
+                    <Label FontAttributes="Bold" Text="Shadow:" />
+                    <HorizontalStackLayout Spacing="8">
+                        <Image Aspect="Center" Source="dotnet_bot.png">
+                            <Image.Shadow>
+                                <Shadow />
+                            </Image.Shadow>
+                        </Image>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

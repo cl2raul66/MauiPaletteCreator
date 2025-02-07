@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiPaletteCreator.Views.PgColors"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:model="clr-namespace:MauiPaletteCreator.Models.View"
+    xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
+    Title="Colors"
+    x:DataType="vm:PgColorsViewModel"
+    Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="LightColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding Key}"
+                TextTransform="Uppercase" />
+        </DataTemplate>
+        <DataTemplate x:Key="DarkColorStyleGroupHeaderTemplate" x:DataType="model:ColorStyleGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding Key}"
+                TextColor="White"
+                TextTransform="Uppercase" />
+        </DataTemplate>
+        <DataTemplate x:Key="ItemColorTemplate" x:DataType="model:ColorStyle">
+            <Border
+                BackgroundColor="{Binding Value}"
+                Style="{StaticResource colorItemBorder}"
+                ToolTipProperties.Text="{Binding Value, Converter={ctk:ColorToHexRgbaStringConverter}}">
+                <Label
+                    Padding="4,2"
+                    BackgroundColor="Black"
+                    FontFamily="iosevkaRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="{Binding Name}"
+                    TextColor="White"
+                    TextTransform="Uppercase"
+                    VerticalOptions="Center" />
+            </Border>
+        </DataTemplate>
+        <Style x:Key="colorItemBorder" TargetType="Border">
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 6" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource ComplementaryFirstCl}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource AccentCL}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <LinearItemsLayout
+            x:Key="ItemColorLayout"
+            ItemSpacing="4"
+            Orientation="Vertical" />
+        <DataTemplate x:Key="ColorPaletteGroupHeaderTemplate" x:DataType="model:ColorPaletteGroup">
+            <Label
+                FontSize="16"
+                Text="{Binding NameGroup}"
+                TextTransform="Uppercase" />
+        </DataTemplate>
+        <Style x:Key="colorItemPaletteBorder" TargetType="Border">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="HeightRequest" Value="42" />
+            <Setter Property="WidthRequest" Value="42" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 6" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="Stroke" Value="{StaticResource ComplementaryFirstCl}" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal" />
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Stroke" Value="{StaticResource AccentCL}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Disabled" />
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid Padding="8" RowDefinitions="auto,*,auto">
+        <!--#region HEADER-->
+        <Grid>
+            <HorizontalStackLayout
+                x:Name="HslOpbects"
+                Padding="8"
+                HorizontalOptions="Center"
+                Spacing="16"
+                ZIndex="10">
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
+                </Border>
+                <Border Style="{StaticResource BrPosition}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
+                </Border>
+            </HorizontalStackLayout>
+            <Border
+                BackgroundColor="{StaticResource SecondaryCL}"
+                HeightRequest="4"
+                StrokeThickness="0"
+                WidthRequest="400"
+                ZIndex="1" />
+        </Grid>
+        <!--#endregion-->
+        <!--#region CONTENT-->
+        <Frame
+            Grid.Row="1"
+            Padding="32"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center">
+            <VerticalStackLayout Spacing="16">
+                <ActivityIndicator
+                    HeightRequest="64"
+                    IsRunning="{Binding IsBusy}"
+                    WidthRequest="64" />
+                <Label
+                    FontSize="32"
+                    HorizontalTextAlignment="Center"
+                    Text="{StaticResource lang:PgColorsLbLoading}"
+                    TextTransform="Uppercase" />
+            </VerticalStackLayout>
+        </Frame>
+        <Frame
+            Grid.Row="1"
+            Margin="8,0,8,8"
+            IsVisible="{Binding IsBusy, Converter={ctk:InvertedBoolConverter}}">
+            <Grid RowDefinitions="*,auto" RowSpacing="8">
+                <Grid ColumnDefinitions="auto,*,250" ColumnSpacing="16">
+                    <!--#region NEW PALETTE-->
+                    <!--#region LEFT SIDE-->
+                    <ScrollView>
+                        <HorizontalStackLayout Spacing="8">
+                            <!--#region CLARO-->
+                            <Frame
+                                BackgroundColor="White"
+                                IsEnabled="{Binding IsSelectDarkTheme, Converter={ctk:InvertedBoolConverter}}"
+                                WidthRequest="250">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{StaticResource lang:PgColorsLbTitleLight}"
+                                        TextTransform="Uppercase" />
+                                    <CollectionView
+                                        Grid.Row="1"
+                                        GroupHeaderTemplate="{StaticResource LightColorStyleGroupHeaderTemplate}"
+                                        IsGrouped="True"
+                                        ItemTemplate="{StaticResource ItemColorTemplate}"
+                                        ItemsLayout="{StaticResource ItemColorLayout}"
+                                        ItemsSource="{Binding LightColorStyles}"
+                                        SelectedItem="{Binding SelectedLightColorStyle}"
+                                        SelectionChanged="CollectionView_SelectionChanged"
+                                        SelectionMode="Single" />
+                                </VerticalStackLayout>
+                            </Frame>
+                            <!--#endregion-->
+                            <!--#region OSCURO-->
+                            <Frame
+                                BackgroundColor="Black"
+                                IsEnabled="{Binding IsSelectDarkTheme}"
+                                WidthRequest="250">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label
+                                        FontSize="16"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{StaticResource lang:PgColorsLbTitleDark}"
+                                        TextColor="{StaticResource BackgroundCL}"
+                                        TextTransform="Uppercase" />
+                                    <CollectionView
+                                        x:Name="CvDarkColorStyle"
+                                        Grid.Row="1"
+                                        GroupHeaderTemplate="{StaticResource DarkColorStyleGroupHeaderTemplate}"
+                                        IsGrouped="True"
+                                        ItemTemplate="{StaticResource ItemColorTemplate}"
+                                        ItemsLayout="{StaticResource ItemColorLayout}"
+                                        ItemsSource="{Binding DarkColorStyles}"
+                                        SelectedItem="{Binding SelectedDarkColorStyle}"
+                                        SelectionChanged="CollectionView_SelectionChanged"
+                                        SelectionMode="Single" />
+                                </VerticalStackLayout>
+                            </Frame>
+                            <!--#endregion-->
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                    <!--#endregion-->
+                    <!--#region RIGHT SIDE-->
+                    <HorizontalStackLayout
+                        Grid.Column="1"
+                        HorizontalOptions="End"
+                        Spacing="8">
+                        <Grid
+                            RowDefinitions="auto,*,auto"
+                            RowSpacing="8"
+                            WidthRequest="250">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="CenterAndExpand"
+                                Text="{StaticResource lang:PgColorsLbTitleFluentColors}"
+                                TextTransform="Uppercase" />
+                            <ScrollView Grid.Row="1" Padding="0,0,2,0">
+                                <CollectionView
+                                    GroupHeaderTemplate="{StaticResource ColorPaletteGroupHeaderTemplate}"
+                                    IsGrouped="True"
+                                    ItemsSource="{Binding FluentPalette}"
+                                    SelectedItem="{Binding SelectedFluentColor}"
+                                    SelectionChanged="CollectionView_SelectionChanged"
+                                    SelectionMode="Single">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout
+                                            HorizontalItemSpacing="2"
+                                            Orientation="Vertical"
+                                            Span="5"
+                                            VerticalItemSpacing="4" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:ColorPalette">
+                                            <Border
+                                                BackgroundColor="{Binding Value}"
+                                                Style="{StaticResource colorItemPaletteBorder}"
+                                                ToolTipProperties.Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                            <Button
+                                Grid.Row="2"
+                                Command="{Binding SetSelectedFluentColorCommand}"
+                                Text="{StaticResource lang:PgColorsBtnColorsSetColor}">
+                                <Button.IsEnabled>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                        </MultiBinding.Converter>
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedFluentColor" />
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </Grid>
+                        <Grid
+                            RowDefinitions="auto,*,auto"
+                            RowSpacing="8"
+                            WidthRequest="250">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="CenterAndExpand"
+                                Text="{StaticResource lang:PgColorsLbTitleMAUIColors}"
+                                TextTransform="Uppercase" />
+                            <ScrollView Grid.Row="1" Padding="0,0,2,0">
+                                <CollectionView
+                                    GroupHeaderTemplate="{StaticResource ColorPaletteGroupHeaderTemplate}"
+                                    IsGrouped="True"
+                                    ItemsSource="{Binding MauiPalette}"
+                                    SelectedItem="{Binding SelectedMauiColor}"
+                                    SelectionMode="Single">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout
+                                            HorizontalItemSpacing="2"
+                                            Orientation="Vertical"
+                                            Span="5"
+                                            VerticalItemSpacing="4" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="model:ColorPalette">
+                                            <Border
+                                                BackgroundColor="{Binding Value}"
+                                                Style="{StaticResource colorItemPaletteBorder}"
+                                                ToolTipProperties.Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </ScrollView>
+                            <Button
+                                Grid.Row="2"
+                                Command="{Binding SetSelectedMauiColorCommand}"
+                                Text="{StaticResource lang:PgColorsBtnColorsSetColor}">
+                                <Button.IsEnabled>
+                                    <MultiBinding>
+                                        <MultiBinding.Converter>
+                                            <ctk:VariableMultiValueConverter ConditionType="GreaterThan" Count="1" />
+                                        </MultiBinding.Converter>
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedLightColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedDarkColorStyle" />
+                                        <Binding Converter="{ctk:IsNotNullConverter}" Path="SelectedMauiColor" />
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </Grid>
+                    </HorizontalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" Spacing="8">
+                        <Grid ColumnDefinitions="*,auto" ColumnSpacing="8">
+                            <Label
+                                FontSize="16"
+                                Text="{StaticResource lang:PgColorsLbSelectedTheme}"
+                                VerticalOptions="Center" />
+                            <Switch
+                                Grid.Column="1"
+                                IsToggled="{Binding IsSelectDarkTheme}"
+                                MinimumHeightRequest="32"
+                                MinimumWidthRequest="44" />
+                        </Grid>
+                        <RadioButton
+                            Content="{StaticResource lang:PgColorsRbContentAll}"
+                            IsChecked="{Binding IsSelectAll}"
+                            MinimumHeightRequest="32"
+                            MinimumWidthRequest="32" />
+                        <RadioButton
+                            Content="{StaticResource lang:PgColorsRbContentPrincipal}"
+                            IsChecked="{Binding IsSelectPRINCIPAL}"
+                            MinimumHeightRequest="32"
+                            MinimumWidthRequest="32" />
+                        <RadioButton
+                            Content="{StaticResource lang:PgColorsRbContentSemantic}"
+                            IsChecked="{Binding IsSelectSEMANTIC}"
+                            MinimumHeightRequest="32"
+                            MinimumWidthRequest="32" />
+                        <RadioButton
+                            Content="{StaticResource lang:PgColorsRbContentNeutral}"
+                            IsChecked="{Binding IsSelectNEUTRAL}"
+                            MinimumHeightRequest="32"
+                            MinimumWidthRequest="32" />
+                        <Label
+                            FontSize="16"
+                            Text="{StaticResource lang:PgColorsLbTitleActionsSection}"
+                            TextTransform="Uppercase" />
+                        <Button Command="{Binding SetReplicaCommand}">
+                            <Button.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsSelectDarkTheme}"
+                                    TargetType="Button"
+                                    Value="false">
+                                    <Setter Property="Text" Value="{StaticResource lang:PgColorsBtnSetReplicaByIsSelectDarkThemeFalse}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding IsSelectDarkTheme}"
+                                    TargetType="Button"
+                                    Value="true">
+                                    <Setter Property="Text" Value="{StaticResource lang:PgColorsBtnSetReplicaByIsSelectDarkThemeTrue}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                        <Button Command="{Binding GenerateByColormindCommand}" Text="{StaticResource lang:PgColorsBtnGenerateByColormind}" />
+                    </VerticalStackLayout>
+                    <!--#endregion-->
+                    <!--#endregion-->
+                </Grid>
+                <Grid
+                    Grid.Row="2"
+                    ColumnDefinitions="*,auto"
+                    ColumnSpacing="16">
+                    <HorizontalStackLayout Spacing="8">
+                        <ActivityIndicator IsRunning="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" IsVisible="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding StatusInformationText}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                        <Button Command="{Binding GoToEndCommand}" Text="{StaticResource lang:PgColorsBtnNavEnd}" />
+                        <Button Command="{Binding GoToNextCommand}" Text="{StaticResource lang:PgColorsBtnNavNext}" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Grid>
+        </Frame>
+        <!--#endregion-->
+
+        <!--#region FOOT-->
+        <Grid Grid.Row="2">
+            <Label
+                FontSize="12"
+                HorizontalOptions="Center"
+                Text="by R and A Media Lab, Group"
+                VerticalOptions="Center" />
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+
+</ContentPage>

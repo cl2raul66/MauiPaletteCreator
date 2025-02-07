@@ -1,0 +1,53 @@
+﻿namespace TestGallery;
+
+public partial class MainPage : ContentPage
+{
+
+    public MainPage()
+    {
+        InitializeComponent();
+        Shell.Current.Navigated += Current_Navigated;
+        StartProgressBar();
+    }
+
+    private async void Current_Navigated(object? sender, ShellNavigatedEventArgs e)
+    {
+        var currentTitle = Shell.Current.CurrentItem.Title;
+
+        VisualElement? elementToScrollTo = currentTitle switch
+        {
+            "Buttons" => buttonsSection,
+            "Selection Controls" => selectionSection,
+            "Text and input" => textInputSection,
+            "Value Controls" => valueControlsSection,
+            "Indicators" => indicatorsSection,
+            "Collector Presenters" => collectorSection,
+            "Decorative and Design" => decorativeSection,
+            _ => null
+        };
+
+        if (elementToScrollTo is not null)
+        {
+            await mainScrollView.ScrollToAsync(elementToScrollTo, ScrollToPosition.Start, true);
+        }
+    }
+
+    private async void StartProgressBar()
+    {
+        while (true)
+        {
+            for (double i = 0; i <= 1; i += 0.01)
+            {
+                progressBar.Progress = i;
+                await Task.Delay(700);
+            }
+            await Task.Delay(50000);
+        }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        Shell.Current.Navigated -= Current_Navigated;
+    }
+}

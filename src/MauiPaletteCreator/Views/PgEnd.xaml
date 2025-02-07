@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiPaletteCreator.Views.PgEnd"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
+    Title="End"
+    x:DataType="vm:PgEndViewModel"
+    Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
+    <Grid Padding="8" RowDefinitions="auto,*,auto">
+        <!--#region HEADER-->
+        <Grid>
+            <HorizontalStackLayout
+                x:Name="HslOpbects"
+                Padding="8"
+                HorizontalOptions="Center"
+                Spacing="16"
+                ZIndex="10">
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
+                </Border>
+                <Border Style="{StaticResource BrPositionVisited}">
+                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
+                </Border>
+            </HorizontalStackLayout>
+            <Border
+                BackgroundColor="{StaticResource SecondaryCL}"
+                HeightRequest="4"
+                StrokeThickness="0"
+                WidthRequest="400"
+                ZIndex="1" />
+        </Grid>
+        <!--#endregion-->
+        <!--#region CONTENT-->
+        <Frame Grid.Row="1" Margin="8,0,8,8">
+            <Grid RowDefinitions="*,auto">
+                <VerticalStackLayout
+                    Spacing="16"
+                    VerticalOptions="Center"
+                    WidthRequest="600">
+                    <Label
+                        FontSize="32"
+                        HorizontalTextAlignment="Center"
+                        Text="{StaticResource lang:PgEndLbTitle}" />
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="{StaticResource lang:PgEndLbSubtitle}" />
+                    <Button
+                        Command="{Binding ApplyCommand}"
+                        IsEnabled="{Binding IsFinished, Converter={ctk:InvertedBoolConverter}}"
+                        Text="{StaticResource lang:PgEndBtnApply}"
+                        WidthRequest="250" />
+                    <Label
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding IsFinished}"
+                        Text="{StaticResource lang:PgEndLbFinished}" />
+                </VerticalStackLayout>
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="*,auto"
+                    ColumnSpacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <ActivityIndicator IsRunning="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" IsVisible="{Binding StatusInformationText, Converter={ctk:IsStringNotNullOrEmptyConverter}}" />
+                        <Label
+                            FontSize="14"
+                            Text="{Binding StatusInformationText}"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                        <Button
+                            Command="{Binding GoToPgColorsCommand}"
+                            IsEnabled="{Binding IsFinished, Converter={ctk:InvertedBoolConverter}}"
+                            Text="{StaticResource lang:PgEndBtnGoToPgColors}" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Grid>
+        </Frame>
+        <!--#endregion-->
+        <!--#region FOOT-->
+        <Grid Grid.Row="2">
+            <Label
+                FontSize="12"
+                HorizontalOptions="Center"
+                Text="by R and A Media Lab, Group"
+                VerticalOptions="Center" />
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+
+</ContentPage>

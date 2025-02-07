@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TestGallery.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TestGallery"
+    Title="TestGallery"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="Buttons"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="buttonsSection" />
+    <ShellContent
+        Title="Selection Controls"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="selectionSection" />
+    <ShellContent
+        Title="Text and input"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="textInputSection" />
+    <ShellContent
+        Title="Value Controls"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="valueControlsSection" />
+    <ShellContent
+        Title="Indicators"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="indicatorsSection" />
+    <ShellContent
+        Title="Collector Presenters"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="collectorSection" />
+    <ShellContent
+        Title="Decorative and Design"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="decorativeSection" />
+
+</Shell>
