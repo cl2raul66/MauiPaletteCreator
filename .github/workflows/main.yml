@@ -45,26 +45,18 @@ jobs:
           path: |
             **\*.msix
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        if: github.ref == 'refs/heads/main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
-          tag_name: v${{ steps.version.outputs.VERSION }}
-          release_name: Release v${{ steps.version.outputs.VERSION }}
-          draft: false
-          prerelease: false
+          name: Windows-${{ steps.version.outputs.VERSION }}
+          path: ./dist
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+      - name: Create Release
         if: github.ref == 'refs/heads/main'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: Windows-${{ steps.version.outputs.VERSION }}.zip
-          asset_name: Windows-${{ steps.version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
-          
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v${{ steps.version.outputs.VERSION }} ./dist/* \
+            --title "Release v${{ steps.version.outputs.VERSION }}" \
+            --notes "Release v${{ steps.version.outputs.VERSION }}"
+            
