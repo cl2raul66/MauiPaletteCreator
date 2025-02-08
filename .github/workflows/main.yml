@@ -55,7 +55,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/main'
         with:
-          files: "./release-artifacts/**"
+          files: "${{github.workspace}}/artifacts/Windows-${{ steps.version.outputs.VERSION }}.zip"
           tag_name: v${{ steps.version.outputs.VERSION }}
           name: Release v${{ steps.version.outputs.VERSION }}
           draft: false
