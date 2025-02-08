@@ -5,10 +5,10 @@ on:
      branches: [ main ]
    pull_request:
      branches: [ main ]
-# workflow_dispatch:
    
 permissions:
   checks: write
+  contents: write
   
 jobs:
   buildMaui:
@@ -25,6 +25,12 @@ jobs:
       - name: Install MAUI workload
         run: dotnet workload install maui
 
+      - name: Get Version
+        id: version
+        run: |
+          $version = Select-Xml -Path "./src/MauiPaletteCreator/MauiPaletteCreator.csproj" -XPath "//ApplicationDisplayVersion" | Select-Object -ExpandProperty Node | Select-Object -ExpandProperty '#text'
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+
       - name: Install dependencies
         run: dotnet restore
         working-directory: ./src
@@ -35,6 +41,17 @@ jobs:
             
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts-windows
+          name: Windows-${{ steps.version.outputs.VERSION }}
           path: |
             **\*.msix
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/main'
+        with:
+          files: "Windows-${{ steps.version.outputs.VERSION }}.zip"
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Release v${{ steps.version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
