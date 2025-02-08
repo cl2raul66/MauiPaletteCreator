@@ -44,22 +44,3 @@ jobs:
           name: Windows-${{ steps.version.outputs.VERSION }}
           path: |
             **\*.msix
-
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Windows-${{ steps.version.outputs.VERSION }}
-          path: ./dist
-
-      - name: Create Release
-        if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./dist/*
-          tag_name: v${{ steps.version.outputs.VERSION }}
-          name: Release v${{ steps.version.outputs.VERSION }}
-          body: Release v${{ steps.version.outputs.VERSION }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
