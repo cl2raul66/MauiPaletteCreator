@@ -53,8 +53,13 @@ jobs:
 
       - name: Create Release
         if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./dist/*
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Release v${{ steps.version.outputs.VERSION }}
+          body: Release v${{ steps.version.outputs.VERSION }}
+          draft: false
+          prerelease: false
         env:
-          GH_TOKEN: ${{ github.token }}
-        shell: pwsh
-        run: gh release create "v${{ steps.version.outputs.VERSION }}" (Get-ChildItem -Path "./dist" -File) --title "Release v${{ steps.version.outputs.VERSION }}" --notes "Release v${{ steps.version.outputs.VERSION }}"
-      
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
