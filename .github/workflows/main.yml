@@ -55,8 +55,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release create v${{ steps.version.outputs.VERSION }} ./dist/* `
-            --title "Release v${{ steps.version.outputs.VERSION }}" `
-            --notes "Release v${{ steps.version.outputs.VERSION }}"
-            
+        shell: pwsh
+        run: gh release create "v${{ steps.version.outputs.VERSION }}" (Get-ChildItem -Path "./dist" -File) --title "Release v${{ steps.version.outputs.VERSION }}" --notes "Release v${{ steps.version.outputs.VERSION }}"
+      
