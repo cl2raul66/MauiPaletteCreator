@@ -56,7 +56,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v${{ steps.version.outputs.VERSION }} ./dist/* \
-            --title "Release v${{ steps.version.outputs.VERSION }}" \
+          gh release create v${{ steps.version.outputs.VERSION }} ./dist/* `
+            --title "Release v${{ steps.version.outputs.VERSION }}" `
             --notes "Release v${{ steps.version.outputs.VERSION }}"
             
