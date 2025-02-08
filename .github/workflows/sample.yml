@@ -1,25 +1,54 @@
-name: .NET
-
+name: Sample
 on:
+  workflow_dispatch:  # Esto hace que se pueda ejecutar manualmente
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
-
+    branches: [ main ]
+   
+permissions:
+  checks: write
+  contents: write
+  
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  buildMaui:
+    runs-on: windows-latest
+    
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Set Version
+        id: version
+        run: echo "VERSION=1.10" >> $GITHUB_OUTPUT
+      
+      - name: Publish Windows App
+        run: dotnet publish -f net8.0-windows10.0.19041.0 -c Release 
+        working-directory: ./src/MauiPaletteCreator
+            
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Windows-${{ steps.version.outputs.VERSION }}
+          path: |
+            **\*.msix
+
+      - name: Create dist directory
+        run: mkdir dist
+        
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Windows-${{ steps.version.outputs.VERSION }}
+          path: ./dist
+          
+      - name: List dist contents
+        id: dist-contents
+        run: |
+          $files = Get-ChildItem -Path "./dist" -Recurse | Select-Object -ExpandProperty FullName
+          $files_content = $files -join "`n"
+          echo "DIST_CONTENTS=$files_content" >> $env:GITHUB_OUTPUT
+        shell: pwsh
