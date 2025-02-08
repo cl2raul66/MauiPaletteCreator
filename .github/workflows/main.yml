@@ -45,11 +45,17 @@ jobs:
           path: |
             **\*.msix
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Windows-${{ steps.version.outputs.VERSION }}
+          path: ./release-artifacts
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: github.ref == 'refs/heads/main'
         with:
-          files: "Windows-${{ steps.version.outputs.VERSION }}.zip"
+          files: "./release-artifacts/**"
           tag_name: v${{ steps.version.outputs.VERSION }}
           name: Release v${{ steps.version.outputs.VERSION }}
           draft: false
