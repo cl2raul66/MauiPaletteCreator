@@ -4,6 +4,65 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <x:String x:Key="lang:PgMain_LbTitle">Principal</x:String>
+    <!--  FOR ALL  -->
+    <x:String x:Key="lang:LbPositionMain">Home</x:String>
+    <x:String x:Key="lang:LbPositionProject">Project</x:String>
+    <x:String x:Key="lang:LbPositionColors">Colors</x:String>
+    <x:String x:Key="lang:LbPositionView">View</x:String>
+    <x:String x:Key="lang:LbPositionEnd">End</x:String>
+
+    <!--  PgMain  -->
+    <x:String x:Key="lang:PgMainLbTitle">Welcome to Maui Palette Creator</x:String>
+    <x:String x:Key="lang:PgMainLbSubtitle">Create beautiful color themes for .NET MAUI</x:String>
+    <x:String x:Key="lang:PgMainBtnNavNext">Next</x:String>
+
+    <!--  PgProject  -->
+    <x:String x:Key="lang:PgProjectLbTitle">Select a local .NET MAUI project</x:String>
+    <x:String x:Key="lang:PgProjectBtnLoad">Load project</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathDefault">Project not loaded!</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathStatusLoad">Loading project...</x:String>
+    <x:String x:Key="lang:PgProjectLbProjectFilePathStringFormat">Path: {0}</x:String>
+    <x:String x:Key="lang:PgProjectBtnNavNext">Next</x:String>
+
+    <!--  PgColors  -->
+    <x:String x:Key="lang:PgColorsLbLoading">Loading</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleLight">Light colors</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleDark">Dark colors</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleFluentColors">Fluent UI colors</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleMAUIColors">.NET MAUI colors</x:String>
+    <x:String x:Key="lang:PgColorsBtnColorsSetColor">Set color</x:String>
+    <x:String x:Key="lang:PgColorsLbSelectedTheme">Is dark theme:</x:String>
+    <x:String x:Key="lang:PgColorsRbContentAll">All</x:String>
+    <x:String x:Key="lang:PgColorsRbContentPrincipal">Principal</x:String>
+    <x:String x:Key="lang:PgColorsRbContentSemantic">Semantic</x:String>
+    <x:String x:Key="lang:PgColorsRbContentNeutral">Neutral</x:String>
+    <x:String x:Key="lang:PgColorsLbTitleActionsSection">Generate colors:</x:String>
+    <x:String x:Key="lang:PgColorsBtnSetReplicaByIsSelectDarkThemeFalse">Replicate dark</x:String>
+    <x:String x:Key="lang:PgColorsBtnSetReplicaByIsSelectDarkThemeTrue">Replicate light</x:String>
+    <x:String x:Key="lang:PgColorsBtnGenerateByColormind">By Colormind</x:String>
+    <x:String x:Key="lang:PgColorsBtnNavEnd">Finish</x:String>
+    <x:String x:Key="lang:PgColorsBtnNavNext">Next</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextGenerateColor">Generating colors, it may take a while...</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextCreateTestGalleryProject">Creating TestGallery project for visualization. It may take a while...</x:String>
+    <x:String x:Key="lang:PgColorsLbStatusInformationTextGenerateModifierFiles">Generating modifier files...</x:String>
+
+    <!--  PgView  -->
+    <x:String x:Key="lang:PgViewLbTitle">Select a platform to view</x:String>
+    <x:String x:Key="lang:PgViewLbPlatforms">Platforms:</x:String>
+    <x:String x:Key="lang:PgViewBtnViewt">View</x:String>
+    <x:String x:Key="lang:PgViewBtnNavReturn">Return</x:String>
+    <x:String x:Key="lang:PgViewBtnNavNext">Next</x:String>
+    <x:String x:Key="lang:PgViewLbStatusInformationTextExecute">Executing TestGallery project for {0}. It may take a while...</x:String>
+
+    <!--  PgEnd  -->
+    <x:String x:Key="lang:PgEndLbTitle">Congratulations</x:String>
+    <x:String x:Key="lang:PgEndLbSubtitle">Press apply to proceed with modifying the relevant files of your project and start your development with your desired colors</x:String>
+    <x:String x:Key="lang:PgEndBtnApply">Apply</x:String>
+    <x:String x:Key="lang:PgEndLbFinished">A color palette and styles have been set for your project. You can close this app</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationText">Go to colors</x:String>
+    <x:String x:Key="lang:PgEndBtnGoToPgColors">Go to colors</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextGetFiles">Getting files to modify...</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextApplyColorsStyles">Applying colors and styles...</x:String>
+    <x:String x:Key="lang:PgEndLbStatusInformationTextApplyProcessCompleted">Colors and styles applied to project {0}</x:String>
 
 </ResourceDictionary>
