@@ -1,67 +1,62 @@
 # MauiPaletteCreator
 
-MauiPaletteCreator es una herramienta de escritorio diseñada para facilitar la creación y personalización de temas de colores para aplicaciones .NET MAUI. Con una interfaz intuitiva y opciones flexibles, permite a los desarrolladores definir y previsualizar esquemas de colores tanto para temas claros como oscuros.
+MauiPaletteCreator is a desktop tool designed to facilitate the creation and customization of color themes for .NET MAUI applications. With an intuitive interface and flexible options, it allows developers to define and preview color schemes for both light and dark themes.
 
-## 🎨 Características Principales
+## 🎨 Main Features
 
-- **Gestión de Proyectos MAUI**
-  - Carga directa de proyectos .NET MAUI locales
-  - Integración automática de los colores en el proyecto seleccionado
+- **MAUI Project Management**
+  - Direct loading of local .NET MAUI projects
+  - Automatic color integration into the selected project
 
-- **Editor de Colores Completo**
-  - Soporte para temas claros y oscuros
-  - Categorización de colores (Principal, Semántico, Neutral)
-  - Paletas de colores predefinidas de Fluent UI
-  - Paletas de colores predefinidas de .NET MAUI
+- **Complete Color Editor**
+  - Support for light and dark themes
+  - Color categorization (Primary, Semantic, Neutral)
+  - Predefined color palettes from Fluent UI
+  - Predefined color palettes from .NET MAUI
 
-- **Personalización Avanzada**
-  - Colores principales para colores primarios, secundarios y de acento
-  - Colores semánticos para estados (error, éxito, advertencia)
-  - Colores neutrales para fondo y primer plano
-  - Colores complementarios personalizables
-	
-- **Generación**
-  - Generación parcializada según tema y por categorías
-  - Replicar los colores de un tema al otro
-  - Integración con la API de Colormind para generación aleatoria de colores
+- **Advanced Customization**
+  - Primary colors for primary, secondary, and accent themes
+  - Semantic colors for states (error, success, warning)
+  - Neutral colors for background and foreground
+  - Customizable complementary colors
 
-- **Previsualización**
-  - Vista previa por plataformas soportadas por la plantilla predefinida de .NET MAUI
+- **Generation**
+  - Partitioned generation by theme and categories
+  - Replicate colors from one theme to another
+  - Integration with Colormind API for random color generation
 
-- **Funcionalidad final**
-  - Aplicación directa al proyecto seleccionado al principio
+- **Preview**
+  - Preview by platforms supported by the predefined .NET MAUI template
 
-## 🚀 Comenzando
+- **Final Functionality**
+  - Direct application to the project selected at the beginning
 
-### Prerrequisitos
+## 🚀 Getting Started
 
-- .NET SDK instalado (Windows o macOS)
-- .NET MAUI instalado [Leer](https://learn.microsoft.com/es-es/dotnet/maui/get-started/installation?view=net-maui-9.0&tabs=visual-studio)
-- Proyecto .NET MAUI de plantilla predeterminada
+### Prerequisites
+- .NET SDK installed (Windows or macOS)
+- .NET MAUI installed [Read](https://learn.microsoft.com/en-us/dotnet/maui/get-started/installation?view=net-maui-9.0&tabs=visual-studio)
+- Default template .NET MAUI project
 
-### Instalación
+### Installation
+1. Download the latest version of MauiPaletteCreator
+2. Run the application
+3. Select your local .NET MAUI project
+4. Start customizing your colors!
 
-1. Descarga la última versión de MauiPaletteCreator
-2. Ejecuta la aplicación
-3. Selecciona tu proyecto .NET MAUI local
-4. ¡Comienza a personalizar tus colores!
+## ✨ Special Features
+- Built 100% in .NET MAUI
+- Integration with Colormind for palette generation
+- Full support for light and dark color themes
+- Complete support for TargetType in Style.xaml
+- Intuitive user interface
+- Guided step-by-step workflow
 
-## ✨ Características Especiales
+## 👥 Contributing
+Contributions are welcome. Please open an issue first to discuss the changes you would like to make.
 
-- Hecho 100% en .NET MAUI
-- Integración con Colormind para generación de paletas
-- Soporte completo para temas de colores claros y oscuros
-- Soporte completo para TargetType en Style.xaml
-- Interfaz de usuario intuitiva
-- Flujo de trabajo guiado paso a paso
-
-## 👥 Contribuir
-
-Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría realizar.
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia Apache 2.0 - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+## 📄 License
+This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
-Desarrollado con ❤️ por R and A Media Lab, Group
+Developed with ❤️ by R and A Media Lab, Group
