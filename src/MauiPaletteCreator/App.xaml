@@ -40,6 +40,26 @@
                 <Setter Property="LineBreakMode" Value="WordWrap" />
                 <Setter Property="TextColor" Value="{StaticResource BackgroundCL}" />
             </Style>
+            <Style x:Key="LbPositionVisited" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextTransform" Value="Uppercase" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+
+            <Style x:Key="LbBreadcrumbBarItem" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextTransform" Value="Uppercase" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+            <Style x:Key="LbBreadcrumbBarSeparator" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontFamily" Value="icofont" />
+                <Setter Property="Text" Value="{StaticResource Icon:StylishRight}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

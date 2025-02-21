@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctk="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:nav="clr-namespace:MauiPaletteCreator.Views.nav"
     xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
     Title="View"
     x:DataType="vm:PgViewViewModel"
@@ -14,36 +15,7 @@
 
     <Grid Padding="8" RowDefinitions="auto,*,auto">
         <!--#region HEADER-->
-        <Grid>
-            <HorizontalStackLayout
-                x:Name="HslOpbects"
-                Padding="8"
-                HorizontalOptions="Center"
-                Spacing="16"
-                ZIndex="10">
-                <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionMain}" />
-                </Border>
-                <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionProject}" />
-                </Border>
-                <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionColors}" />
-                </Border>
-                <Border Style="{StaticResource BrPositionVisited}">
-                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionView}" />
-                </Border>
-                <Border Style="{StaticResource BrPosition}">
-                    <Label Style="{StaticResource LbPosition}" Text="{StaticResource lang:LbPositionEnd}" />
-                </Border>
-            </HorizontalStackLayout>
-            <Border
-                BackgroundColor="{StaticResource SecondaryCL}"
-                HeightRequest="4"
-                StrokeThickness="0"
-                WidthRequest="400"
-                ZIndex="1" />
-        </Grid>
+        <nav:BreadcrumbBarContent />
         <!--#endregion-->
         <!--#region CONTENT-->
         <Frame Grid.Row="1" Margin="8,0,8,8">
