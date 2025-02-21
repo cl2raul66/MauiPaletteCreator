@@ -9,6 +9,10 @@ on:
 permissions:
   checks: write
   contents: write
+
+env:
+  DOTNET_FRAMEWORK: 'net8.0-windows10.0.19041.0'
+  RUNTIME_IDENTIFIER: 'win10-x64'
   
 jobs:
   buildMaui:
@@ -36,11 +40,10 @@ jobs:
         working-directory: ./src
 
       - name: Publish Windows App
-        run: dotnet publish -f net8.0-windows10.0.19041.0 -c Release -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsPackageType=None
+        run: dotnet publish -f ${{ env.DOTNET_FRAMEWORK }} -c Release -p:RuntimeIdentifierOverride=${{ env.RUNTIME_IDENTIFIER }} -p:WindowsPackageType=None
         working-directory: ./src/MauiPaletteCreator
             
       - uses: actions/upload-artifact@v4
         with:
           name: Windows-${{ steps.version.outputs.VERSION }}
-          path: |
-            **\*.msix
+          path: ./src/MauiPaletteCreator/bin/Release/${{ env.DOTNET_FRAMEWORK }}/${{ env.RUNTIME_IDENTIFIER }}/publish/
