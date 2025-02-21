@@ -1,4 +1,4 @@
-name: Build .NET MAUI Windows
+name: Build and publish for .NET MAUI Windows
 
 on:
    push:
@@ -36,7 +36,7 @@ jobs:
         working-directory: ./src
 
       - name: Publish Windows App
-        run: dotnet publish -f net8.0-windows10.0.19041.0 -c Release 
+        run: dotnet publish -f net8.0-windows10.0.19041.0 -c Release -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsPackageType=None
         working-directory: ./src/MauiPaletteCreator
             
       - uses: actions/upload-artifact@v4
