@@ -2,6 +2,7 @@
 using MauiPaletteCreator.Services;
 using MauiPaletteCreator.ViewModels;
 using MauiPaletteCreator.Views;
+using MauiPaletteCreator.Views.nav;
 using Microsoft.Extensions.Logging;
 
 namespace MauiPaletteCreator;
@@ -25,7 +26,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<IColormindApiService, ColormindApiService>();
         builder.Services.AddSingleton<IExternalProjectService, ExternalProjectService>();
         builder.Services.AddSingleton<ITestProjectService, TestProjectService>();
+        builder.Services.AddSingleton<IBreadcrumbBarService, BreadcrumbBarService>();
 
+        builder.Services.AddSingleton<BreadcrumbBarContent, BreadcrumbBarContentViewModel>();
         builder.Services.AddTransient<PgMain, PgMainViewModel>();
         builder.Services.AddTransient<PgProject, PgProjectViewModel>();
         builder.Services.AddTransient<PgColors, PgColorsViewModel>();

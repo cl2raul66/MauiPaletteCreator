@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MauiPaletteCreator.Views.nav.BreadcrumbBarContent"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiPaletteCreator.ViewModels"
+    x:DataType="vm:BreadcrumbBarContentViewModel">
+
+    <HorizontalStackLayout Padding="8">
+        <Label Style="{StaticResource LbBreadcrumbBarItem}" Text="{Binding MainItem.Title}">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding MainItem.IsVisited}"
+                    TargetType="Label"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource AccentCL}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Label Style="{StaticResource LbBreadcrumbBarSeparator}" />
+        <Label Style="{StaticResource LbBreadcrumbBarItem}" Text="{Binding ProjectItem.Title}">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding ProjectItem.IsVisited}"
+                    TargetType="Label"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource AccentCL}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Label Style="{StaticResource LbBreadcrumbBarSeparator}" />
+        <Label Style="{StaticResource LbBreadcrumbBarItem}" Text="{Binding ColorsItem.Title}">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding ColorsItem.IsVisited}"
+                    TargetType="Label"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource AccentCL}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Label Style="{StaticResource LbBreadcrumbBarSeparator}" />
+        <Label Style="{StaticResource LbBreadcrumbBarItem}" Text="{Binding ViewItem.Title}">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding ViewItem.IsVisited}"
+                    TargetType="Label"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource AccentCL}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Label Style="{StaticResource LbBreadcrumbBarSeparator}" />
+        <Label Style="{StaticResource LbBreadcrumbBarItem}" Text="{Binding EndItem.Title}">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding EndItem.IsVisited}"
+                    TargetType="Label"
+                    Value="true">
+                    <Setter Property="TextColor" Value="{StaticResource AccentCL}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+    </HorizontalStackLayout>
+
+</ContentView>

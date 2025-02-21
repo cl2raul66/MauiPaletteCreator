@@ -8,11 +8,13 @@ namespace MauiPaletteCreator.ViewModels;
 
 public partial class PgEndViewModel : ObservableObject
 {
+    readonly IBreadcrumbBarService breadcrumbBarServ;
     readonly IExternalProjectService externalProjectServ;
     readonly ITestProjectService testProjectServ;
 
-    public PgEndViewModel(IExternalProjectService externalProjectService, ITestProjectService testProjectService)
+    public PgEndViewModel(IBreadcrumbBarService breadcrumbBarService, IExternalProjectService externalProjectService, ITestProjectService testProjectService)
     {
+        breadcrumbBarServ = breadcrumbBarService;
         externalProjectServ = externalProjectService;
         testProjectServ = testProjectService;
     }
@@ -49,6 +51,7 @@ public partial class PgEndViewModel : ObservableObject
     [RelayCommand]
     async Task GoToPgColors()
     {
+        breadcrumbBarServ.GoBack(nameof(PgColors));
         await Shell.Current.GoToAsync(nameof(PgColors), true);
     }
 }

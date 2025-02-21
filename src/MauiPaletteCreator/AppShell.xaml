@@ -11,9 +11,21 @@
         Title="Home"
         ContentTemplate="{DataTemplate v:PgMain}"
         Route="PgMain" />
-    <!--<ShellContent
-        Title="Home"
+    <ShellContent
+        Title="Project"
+        ContentTemplate="{DataTemplate v:PgProject}"
+        Route="PgProject" />
+    <ShellContent
+        Title="Colors"
+        ContentTemplate="{DataTemplate v:PgColors}"
+        Route="PgColors" />
+    <ShellContent
+        Title="View"
+        ContentTemplate="{DataTemplate v:PgView}"
+        Route="PgView" />
+    <ShellContent
+        Title="End"
         ContentTemplate="{DataTemplate v:PgEnd}"
-        Route="PgEnd" />-->
+        Route="PgEnd" />
 
 </Shell>

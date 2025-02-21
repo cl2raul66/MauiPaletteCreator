@@ -29,7 +29,7 @@
 		<ApplicationId>com.randamedialabgroup.mauipalettecreator</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.10</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>1.11</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
@@ -79,6 +79,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Localization\LanguageEn.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\nav\BreadcrumbBarContent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PgColors.xaml">

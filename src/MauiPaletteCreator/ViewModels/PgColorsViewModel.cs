@@ -13,13 +13,15 @@ namespace MauiPaletteCreator.ViewModels;
 
 public partial class PgColorsViewModel : ObservableObject
 {
+    readonly IBreadcrumbBarService breadcrumbBarServ;
     readonly IColormindApiService colormindApiServ;
     readonly IStyleTemplateService styleTemplateServ;
     readonly IExternalProjectService externalProjectServ;
     readonly ITestProjectService testProjectServ;
 
-    public PgColorsViewModel(IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService, IExternalProjectService externalProjectService, ITestProjectService testProjectService)
+    public PgColorsViewModel(IBreadcrumbBarService breadcrumbBarService, IStyleTemplateService styleTemplateService, IColormindApiService colormindApiService, IExternalProjectService externalProjectService, ITestProjectService testProjectService)
     {
+        breadcrumbBarServ = breadcrumbBarService;
         styleTemplateServ = styleTemplateService;
         colormindApiServ = colormindApiService;
         LoadDefaultPalettes();
@@ -264,6 +266,7 @@ public partial class PgColorsViewModel : ObservableObject
         {
             StatusInformationText = App.Current?.Resources["lang:PgColorsLbStatusInformationTextGenerateModifierFiles"] as string;
             await GenerateModifierFiles();
+            breadcrumbBarServ.GoNext(nameof(PgView));
             await Shell.Current.GoToAsync(nameof(PgView), true);
         }
         StatusInformationText = null;
@@ -276,6 +279,7 @@ public partial class PgColorsViewModel : ObservableObject
         await GenerateModifierFiles();
         if (externalProjectServ.IsLoaded)
         {
+            breadcrumbBarServ.GoNext(nameof(PgEnd));
             await Shell.Current.GoToAsync(nameof(PgEnd), true);
         }
         StatusInformationText = null;

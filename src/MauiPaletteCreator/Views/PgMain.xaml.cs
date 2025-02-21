@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.Messaging;
 using MauiPaletteCreator.ViewModels;
 
 namespace MauiPaletteCreator.Views;
@@ -8,6 +9,6 @@ public partial class PgMain : ContentPage
 	{
 		InitializeComponent();
 
-		BindingContext = vm;
+        BindingContext = vm;
 	}
 }
